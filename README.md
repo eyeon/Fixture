@@ -4,7 +4,7 @@ A lightweight image editor based on Qt
 
 ### TODOs:
 
-- [ ]   ##### Phase 1 Targets
+- [ ] **Phase 1 Targets**
 
 
 - Have a minimal image viewer to open various formats.
@@ -14,7 +14,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ]   ##### Phase 2 Targets
+- [ ] **Phase 2 Targets**
 
 
 
@@ -25,7 +25,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ]   ##### Phase 3 Targets
+- [ ] **Phase 3 Targets**
 
 
 
@@ -37,7 +37,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ]   ##### Phase 4 Targets
+- [ ] **Phase 4 Targets**
 
 
 
@@ -48,7 +48,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ]   ##### Phase 5 Targets
+- [ ] **Phase 5 Targets**
 
 
 
