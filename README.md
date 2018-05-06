@@ -4,7 +4,7 @@ A lightweight image editor based on Qt
 
 ### TODOs:
 
-- [ ] ##### Phase 1 Targets
+- [ ]   ##### Phase 1 Targets
 
 
 - Have a minimal image viewer to open various formats.
