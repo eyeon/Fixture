@@ -11,12 +11,58 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Fixture</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(38, 38, 38)</string>
+   <string notr="true">background-color: rgb(38, 38, 38);
+color:rgb(255,255,255);</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QMdiArea" name="mdiArea">
+      <property name="styleSheet">
+       <string notr="true">QTabBar::tab { 
+	height: 20px; 
+	background-color: rgb(100,100,100);
+}
+
+QTabBar::close-button{
+	height:10px;
+	width:auto;
+}</string>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="background">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>50</red>
+         <green>50</green>
+         <blue>50</blue>
+        </color>
+       </brush>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -83,6 +129,11 @@ padding: 2px; </string>
    <addaction name="menuhelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">padding: 10px;</string>
    </property>
