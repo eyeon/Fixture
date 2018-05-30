@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/brushes">
+        <file>checkers.png</file>
+    </qresource>
+</RCC>

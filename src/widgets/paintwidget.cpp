@@ -6,8 +6,8 @@ public:
     PaintWidgetPrivate(PaintWidget *widget) :
         QGraphicsScene(widget)
     {
-        q = widget;
-        q->setScene(this);
+        _q = widget;
+        _q->setScene(this);
     }
 
     ~PaintWidgetPrivate()
@@ -16,31 +16,41 @@ public:
 
     void initialize(const QImage &image)
     {
-        this->image = image;
-        q->setSceneRect(image.rect());
-        canvas = addPixmap(QPixmap::fromImage(image));
+        _image = image;
+        _q->setSceneRect(image.rect());
+        _canvas = addPixmap(QPixmap::fromImage(image));
 
-        q->setStyleSheet("background-color: rgb(70, 70, 70);");
+        _q->setStyleSheet("background-color: rgb(70, 70, 70);");
     }
 
     void updateImageCanvas()
     {
-        canvas->setPixmap(QPixmap::fromImage(image));
+        QImage surface = QImage(_image.size(), QImage::Format_ARGB32_Premultiplied);
+        QPainter painter(&surface);
+        QBrush brush;
+        brush.setTextureImage(QImage(":/brushes/checkers.png"));
+        painter.setBrush(brush);
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.fillRect(surface.rect(), brush);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        painter.drawImage(0, 0, _image);
+        painter.end();
+        _canvas->setPixmap(QPixmap::fromImage(surface));
     }
 
 
     void setImage(const QImage &image)
     {
-        this->image = image;
+        _image = image;
         this->updateImageCanvas();
     }
 
-    QString imagePath;
-    QLabel *imageLabel;
-    QImage image;
-    QGraphicsPixmapItem *canvas;
+    QString _imagePath;
+    QLabel *_imageLabel;
+    QImage _image;
+    QGraphicsPixmapItem *_canvas;
 
-    PaintWidget *q;
+    PaintWidget *_q;
 };
 
 
@@ -61,10 +71,10 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
          "RAW"
     };
 
-    bool exists = std::find(std::begin(rawExtensions), std::end(rawExtensions), fileNameNoExt.toUpper()) != std::end(rawExtensions);
+    bool exists = std::find(std::begin(rawExtensions), std::end(rawExtensions),
+                            fileNameNoExt.toUpper()) != std::end(rawExtensions);
 
-    if(exists)
-    {
+    if(exists){
         QImageReader reader(imagePath);
         QSize size = reader.size();
         int w = size.width() -1;
@@ -73,12 +83,11 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
         reader.setScaledSize(newSize);
         QImage raw = reader.read();
         d->initialize(raw);
-    }
-    else
-    {
+    } else {
         d->initialize(QImage(imagePath));
     }
-    d->imagePath = imagePath;
+    d->updateImageCanvas();
+    d->_imagePath = imagePath;
 }
 
 PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
@@ -93,10 +102,23 @@ PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
 
 void PaintWidget::setImagePath(QString path)
 {
-    d->imagePath = path;
+    d->_imagePath = path;
 }
 
 QString PaintWidget::imagePath() const
 {
-    return d->imagePath;
+    return d->_imagePath;
+}
+
+void PaintWidget::wheelEvent(QWheelEvent *event)
+{
+    const QPointF p0scene = mapToScene(event->pos());
+
+    qreal factor = std::pow(1.001, event->delta());
+    scale(factor, factor);
+
+    const QPointF p1mouse = mapFromScene(p0scene);
+    const QPointF move = p1mouse - event->pos(); // The move
+    horizontalScrollBar()->setValue(move.x() + horizontalScrollBar()->value());
+    verticalScrollBar()->setValue(move.y() + verticalScrollBar()->value());
 }

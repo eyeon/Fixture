@@ -24,16 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES +=  \
-    src/main.cpp \
-    src/mainwindow.cpp \
+    src/dialogs/newdialog.cpp \
     src/widgets/paintwidget.cpp \
-    src/dialogs/newdialog.cpp
+    src/main.cpp \
+    src/mainwindow.cpp
 
 HEADERS += \
-    src/mainwindow.h \
+    src/dialogs/newdialog.h \
     src/widgets/paintwidget.h \
-    src/dialogs/newdialog.h
+    src/mainwindow.h
 
 FORMS += \
     src/mainwindow.ui \
-    src/dialogs/newdialog.ui
+    src/dialogs/newdialog.ui \
+
+RESOURCES += \
+    resources/resources.qrc
