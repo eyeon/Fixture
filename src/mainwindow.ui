@@ -22,6 +22,9 @@ color:rgb(255,255,255);</string>
     <property name="spacing">
      <number>0</number>
     </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetNoConstraint</enum>
+    </property>
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -60,6 +63,9 @@ QTabBar::close-button{
        </brush>
       </property>
      </widget>
+    </item>
+    <item>
+     <widget class="LayerManager" name="layerview"/>
     </item>
    </layout>
   </widget>
@@ -221,6 +227,13 @@ padding: 2px; </string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LayerManager</class>
+   <extends>QListWidget</extends>
+   <header>src/widgets/layermanager.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

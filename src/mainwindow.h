@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMdiSubWindow>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 #include "widgets/paintwidget.h"
 

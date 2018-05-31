@@ -27,12 +27,14 @@ SOURCES +=  \
     src/dialogs/newdialog.cpp \
     src/widgets/paintwidget.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/widgets/layermanager.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
     src/widgets/paintwidget.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/widgets/layermanager.h
 
 FORMS += \
     src/mainwindow.ui \
