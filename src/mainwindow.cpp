@@ -23,7 +23,7 @@ void MainWindow::addChildWindow(PaintWidget *widget)
     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
-    QString title = widget->imagePath().isEmpty() ? "Untitled" : widget->imagePath();
+    QString title = widget->getImagePath().isEmpty() ? "Untitled" : widget->getImagePath();
     title = title + " [*]";
     mdiSubWindow->setWindowTitle(title);
 
@@ -77,7 +77,12 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    NewDialog *newDialog = new NewDialog();
+    NewDialog *newDialog = new NewDialog(this);
     newDialog->show();
+}
 
+void MainWindow::createNewDocument(const Document *document)
+{
+
+    addPaintWidget(new PaintWidget(document));
 }

@@ -13,6 +13,7 @@
 #include <cmath>
 
 #include "../items/drawing.h"
+#include "../model/document.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -20,10 +21,10 @@ class PaintWidget : public QGraphicsView
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, QWidget *parent=0);
-    PaintWidget(const QSize &imageSize, QWidget *parent=0);
+    PaintWidget(const Document *document, QWidget *parent=0);
 
     void setImagePath(QString path);
-    QString imagePath() const;
+    QString getImagePath() const;
 
 protected:
     void wheelEvent(QWheelEvent *event);
