@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dialogs/newdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -44,7 +45,7 @@ void MainWindow::on_actionOpen_triggered()
 {
     const QString& fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                 QStandardPaths::writableLocation(QStandardPaths::HomeLocation) ,
-                                 tr("All Files (*);;"
+                                 tr(
                                 "Image Files (*.png *.jpg *.jpeg *.gif);;"
                                 "PNG(*.png);;"
                                 "JPEG(*.jpg *.jpeg);;"
@@ -53,7 +54,20 @@ void MainWindow::on_actionOpen_triggered()
                                 "BMP(*.bmp);;"
                                 "ICO(*.ico)"));
 
-    addPaintWidget(new PaintWidget(fileName));
+    if (isFileValid(fileName)) {
+        addPaintWidget(new PaintWidget(fileName));
+    }
+}
+
+bool MainWindow::isFileValid(const QString& fileName)
+{
+    return isImageSupported(fileName);
+}
+
+bool MainWindow::isImageSupported(const QString &fileName)
+{
+    QImageReader reader(fileName);
+    return reader.format() != "";
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -63,5 +77,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
+    NewDialog *newDialog = new NewDialog();
+    newDialog->show();
 
 }

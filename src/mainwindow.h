@@ -33,6 +33,8 @@ private:
     void addChildWindow(PaintWidget *widget);
     void addPaintWidget(PaintWidget *widget);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
+    bool isFileValid(const QString& fileName);
+    bool isImageSupported(const QString& fileName);
 };
 
 #endif // MAINWINDOW_H

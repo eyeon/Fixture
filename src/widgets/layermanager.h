@@ -6,8 +6,11 @@
 #include <QVector>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QPixmap>
+#include <QIcon>
+#include "paintwidget.h"
 
-enum LayerType{
+enum class LayerType{
     RasterLayer,
     VectorLayer,
     TextLayer,
@@ -20,10 +23,10 @@ class LayerManager : public QListWidget
 {
 public:
     LayerManager(QWidget *parent=0);
-    void update(QGraphicsScene *scene, QVector<LayerType> typeList);
 
 private:
-    QVector<LayerItem> _items;
+    QList<LayerItem> *_itemsTypes;
+    QList<QGraphicsItem> *_items;
 };
 
 #endif // LAYERMANAGER_H

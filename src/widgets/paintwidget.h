@@ -12,11 +12,11 @@
 
 #include <cmath>
 
-class PaintWidgetPrivate;
+#include "../items/drawing.h"
 
 class PaintWidget : public QGraphicsView
 {
-    friend class PaintWidgetPrivate;
+    friend class Drawing;
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, QWidget *parent=0);
@@ -29,7 +29,8 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private:
-    PaintWidgetPrivate *d;
+    Drawing *d;
+    QString _imagePath;
 };
 
 #endif // PAINTWIDGET_H

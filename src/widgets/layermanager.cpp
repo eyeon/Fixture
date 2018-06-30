@@ -2,10 +2,17 @@
 
 class LayerItem : public QListWidgetItem
 {
-    LayerItem(QGraphicsItem *item, LayerType type)
+public:
+    LayerItem(QGraphicsPixmapItem *item, LayerType type)
     {
+        if(type == LayerType::RasterLayer){
+            _icon = QIcon(item->pixmap());
+        }
 
+        setIcon(_icon);
     }
+
+    QIcon _icon;
 };
 
 LayerManager::LayerManager(QWidget *parent):
@@ -14,7 +21,3 @@ LayerManager::LayerManager(QWidget *parent):
 
 }
 
-void LayerManager::update(QGraphicsScene *scene, QVector<LayerType> typeList)
-{
-
-}

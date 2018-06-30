@@ -1,62 +1,7 @@
 #include "paintwidget.h"
 
-class PaintWidgetPrivate : public QGraphicsScene
-{
-public:
-    PaintWidgetPrivate(PaintWidget *widget) :
-        QGraphicsScene(widget)
-    {
-        _q = widget;
-        _q->setScene(this);
-    }
-
-    ~PaintWidgetPrivate()
-    {
-    }
-
-    void initialize(const QImage &image)
-    {
-        _image = image;
-        _q->setSceneRect(image.rect());
-        _canvas = addPixmap(QPixmap::fromImage(image));
-
-        _q->setStyleSheet("background-color: rgb(70, 70, 70);");
-    }
-
-    void updateImageCanvas()
-    {
-        QImage surface = QImage(_image.size(), QImage::Format_ARGB32_Premultiplied);
-        QPainter painter(&surface);
-        QBrush brush;
-        brush.setTextureImage(QImage(":/brushes/checkers.png"));
-        painter.setBrush(brush);
-        painter.setCompositionMode(QPainter::CompositionMode_Source);
-        painter.fillRect(surface.rect(), brush);
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter.drawImage(0, 0, _image);
-        painter.end();
-        _canvas->setPixmap(QPixmap::fromImage(surface));
-    }
-
-
-    void setImage(const QImage &image)
-    {
-        _image = image;
-        this->updateImageCanvas();
-    }
-
-    QString _imagePath;
-    QLabel *_imageLabel;
-    QImage _image;
-    QGraphicsPixmapItem *_canvas;
-
-    PaintWidget *_q;
-};
-
-
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
-    , d(new PaintWidgetPrivate(this))
 {
     QStringList list = imagePath.split(".");
     QString fileNameNoExt = list[1];
@@ -74,6 +19,8 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     bool exists = std::find(std::begin(rawExtensions), std::end(rawExtensions),
                             fileNameNoExt.toUpper()) != std::end(rawExtensions);
 
+    setStyleSheet("background-color: rgb(70, 70, 70);");
+
     if(exists){
         QImageReader reader(imagePath);
         QSize size = reader.size();
@@ -82,32 +29,36 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
         QSize newSize = QSize(w,h);
         reader.setScaledSize(newSize);
         QImage raw = reader.read();
-        d->initialize(raw);
+        setSceneRect(raw.rect());
+        d = new Drawing(this,raw);
     } else {
-        d->initialize(QImage(imagePath));
+        QImage image(imagePath);
+        setSceneRect(image.rect());
+        d = new Drawing(this,image);
     }
+    setScene(d);
     d->updateImageCanvas();
-    d->_imagePath = imagePath;
 }
 
 PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
     : QGraphicsView(parent)
-    , d(new PaintWidgetPrivate(this))
 {
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::white);
-
-    d->initialize(image);
+    setSceneRect(image.rect());
+    setStyleSheet("background-color: rgb(70, 70, 70);");
+    d = new Drawing(this,image);
+    setScene(d);
 }
 
 void PaintWidget::setImagePath(QString path)
 {
-    d->_imagePath = path;
+    _imagePath = path;
 }
 
 QString PaintWidget::imagePath() const
 {
-    return d->_imagePath;
+    return _imagePath;
 }
 
 void PaintWidget::wheelEvent(QWheelEvent *event)
