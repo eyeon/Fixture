@@ -1,5 +1,11 @@
 #include "paintwidget.h"
 
+/**
+ * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
+ * Creates a new canvas based on image path
+ * @param imagePath
+ * @param parent
+ */
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
 {
@@ -51,6 +57,12 @@ PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
     setScene(d);
 }
 
+/**
+ * @brief PaintWidget::wheelEvent Overrides the wheelEvent of QGraphicsView
+ * Implements zooming in and out according to the position of the cursor
+ * @param document
+ * @param parent
+ */
 void PaintWidget::wheelEvent(QWheelEvent *event)
 {
     const QPointF p0scene = mapToScene(event->pos());
