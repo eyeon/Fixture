@@ -9,12 +9,11 @@ int main(int argc, char *argv[])
     w.showMaximized();
     w.show();
 
-    //QFile styleFile( ":/styles/basic.qss" );
-    //styleFile.open( QFile::ReadOnly );
+    QFile styleFile( ":/styles/basic.qss" );
+    styleFile.open( QFile::ReadOnly );
 
-    // Apply the loaded stylesheet
-    //QString style( styleFile.readAll() );
-    //w.setStyleSheet(style);
+    QString style( styleFile.readAll() );
+    w.setStyleSheet(style);
 
     return a.exec();
 }

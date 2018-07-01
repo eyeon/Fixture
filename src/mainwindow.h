@@ -25,6 +25,8 @@ public slots:
     void createNewDocument(const Document *document);
 
 private slots:
+    void updateWindowTitle(QMdiSubWindow *window);
+
     void on_actionNew_triggered();
 
     void on_actionOpen_triggered();

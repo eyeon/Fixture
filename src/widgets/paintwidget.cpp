@@ -20,8 +20,6 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     bool isRaw = std::find(std::begin(rawExtensions), std::end(rawExtensions),
                             fileNameNoExt.toUpper()) != std::end(rawExtensions);
 
-    setStyleSheet("background-color: rgb(70, 70, 70);");
-
     QImage image;
 
     if(isRaw){
@@ -59,11 +57,18 @@ PaintWidget::PaintWidget(const Document *document, QWidget *parent)
     image.fill(Qt::white);
 
     setSceneRect(image.rect());
-    setStyleSheet("background-color: rgb(70, 70, 70);");
     d = new Drawing(this,image);
     setScene(d);
 }
 
+void PaintWidget::addStyleSheet()
+{
+    QFile styleFile( ":/styles/paintwidget.qss" );
+    styleFile.open( QFile::ReadOnly );
+
+    QString style( styleFile.readAll() );
+    setStyleSheet(style);
+}
 void PaintWidget::setImagePath(QString path)
 {
     _imagePath = path;

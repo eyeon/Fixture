@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
     ui->mdiArea->setTabsClosable(true);
     ui->mdiArea->setTabsMovable(true);
+
+    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +31,20 @@ void MainWindow::addChildWindow(PaintWidget *widget)
 
     mdiSubWindow->installEventFilter(this);
     mdiSubWindow->show();
+}
+/**
+ * @brief MainWindow::updateWindowTitle
+ * Updates window title to focused window
+ * @param window
+ */
+void MainWindow::updateWindowTitle(QMdiSubWindow *window)
+{
+    QString title = "Fixture";
+
+    if (window != NULL) {
+        title = window->windowTitle() + " - " + title;
+    }
+    setWindowTitle(title);
 }
 
 void MainWindow::addPaintWidget(PaintWidget *widget)
@@ -87,4 +103,5 @@ void MainWindow::createNewDocument(const Document *document)
 {
 
     addPaintWidget(new PaintWidget(document));
+    delete document;
 }

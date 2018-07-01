@@ -16,20 +16,19 @@ class NewDialog : public QDialog
 public:
     explicit NewDialog(QWidget *parent = 0);
     ~NewDialog();
-    Document *getDocument() const;
 
 signals:
     void documentAvailable(const Document *document);
 
 private slots:
     void on_actionOk_clicked();
-    //void generateDocument();
-
     void on_actionCancel_clicked();
 
 private:
+    Document *createDocument(QString docName, double width, double height,
+                          Document::DimensionUnit dimUnit, double resolution,
+                          Document::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
-    Document *document;
 };
 
 #endif // NEWDIALOG_H

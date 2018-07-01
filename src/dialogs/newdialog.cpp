@@ -14,7 +14,6 @@ NewDialog::NewDialog(QWidget *parent) :
 NewDialog::~NewDialog()
 {
     delete ui;
-    delete document;
 }
 
 void NewDialog::on_actionOk_clicked()
@@ -28,19 +27,33 @@ void NewDialog::on_actionOk_clicked()
 
     QString docName = ui->docNameVal->text();
 
-    document = new Document(docName,
-             width,
-             height,
-             Document::PIXELS,
-             72,
-             Document::PPI);
+    Document *document = createDocument(docName, width, height, Document::PIXELS, 72, Document::PPI);
     emit documentAvailable(document);
     this->close();
 }
-
-Document* NewDialog::getDocument() const
+/**
+ * @brief NewDialog::createDocument Creates a new document with the given params
+ *
+ * Processes the dimensions with specified units
+ * @param docName
+ * @param width
+ * @param height
+ * @param dimUnit
+ * @param resolution
+ * @param resUnit
+ * @return
+ */
+Document* NewDialog::createDocument(QString docName, double width, double height,
+                                 Document::DimensionUnit dimUnit, double resolution,
+                                 Document::ResolutionUnit resUnit) const
 {
-    return document;
+
+    return new Document(docName,
+                        width,
+                        height,
+                        dimUnit,
+                        resolution,
+                        resUnit);;
 }
 
 void NewDialog::on_actionCancel_clicked()

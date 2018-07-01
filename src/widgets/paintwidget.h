@@ -32,6 +32,7 @@ protected:
 private:
     Drawing *d;
     QString _imagePath;
+    void addStyleSheet();
 };
 
 #endif // PAINTWIDGET_H

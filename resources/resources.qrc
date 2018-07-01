@@ -2,8 +2,8 @@
     <qresource prefix="/brushes">
         <file>checkers.png</file>
     </qresource>
-     <qresource prefix="/styles">
+    <qresource prefix="/styles">
         <file>basic.qss</file>
+        <file>paintwidget.qss</file>
     </qresource>
-
 </RCC>
