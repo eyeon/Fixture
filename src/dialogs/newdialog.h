@@ -18,14 +18,16 @@ public:
     ~NewDialog();
     Document *getDocument() const;
 
+signals:
+    void documentAvailable(const Document *document);
+
 private slots:
     void on_actionOk_clicked();
-    void generateDocument();
+    //void generateDocument();
 
     void on_actionCancel_clicked();
 
 private:
-    MainWindow *mainWindow;
     Ui::NewDialog *ui;
     Document *document;
 };

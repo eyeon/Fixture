@@ -77,7 +77,9 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    NewDialog *newDialog = new NewDialog(this);
+    NewDialog *newDialog = new NewDialog();
+    QObject::connect(newDialog, SIGNAL(documentAvailable(const Document*)), this, SLOT(createNewDocument(const Document*)));
+
     newDialog->show();
 }
 

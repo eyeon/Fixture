@@ -7,7 +7,6 @@ NewDialog::NewDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewDialog)
 {
-    mainWindow = (MainWindow*) parent;
     ui->setupUi(this);
     ui->actionBtnsContainer->setAlignment(Qt::AlignTop);
 }
@@ -35,13 +34,8 @@ void NewDialog::on_actionOk_clicked()
              Document::PIXELS,
              72,
              Document::PPI);
-    mainWindow->createNewDocument(document);
+    emit documentAvailable(document);
     this->close();
-}
-
-void NewDialog::generateDocument()
-{
-
 }
 
 Document* NewDialog::getDocument() const

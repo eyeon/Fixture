@@ -75,12 +75,12 @@ QTabBar::close-button{
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(158, 158, 158);
+color: rgb(255, 255, 255);
 padding: 2px; </string>
    </property>
    <widget class="QMenu" name="menuFile">

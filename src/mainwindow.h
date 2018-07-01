@@ -19,7 +19,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void createNewDocument(const Document* document);
+   // void createNewDocument(const Document* document);
+
+public slots:
+    void createNewDocument(const Document *document);
 
 private slots:
     void on_actionNew_triggered();
