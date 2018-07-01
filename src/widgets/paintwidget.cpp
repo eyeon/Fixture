@@ -51,16 +51,6 @@ PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
     setScene(d);
 }
 
-void PaintWidget::setImagePath(QString path)
-{
-    _imagePath = path;
-}
-
-QString PaintWidget::imagePath() const
-{
-    return _imagePath;
-}
-
 void PaintWidget::wheelEvent(QWheelEvent *event)
 {
     const QPointF p0scene = mapToScene(event->pos());

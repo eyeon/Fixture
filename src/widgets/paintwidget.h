@@ -16,14 +16,13 @@
 
 class PaintWidget : public QGraphicsView
 {
-    friend class Drawing;
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, QWidget *parent=0);
     PaintWidget(const QSize &imageSize, QWidget *parent=0);
 
-    void setImagePath(QString path);
-    QString imagePath() const;
+    inline void setImagePath(QString path) { _imagePath = path; }
+    inline QString imagePath() const { return _imagePath; }
 
 protected:
     void wheelEvent(QWheelEvent *event);
