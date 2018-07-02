@@ -32,8 +32,9 @@ private:
                           Document::DimensionUnit dimUnit, double resolution,
                           Document::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
+    int getIntValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
-    void checkDimensionValidity(QLineEdit *field, QString fieldName);
+    void checkDimensionValidity(int fieldVal);
 };
 
 #endif // NEWDIALOG_H
