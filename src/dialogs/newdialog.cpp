@@ -2,6 +2,7 @@
 #include "ui_newdialog.h"
 #include <QVBoxLayout>
 #include <QFormLayout>
+#include <QMessageBox>
 
 NewDialog::NewDialog(QWidget *parent) :
     QDialog(parent),
@@ -19,11 +20,15 @@ NewDialog::~NewDialog()
 void NewDialog::on_actionOk_clicked()
 {
     // Needs a validation layer
-    QString heightStr = ui->heightVal->text();
-    double height = heightStr.toDouble();
+    checkDimensionValidity(ui->heightTxt, "height");
 
-    QString widthStr = ui->widthVal->text();
-    double width = widthStr.toDouble();
+    QString heightStr = ui->heightTxt->text();
+    int height = heightStr.toDouble();
+
+    checkDimensionValidity(ui->widthTxt, "width");
+
+    QString widthStr = ui->widthTxt->text();
+    int width = widthStr.toDouble();
 
     QString docName = ui->docNameVal->text();
 
@@ -59,4 +64,36 @@ Document* NewDialog::createDocument(QString docName, double width, double height
 void NewDialog::on_actionCancel_clicked()
 {
     this->close();
+}
+
+
+
+void NewDialog::on_widthTxt_editingFinished()
+{
+    checkDimensionValidity(ui->widthTxt, "width");
+}
+
+void NewDialog::showZeroErrorMessage(QString fieldName)
+{
+    QString errMsg = "Cannot set " + fieldName + " value less than 1";
+    QMessageBox errDialogbox;
+    errDialogbox.setText(errMsg);
+    errDialogbox.exec();
+}
+
+void NewDialog::on_heightTxt_editingFinished()
+{
+    checkDimensionValidity(ui->heightTxt, "height");
+}
+
+void NewDialog::checkDimensionValidity(QLineEdit *field, QString fieldName)
+{
+    QString fieldStr = field->text();
+    int fieldVal = fieldStr.toDouble();
+
+    if (fieldVal < 1) {
+        field->setText("");
+        field->setFocus();
+        showZeroErrorMessage(fieldName);
+    }
 }

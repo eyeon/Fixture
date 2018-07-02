@@ -16,25 +16,26 @@ public:
     };
 
     Document(QString docName,
-             double width,
-             double height,
+             int width,
+             int height,
              DimensionUnit dimensionUnit,
-             double resolution,
+             int resolution,
              ResolutionUnit resUnit);
-    double getHeight() const;
-    double getWidth() const;
-    double getResolution() const;
-    QString getName() const;
-    DimensionUnit getDimensionUnit() const;
-    ResolutionUnit getResolutionUnit() const;
+
+    inline int getHeight() const { return _height; }
+    inline int getWidth() const { return _width; }
+    inline int getResolution() const { return _resolution; }
+    inline QString getName() const {return _docName; }
+    inline DimensionUnit getDimensionUnit() const { return _dimensionUnit; }
+    inline ResolutionUnit getResolutionUnit() const { return _resolutionUnit; }
 
 private:
-    double _width;
-    double _height;
-    DimensionUnit _dimensionUnit;
-    double _resolution;
-    ResolutionUnit _resolutionUnit;
     QString _docName;
+    int _width;
+    int _height;
+    DimensionUnit _dimensionUnit;
+    int _resolution;
+    ResolutionUnit _resolutionUnit;
 };
 
 #endif // DOCUMENT_H

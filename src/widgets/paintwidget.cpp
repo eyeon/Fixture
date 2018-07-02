@@ -35,7 +35,7 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     } else {
         image = QImage(imagePath);
     }
-
+    addStyleSheet();
     setSceneRect(image.rect());
     d = new Drawing(this,image);
     setScene(d);
@@ -56,6 +56,7 @@ PaintWidget::PaintWidget(const Document *document, QWidget *parent)
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::white);
 
+    addStyleSheet();
     setSceneRect(image.rect());
     d = new Drawing(this,image);
     setScene(d);

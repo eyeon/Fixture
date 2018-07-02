@@ -39,19 +39,20 @@ color:rgb(255,255,255);</string>
     </property>
     <item>
      <widget class="QMdiArea" name="mdiArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="autoFillBackground">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QTabBar::tab { 
-	height: 20px; 
-	background-color: rgb(100,100,100);
-}
-
-QTabBar::close-button{
-	height:10px;
-	width:auto;
-}</string>
+       <string notr="true"/>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
       <property name="lineWidth">
        <number>0</number>
@@ -64,6 +65,9 @@ QTabBar::close-button{
          <blue>26</blue>
         </color>
        </brush>
+      </property>
+      <property name="viewMode">
+       <enum>QMdiArea::TabbedView</enum>
       </property>
       <property name="tabsClosable">
        <bool>true</bool>

@@ -10,7 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
     ui->mdiArea->setTabsClosable(true);
     ui->mdiArea->setTabsMovable(true);
-
+    QTabBar *bar=ui->mdiArea->findChild<QTabBar*>();
+    bar->setExpanding(false);
+    bar->setDrawBase(false);
     QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
 }
 

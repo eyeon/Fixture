@@ -4,6 +4,7 @@
 #include "../model/document.h"
 #include "../mainwindow.h"
 #include <QDialog>
+#include <QLineEdit>
 
 namespace Ui {
 class NewDialog;
@@ -23,12 +24,16 @@ signals:
 private slots:
     void on_actionOk_clicked();
     void on_actionCancel_clicked();
+    void on_widthTxt_editingFinished();
+    void on_heightTxt_editingFinished();
 
 private:
     Document *createDocument(QString docName, double width, double height,
                           Document::DimensionUnit dimUnit, double resolution,
                           Document::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
+    void showZeroErrorMessage(QString fieldName);
+    void checkDimensionValidity(QLineEdit *field, QString fieldName);
 };
 
 #endif // NEWDIALOG_H
