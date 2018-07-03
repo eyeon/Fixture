@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+#include "dialogs/newdialog.h"
 #include "widgets/paintwidget.h"
 
 namespace Ui {
@@ -20,7 +21,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void createNewDocument(const Canvas *canvas);
+
 private slots:
+    void updateWindowTitle(QMdiSubWindow *window);
+
     void on_actionNew_triggered();
 
     void on_actionOpen_triggered();
@@ -30,11 +36,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void addChildWindow(PaintWidget *widget);
-    void addPaintWidget(PaintWidget *widget);
+    void addChildWindow(PaintWidget *widget, bool isNew);
+    void addPaintWidget(PaintWidget *widget, bool isNew = false);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     bool isFileValid(const QString& fileName);
     bool isImageSupported(const QString& fileName);
+
+    QString _lastFileLoc;
 };
 
 #endif // MAINWINDOW_H

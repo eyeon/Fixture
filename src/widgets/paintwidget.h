@@ -9,20 +9,22 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QObject>
+#include <iostream>
 
 #include <cmath>
 
 #include "../items/drawing.h"
+#include "../model/canvas.h"
 
 class PaintWidget : public QGraphicsView
 {
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, QWidget *parent=0);
-    PaintWidget(const QSize &imageSize, QWidget *parent=0);
-
+    PaintWidget(const Canvas *document, QWidget *parent=0);
+    
     inline void setImagePath(QString path) { _imagePath = path; }
-    inline QString imagePath() const { return _imagePath; }
+    inline QString getImagePath() const { return _imagePath; }
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -30,6 +32,7 @@ protected:
 private:
     Drawing *d;
     QString _imagePath;
+    void addStyleSheet();
 };
 
 #endif // PAINTWIDGET_H

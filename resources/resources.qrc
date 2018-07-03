@@ -2,4 +2,17 @@
     <qresource prefix="/brushes">
         <file>checkers.png</file>
     </qresource>
+    <qresource prefix="/styles">
+        <file>basic.qss</file>
+        <file>paintwidget.qss</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icons/close-white-lighter.svg</file>
+        <file>icons/close-white.svg</file>
+        <file>icons/close-white-dark.svg</file>
+        <file>icons/angle-top.svg</file>
+        <file>icons/angle-right.svg</file>
+        <file>icons/angle-left.svg</file>
+        <file>icons/angle-bottom.svg</file>
+    </qresource>
 </RCC>

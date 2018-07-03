@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>286</height>
+    <width>997</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Fixture</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(38, 38, 38);
+   <string notr="true">background-color: #1a1a1a;
 color:rgb(255,255,255);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -39,33 +39,62 @@ color:rgb(255,255,255);</string>
     </property>
     <item>
      <widget class="QMdiArea" name="mdiArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
       <property name="styleSheet">
-       <string notr="true">QTabBar::tab { 
-	height: 20px; 
-	background-color: rgb(100,100,100);
-}
-
-QTabBar::close-button{
-	height:10px;
-	width:auto;
-}</string>
+       <string notr="true"/>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
       <property name="lineWidth">
        <number>0</number>
       </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
       <property name="background">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>50</red>
-         <green>50</green>
-         <blue>50</blue>
+         <red>26</red>
+         <green>26</green>
+         <blue>26</blue>
         </color>
        </brush>
+      </property>
+      <property name="viewMode">
+       <enum>QMdiArea::TabbedView</enum>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="tabsMovable">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="LayerManager" name="layerview"/>
+     <widget class="LayerManager" name="layerView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="dragEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="resizeMode">
+       <enum>QListView::Adjust</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -74,13 +103,13 @@ QTabBar::close-button{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
-     <height>23</height>
+     <width>997</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(158, 158, 158);
+color: rgb(255, 255, 255);
 padding: 2px; </string>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -139,6 +168,9 @@ padding: 2px; </string>
     <font>
      <family>Segoe UI</family>
     </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">padding: 10px;</string>

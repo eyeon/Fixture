@@ -22,39 +22,59 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
          "RAW"
     };
 
-    bool exists = std::find(std::begin(rawExtensions), std::end(rawExtensions),
+    bool isRaw = std::find(std::begin(rawExtensions), std::end(rawExtensions),
                             fileNameNoExt.toUpper()) != std::end(rawExtensions);
 
-    setStyleSheet("background-color: rgb(70, 70, 70);");
+    _imagePath = imagePath;
+    QImage image;
 
-    if(exists){
+    if(isRaw){
         QImageReader reader(imagePath);
         QSize size = reader.size();
+
         int w = size.width() -1;
         int h = size.height() -1;
+
         QSize newSize = QSize(w,h);
         reader.setScaledSize(newSize);
-        QImage raw = reader.read();
-        setSceneRect(raw.rect());
-        d = new Drawing(this,raw);
+        image = reader.read();
     } else {
-        QImage image(imagePath);
-        setSceneRect(image.rect());
-        d = new Drawing(this,image);
+        image = QImage(imagePath);
     }
+    addStyleSheet();
+    setSceneRect(image.rect());
+    d = new Drawing(this,image);
     setScene(d);
     d->updateImageCanvas();
 }
-
-PaintWidget::PaintWidget(const QSize &imageSize, QWidget *parent)
+/**
+ * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
+ * Creates a new canvas based on Document
+ * @param document
+ * @param parent
+ */
+PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
     : QGraphicsView(parent)
 {
+    setImagePath(document->getName());
+    QSize imageSize(document->getWidth(), document->getHeight());
+
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::white);
+
+    addStyleSheet();
     setSceneRect(image.rect());
-    setStyleSheet("background-color: rgb(70, 70, 70);");
     d = new Drawing(this,image);
     setScene(d);
+}
+
+void PaintWidget::addStyleSheet()
+{
+    QFile styleFile( ":/styles/paintwidget.qss" );
+    styleFile.open( QFile::ReadOnly );
+
+    QString style( styleFile.readAll() );
+    setStyleSheet(style);
 }
 
 /**

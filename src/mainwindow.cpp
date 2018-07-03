@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dialogs/newdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,6 +9,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
     ui->mdiArea->setTabsClosable(true);
     ui->mdiArea->setTabsMovable(true);
+    QTabBar *bar=ui->mdiArea->findChild<QTabBar*>();
+    bar->setExpanding(false);
+    bar->setDrawBase(false);
+    bar->setElideMode(Qt::ElideLeft);
+    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
+
+    _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 }
 
 MainWindow::~MainWindow()
@@ -17,23 +23,47 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addChildWindow(PaintWidget *widget)
+void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 {
     ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
-    QString title = widget->imagePath().isEmpty() ? "Untitled" : widget->imagePath();
-    title = title + " [*]";
+    QString title;
+    if (widget->getImagePath() != "") {
+        QFileInfo info(widget->getImagePath());
+        title = info.fileName() + "[*]";
+    } else {
+        title = "Untitled[*]";
+    }
+
     mdiSubWindow->setWindowTitle(title);
+
+    if (isNew) {
+        mdiSubWindow->setWindowModified(true);
+    }
 
     mdiSubWindow->installEventFilter(this);
     mdiSubWindow->show();
 }
-
-void MainWindow::addPaintWidget(PaintWidget *widget)
+/**
+ * @brief MainWindow::updateWindowTitle
+ * Updates window title to focused window
+ * @param window
+ */
+void MainWindow::updateWindowTitle(QMdiSubWindow *window)
 {
-    addChildWindow(widget);
+    QString title = "Fixture";
+
+    if (window != NULL) {
+        title = window->windowTitle() + " - " + title;
+    }
+    setWindowTitle(title);
+}
+
+void MainWindow::addPaintWidget(PaintWidget *widget,bool isNew)
+{
+    addChildWindow(widget,isNew);
 }
 
 PaintWidget *MainWindow::createPaintWidget(const QString &imagePath) const
@@ -44,9 +74,7 @@ PaintWidget *MainWindow::createPaintWidget(const QString &imagePath) const
 void MainWindow::on_actionOpen_triggered()
 {
     const QString& fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                QStandardPaths::writableLocation(QStandardPaths::HomeLocation) ,
-                                 tr(
-                                "Image Files (*.png *.jpg *.jpeg *.gif);;"
+                _lastFileLoc,tr("Image Files (*.png *.jpg *.jpeg *.gif);;"
                                 "PNG(*.png);;"
                                 "JPEG(*.jpg *.jpeg);;"
                                 "GIF(*.gif);;"
@@ -55,6 +83,8 @@ void MainWindow::on_actionOpen_triggered()
                                 "ICO(*.ico)"));
 
     if (isFileValid(fileName)) {
+        QFileInfo info(fileName);
+        _lastFileLoc = info.absolutePath();
         addPaintWidget(new PaintWidget(fileName));
     }
 }
@@ -78,6 +108,13 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     NewDialog *newDialog = new NewDialog();
-    newDialog->show();
+    QObject::connect(newDialog, SIGNAL(canvasAvailable(const Canvas*)), this, SLOT(createNewDocument(const Canvas*)));
 
+    newDialog->show();
+}
+
+void MainWindow::createNewDocument(const Canvas *canvas)
+{
+    addPaintWidget(new PaintWidget(canvas),true);
+    delete canvas;
 }
