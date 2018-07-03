@@ -29,10 +29,10 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 
     QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
     QString title;
-    if (widget->getImagePath() != ""){
+    if (widget->getImagePath() != "") {
         QFileInfo info(widget->getImagePath());
-        title = info.baseName() + "[*]";
-    }else{
+        title = info.fileName() + "[*]";
+    } else {
         title = "Untitled[*]";
     }
 
