@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+#include "dialogs/newdialog.h"
 #include "widgets/paintwidget.h"
 
 namespace Ui {
@@ -19,10 +20,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-   // void createNewDocument(const Document* document);
 
 public slots:
-    void createNewDocument(const Canvas *document);
+    void createNewDocument(const Canvas *canvas);
 
 private slots:
     void updateWindowTitle(QMdiSubWindow *window);

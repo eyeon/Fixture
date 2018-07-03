@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dialogs/newdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -101,8 +100,8 @@ void MainWindow::on_actionNew_triggered()
     newDialog->show();
 }
 
-void MainWindow::createNewDocument(const Canvas *document)
+void MainWindow::createNewDocument(const Canvas *canvas)
 {
-    addPaintWidget(new PaintWidget(document));
-    delete document;
+    addPaintWidget(new PaintWidget(canvas));
+    delete canvas;
 }
