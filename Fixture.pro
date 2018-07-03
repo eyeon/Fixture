@@ -31,7 +31,7 @@ SOURCES +=  \
     src/widgets/layermanager.cpp \
     src/items/drawing.cpp \
     src/items/layer.cpp \
-    src/model/document.cpp
+    src/model/canvas.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
@@ -40,7 +40,7 @@ HEADERS += \
     src/widgets/layermanager.h \
     src/items/drawing.h \
     src/items/layer.h \
-    src/model/document.h
+    src/model/canvas.h
 
 FORMS += \
     src/mainwindow.ui \

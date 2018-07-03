@@ -1,7 +1,7 @@
 #ifndef NEWDIALOG_H
 #define NEWDIALOG_H
 
-#include "../model/document.h"
+#include "../model/canvas.h"
 #include "../mainwindow.h"
 #include <QDialog>
 #include <QLineEdit>
@@ -19,7 +19,7 @@ public:
     ~NewDialog();
 
 signals:
-    void documentAvailable(const Document *document);
+    void canvasAvailable(const Canvas *canvas);
 
 private slots:
     void on_actionOk_clicked();
@@ -28,13 +28,14 @@ private slots:
     void on_heightTxt_editingFinished();
 
 private:
-    Document *createDocument(QString docName, double width, double height,
-                          Document::DimensionUnit dimUnit, double resolution,
-                          Document::ResolutionUnit resUnit) const;
+    Canvas *createDocument(QString docName, double width, double height,
+                          Canvas::DimensionUnit dimUnit, double resolution,
+                          Canvas::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
     int getIntValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
     void checkDimensionValidity(int fieldVal);
+
 };
 
 #endif // NEWDIALOG_H

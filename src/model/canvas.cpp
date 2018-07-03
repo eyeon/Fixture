@@ -1,6 +1,6 @@
-#include "document.h"
+#include "canvas.h"
 
-Document::Document(QString docName,
+Canvas::Canvas(QString docName,
          int width, int height,
          DimensionUnit dimensionUnit,
          int resolution,

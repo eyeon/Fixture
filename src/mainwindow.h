@@ -22,7 +22,7 @@ public:
    // void createNewDocument(const Document* document);
 
 public slots:
-    void createNewDocument(const Document *document);
+    void createNewDocument(const Canvas *document);
 
 private slots:
     void updateWindowTitle(QMdiSubWindow *window);

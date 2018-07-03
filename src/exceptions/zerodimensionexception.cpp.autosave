@@ -1,0 +1,6 @@
+#include "zerodimensionexception.h"
+
+ZeroDimensionException::ZeroDimensionException():exception
+{
+
+}

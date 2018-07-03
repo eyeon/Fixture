@@ -13,7 +13,7 @@
 #include <cmath>
 
 #include "../items/drawing.h"
-#include "../model/document.h"
+#include "../model/canvas.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -21,7 +21,7 @@ class PaintWidget : public QGraphicsView
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, QWidget *parent=0);
-    PaintWidget(const Document *document, QWidget *parent=0);
+    PaintWidget(const Canvas *document, QWidget *parent=0);
 
     void setImagePath(QString path);
     QString getImagePath() const;

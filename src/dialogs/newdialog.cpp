@@ -22,18 +22,22 @@ void NewDialog::on_actionOk_clicked()
     // Needs a validation layer
     try {
 
+        ui->heightTxt->setFocus();
         int height = getIntValue(ui->heightTxt);
+
+        ui->widthTxt->setFocus();
         int width = getIntValue(ui->widthTxt);
 
         QString docName = ui->docNameVal->text();
 
-        Document *document = createDocument(docName, width, height, Document::PIXELS, 72, Document::PPI);
-        emit documentAvailable(document);
+        Canvas *canvas = createDocument(docName, width, height, Canvas::PIXELS, 72, Canvas::PPI);
+        emit canvasAvailable(canvas);
         this->close();
 
     }
     catch (const QString msg) {
         showZeroErrorMessage(msg);
+        return;
     }
 }
 /**
@@ -48,12 +52,12 @@ void NewDialog::on_actionOk_clicked()
  * @param resUnit
  * @return
  */
-Document* NewDialog::createDocument(QString docName, double width, double height,
-                                 Document::DimensionUnit dimUnit, double resolution,
-                                 Document::ResolutionUnit resUnit) const
+Canvas* NewDialog::createDocument(QString docName, double width, double height,
+                                 Canvas::DimensionUnit dimUnit, double resolution,
+                                 Canvas::ResolutionUnit resUnit) const
 {
 
-    return new Document(docName,
+    return new Canvas(docName,
                         width,
                         height,
                         dimUnit,
@@ -74,7 +78,7 @@ void NewDialog::on_widthTxt_editingFinished()
         getIntValue(ui->widthTxt);
     }
     catch (const QString msg) {
-        ui->heightTxt->setFocus();
+        ui->widthTxt->setFocus();
         showZeroErrorMessage(msg);
     }
 }
@@ -91,7 +95,7 @@ void NewDialog::on_heightTxt_editingFinished()
     try {
        getIntValue(ui->heightTxt);
     }
-    catch (const QString msg) {
+    catch (const QString msg) {        
         ui->heightTxt->setFocus();
         showZeroErrorMessage(msg);
     }

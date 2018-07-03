@@ -47,7 +47,7 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const Document *document, QWidget *parent)
+PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
     : QGraphicsView(parent)
 {
     setImagePath(document->getName());

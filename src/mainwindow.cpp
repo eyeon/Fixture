@@ -96,14 +96,13 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     NewDialog *newDialog = new NewDialog();
-    QObject::connect(newDialog, SIGNAL(documentAvailable(const Document*)), this, SLOT(createNewDocument(const Document*)));
+    QObject::connect(newDialog, SIGNAL(canvasAvailable(const Canvas*))(const Canvas*)), this, SLOT(createNewDocument(const Canvas*)));
 
     newDialog->show();
 }
 
-void MainWindow::createNewDocument(const Document *document)
+void MainWindow::createNewDocument(const Canvas *document)
 {
-
     addPaintWidget(new PaintWidget(document));
     delete document;
 }

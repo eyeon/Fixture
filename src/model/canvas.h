@@ -1,9 +1,9 @@
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
+#ifndef CANVAS_H
+#define CANVAS_H
 
 #include <QString>
 
-class Document
+class Canvas
 {
 public:
     enum DimensionUnit
@@ -15,7 +15,7 @@ public:
         PPI, DPI
     };
 
-    Document(QString docName,
+    Canvas(QString docName,
              int width,
              int height,
              DimensionUnit dimensionUnit,
@@ -38,4 +38,4 @@ private:
     ResolutionUnit _resolutionUnit;
 };
 
-#endif // DOCUMENT_H
+#endif // CANVAS_H
