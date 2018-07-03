@@ -48,3 +48,7 @@ FORMS += \
 
 RESOURCES += \
     resources/resources.qrc
+
+DISTFILES += \
+    resources/icons/close-white-lighter.svg \
+    resources/icons/close-white.svg
