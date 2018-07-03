@@ -7,7 +7,7 @@
 #include <QFormLayout>
 #include <QMessageBox>
 
-#include "../model/canvas.h"-
+#include "../model/canvas.h"
 
 namespace Ui {
 class NewDialog;
