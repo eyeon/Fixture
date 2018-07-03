@@ -16,8 +16,7 @@ public:
     };
 
     Canvas(QString docName,
-             int width,
-             int height,
+             int width, int height,
              DimensionUnit dimensionUnit,
              int resolution,
              ResolutionUnit resUnit);
