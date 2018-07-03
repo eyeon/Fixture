@@ -41,6 +41,8 @@ private:
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     bool isFileValid(const QString& fileName);
     bool isImageSupported(const QString& fileName);
+
+    QString _lastFileLoc;
 };
 
 #endif // MAINWINDOW_H

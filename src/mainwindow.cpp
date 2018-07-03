@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     bar->setExpanding(false);
     bar->setDrawBase(false);
     QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
+
+    _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 }
 
 MainWindow::~MainWindow()
@@ -61,9 +63,7 @@ PaintWidget *MainWindow::createPaintWidget(const QString &imagePath) const
 void MainWindow::on_actionOpen_triggered()
 {
     const QString& fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                QStandardPaths::writableLocation(QStandardPaths::HomeLocation) ,
-                                 tr(
-                                "Image Files (*.png *.jpg *.jpeg *.gif);;"
+                _lastFileLoc,tr("Image Files (*.png *.jpg *.jpeg *.gif);;"
                                 "PNG(*.png);;"
                                 "JPEG(*.jpg *.jpeg);;"
                                 "GIF(*.gif);;"
@@ -72,6 +72,8 @@ void MainWindow::on_actionOpen_triggered()
                                 "ICO(*.ico)"));
 
     if (isFileValid(fileName)) {
+        QFileInfo info(fileName);
+        _lastFileLoc = info.absolutePath();
         addPaintWidget(new PaintWidget(fileName));
     }
 }
