@@ -1,5 +1,4 @@
 #include "paintwidget.h"
-#include <iostream>
 
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
@@ -20,6 +19,7 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     bool isRaw = std::find(std::begin(rawExtensions), std::end(rawExtensions),
                             fileNameNoExt.toUpper()) != std::end(rawExtensions);
 
+    _imagePath = imagePath;
     QImage image;
 
     if(isRaw){

@@ -9,6 +9,7 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QObject>
+#include <iostream>
 
 #include <cmath>
 

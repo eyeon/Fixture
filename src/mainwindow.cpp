@@ -22,15 +22,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addChildWindow(PaintWidget *widget)
+void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 {
     ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
-    QString title = widget->getImagePath().isEmpty() ? "Untitled" : widget->getImagePath();
-    title = title + " [*]";
+    QString title;
+    if (widget->getImagePath() != ""){
+        QFileInfo info(widget->getImagePath());
+        title = info.baseName() + "[*]";
+    }else{
+        title = "Untitled[*]";
+    }
+
     mdiSubWindow->setWindowTitle(title);
+
+    if (isNew) {
+        mdiSubWindow->setWindowModified(true);
+    }
 
     mdiSubWindow->installEventFilter(this);
     mdiSubWindow->show();
@@ -50,9 +60,9 @@ void MainWindow::updateWindowTitle(QMdiSubWindow *window)
     setWindowTitle(title);
 }
 
-void MainWindow::addPaintWidget(PaintWidget *widget)
+void MainWindow::addPaintWidget(PaintWidget *widget,bool isNew)
 {
-    addChildWindow(widget);
+    addChildWindow(widget,isNew);
 }
 
 PaintWidget *MainWindow::createPaintWidget(const QString &imagePath) const
@@ -104,6 +114,6 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::createNewDocument(const Canvas *canvas)
 {
-    addPaintWidget(new PaintWidget(canvas));
+    addPaintWidget(new PaintWidget(canvas),true);
     delete canvas;
 }

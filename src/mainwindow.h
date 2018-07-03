@@ -36,8 +36,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void addChildWindow(PaintWidget *widget);
-    void addPaintWidget(PaintWidget *widget);
+    void addChildWindow(PaintWidget *widget, bool isNew);
+    void addPaintWidget(PaintWidget *widget, bool isNew = false);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     bool isFileValid(const QString& fileName);
     bool isImageSupported(const QString& fileName);
