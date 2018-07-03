@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QTabBar *bar=ui->mdiArea->findChild<QTabBar*>();
     bar->setExpanding(false);
     bar->setDrawBase(false);
+    bar->setElideMode(Qt::ElideLeft);
     QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
 
     _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);

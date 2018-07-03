@@ -54,20 +54,20 @@ QTabBar::close-button:hover {
     image: url(:/icons/close-white-lighter.svg);
 }
 
-QScrollBar:horizontal {
+QMdiSubWindow QScrollBar:horizontal {
     border-top: 1px solid #1a1a1a;
     background: #262626;
     height: 15px;
     margin: 0px 20px 0 20px;
 }
 
-QScrollBar::handle:horizontal {
+QMdiSubWindow QScrollBar::handle:horizontal {
     background:  #404040;
     min-width: 20px;
     border: 1px solid #333333;
 }
 
-QScrollBar::add-line:horizontal {
+QMdiSubWindow QScrollBar::add-line:horizontal {
     border: 1px solid #1a1a1a;
     background: #1a1a1a;
     width: 20px;
@@ -75,7 +75,7 @@ QScrollBar::add-line:horizontal {
     subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:horizontal {
+QMdiSubWindow QScrollBar::sub-line:horizontal {
     border: 1px solid #1a1a1a;
     background: #1a1a1a;
     width: 20px;
@@ -83,7 +83,7 @@ QScrollBar::sub-line:horizontal {
     subcontrol-origin: margin;
 }
 
-QScrollBar:left-arrow:horizontal {
+QMdiSubWindow QScrollBar:left-arrow:horizontal {
     height: 20px;
     width: 20px;
     margin-left: 5px;
@@ -91,27 +91,27 @@ QScrollBar:left-arrow:horizontal {
     image: url(:/icons/angle-left.svg);
 }
 
-QScrollBar:right-arrow:horizontal {
+QMdiSubWindow QScrollBar:right-arrow:horizontal {
     height: 20px;
     width: 20px;
     margin-left: 5px;
     margin-top: 5px;
     image: url(:/icons/angle-right.svg);
 }
-QScrollBar:vertical {
+QMdiSubWindow QScrollBar:vertical {
     border-left: 1px solid #1a1a1a;
     background: #262626;
     width: 15px;
     margin: 22px 0 22px 0;
 }
 
-QScrollBar::handle:vertical {
+QMdiSubWindow QScrollBar::handle:vertical {
     background:  #404040;
     min-height: 20px;
     border: 1px solid #333333;
 }
 
-QScrollBar::add-line:vertical {
+QMdiSubWindow QScrollBar::add-line:vertical {
     border: 1px solid #1a1a1a;
     background: #1a1a1a;
     height: 20px;
@@ -119,7 +119,7 @@ QScrollBar::add-line:vertical {
     subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:vertical {
+QMdiSubWindow QScrollBar::sub-line:vertical {
     border: 1px solid #1a1a1a;
     background: #1a1a1a;
     height: 20px;
@@ -127,7 +127,7 @@ QScrollBar::sub-line:vertical {
     subcontrol-origin: margin;
 }
 
-QScrollBar:up-arrow:vertical {
+QMdiSubWindow QScrollBar:up-arrow:vertical {
     height: 20px;
     width: 20px;
     margin-left: 5px;
@@ -135,7 +135,7 @@ QScrollBar:up-arrow:vertical {
     image: url(:/icons/angle-top.svg);
 }
 
-QScrollBar:down-arrow:vertical {
+QMdiSubWindow QScrollBar:down-arrow:vertical {
     height: 20px;
     width: 20px;
     margin-left: 5px;
