@@ -1,10 +1,13 @@
 #ifndef NEWDIALOG_H
 #define NEWDIALOG_H
 
-#include "../model/canvas.h"
-#include "../mainwindow.h"
 #include <QDialog>
 #include <QLineEdit>
+#include <QVBoxLayout>
+#include <QFormLayout>
+#include <QMessageBox>
+
+#include "../model/canvas.h"-
 
 namespace Ui {
 class NewDialog;
