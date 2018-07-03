@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>997</width>
     <height>600</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@ color:rgb(255,255,255);</string>
     <item>
      <widget class="QMdiArea" name="mdiArea">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -56,6 +56,9 @@ color:rgb(255,255,255);</string>
       </property>
       <property name="lineWidth">
        <number>0</number>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
       </property>
       <property name="background">
        <brush brushstyle="SolidPattern">
@@ -78,7 +81,20 @@ color:rgb(255,255,255);</string>
      </widget>
     </item>
     <item>
-     <widget class="LayerManager" name="layerView"/>
+     <widget class="LayerManager" name="layerView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="dragEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="resizeMode">
+       <enum>QListView::Adjust</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -87,7 +103,7 @@ color:rgb(255,255,255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>997</width>
      <height>24</height>
     </rect>
    </property>
