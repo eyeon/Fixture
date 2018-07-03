@@ -1,8 +1,5 @@
 #include "newdialog.h"
 #include "ui_newdialog.h"
-#include <QVBoxLayout>
-#include <QFormLayout>
-#include <QMessageBox>
 
 NewDialog::NewDialog(QWidget *parent) :
     QDialog(parent),
