@@ -45,7 +45,7 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     setSceneRect(image.rect());
     d = new Drawing(this,image);
     setScene(d);
-    d->updateImageCanvas();
+    //d->updateImageCanvas();
 }
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document

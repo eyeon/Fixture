@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QWidget>
 
+#include "layer.h"
+
 class Drawing : public QGraphicsScene
 {
 public:
@@ -17,7 +19,7 @@ public:
     ~Drawing();
 
     void initialize(const QImage &image);
-    void updateImageCanvas();
+    void updateImageCanvas(QList<Layer>items);
 
     QGraphicsPixmapItem *_canvas;
 private:

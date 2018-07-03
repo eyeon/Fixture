@@ -13,7 +13,7 @@ Drawing::~Drawing()
 {
 }
 
-void Drawing::updateImageCanvas()
+void Drawing::updateImageCanvas(QList<Layer> items)
 {
     QImage surface = QImage(_width,_height, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&surface);
@@ -24,7 +24,13 @@ void Drawing::updateImageCanvas()
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(surface.rect(), brush);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    painter.drawImage(0, 0, _image);
+
+    QList<Layer>::iterator itr = items.begin();
+    for(;itr != items.end();++itr){
+        QImage img = itr->getImage();
+        img.scaled(itr->getWidth(),itr->getHeight());
+        painter.drawImage(itr->getX(), itr->getY(), img);
+    }
 
     painter.end();
     _canvas->setPixmap(QPixmap::fromImage(surface));

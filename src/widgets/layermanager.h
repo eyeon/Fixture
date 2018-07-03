@@ -2,31 +2,19 @@
 #define LAYERMANAGER_H
 
 #include <QListWidget>
-#include <QListWidgetItem>
-#include <QVector>
-#include <QGraphicsScene>
-#include <QGraphicsItem>
-#include <QPixmap>
-#include <QIcon>
-#include "paintwidget.h"
 
-enum class LayerType{
-    RasterLayer,
-    VectorLayer,
-    TextLayer,
-    AdjustmentLayer
-};
-
-class LayerItem;
+#include "../items/layer.h"
 
 class LayerManager : public QListWidget
 {
 public:
     LayerManager(QWidget *parent=0);
+    ~LayerManager();
+
+    void update(QList<Layer> items);
 
 private:
-    QList<LayerItem> *_itemsTypes;
-    QList<QGraphicsItem> *_items;
+    QList<Layer> _curItems;
 };
 
 #endif // LAYERMANAGER_H
