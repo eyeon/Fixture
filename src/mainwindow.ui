@@ -57,6 +57,9 @@ color:rgb(255,255,255);</string>
       <property name="lineWidth">
        <number>0</number>
       </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
       <property name="sizeAdjustPolicy">
        <enum>QAbstractScrollArea::AdjustIgnored</enum>
       </property>
@@ -83,10 +86,16 @@ color:rgb(255,255,255);</string>
     <item>
      <widget class="LayerManager" name="layerView">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
       <property name="dragEnabled">
        <bool>false</bool>
@@ -239,6 +248,9 @@ padding: 2px; </string>
    </property>
   </action>
   <action name="actionImport">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Import</string>
    </property>

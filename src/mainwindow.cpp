@@ -49,8 +49,7 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 }
 
 /**
- * @brief MainWindow::updateWindowTitle
- * Updates window title to focused window
+ * @brief MainWindow::updateWindow
  * @param window
  */
 void MainWindow::updateWindow(QMdiSubWindow *window)
@@ -62,6 +61,8 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
         PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
         ui->layerView->updateItems(wid->getItems());
     }
+    ui->actionImport->setEnabled(window != NULL);
+
     setWindowTitle(title);
 }
 
@@ -77,7 +78,23 @@ PaintWidget *MainWindow::createPaintWidget(const QString &imagePath) const
 
 void MainWindow::on_actionOpen_triggered()
 {
-    const QString& fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+    const QString fileName = chooseFile();
+
+    if (isFileValid(fileName)) {
+        rememberLastPath(fileName);
+        addPaintWidget(new PaintWidget(fileName));
+    }
+}
+ void MainWindow::rememberLastPath(const QString &fileName)
+ {
+     QFileInfo info(fileName);
+     _lastFileLoc = info.absolutePath();
+ }
+
+const QString MainWindow::chooseFile()
+{
+
+    return QFileDialog::getOpenFileName(this, tr("Open File"),
                 _lastFileLoc,tr("Image Files (*.png *.jpg *.jpeg *.gif);;"
                                 "PNG(*.png);;"
                                 "JPEG(*.jpg *.jpeg);;"
@@ -85,12 +102,6 @@ void MainWindow::on_actionOpen_triggered()
                                 "TIFF(*.tif *.tiff);;"
                                 "BMP(*.bmp);;"
                                 "ICO(*.ico)"));
-
-    if (isFileValid(fileName)) {
-        QFileInfo info(fileName);
-        _lastFileLoc = info.absolutePath();
-        addPaintWidget(new PaintWidget(fileName));
-    }
 }
 
 bool MainWindow::isFileValid(const QString& fileName)
@@ -119,6 +130,18 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::createNewDocument(const Canvas *canvas)
 {
-    addPaintWidget(new PaintWidget(canvas),true);
+    addPaintWidget(new PaintWidget(canvas), true);
     delete canvas;
+}
+
+void MainWindow::on_actionImport_triggered()
+{
+    const QString fileName = chooseFile();
+
+    if (isFileValid(fileName)) {
+        QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+        PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
+        paintWidget->addNewLayer(fileName);
+        ui->layerView->updateItems(paintWidget->getItems());
+    }
 }

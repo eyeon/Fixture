@@ -9,8 +9,9 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QObject>
-#include <iostream>
+#include <QFileInfo>
 
+#include <iostream>
 #include <cmath>
 
 #include "../items/drawing.h"
@@ -27,6 +28,8 @@ public:
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer> getItems() const { return _items; }
+    // This has to be extended to accomodate new documents
+    void addNewLayer(const QString &imagePath);
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -36,8 +39,10 @@ private:
     QString _imagePath;
     void addStyleSheet();
     QList<Layer> _items;
+    QImage getImageFromPath(const QString &imagePath);
     void setupCanvas(QImage image);
-    void updateLayers(QImage image);
+    void pushLayer(QImage image, const QString &name);
+    bool isRaw(const QString &imagePath);
 };
 
 #endif // PAINTWIDGET_H

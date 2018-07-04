@@ -31,17 +31,20 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionImport_triggered();
+
     void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;
 
+    const QString chooseFile();
     void addChildWindow(PaintWidget *widget, bool isNew);
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     bool isFileValid(const QString& fileName);
     bool isImageSupported(const QString& fileName);
-
+    void rememberLastPath(const QString& fileName);
     QString _lastFileLoc;
 };
 

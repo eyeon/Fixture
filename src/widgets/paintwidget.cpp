@@ -9,42 +9,13 @@
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
 {
-    QStringList list = imagePath.split(".");
-    QString fileNameNoExt = list[1];
-
-     QString rawExtensions[] = {
-         "ARW",
-         "BAY",
-         "CR2",
-         "DCS",
-         "MOS",
-         "NEF",
-         "RAW"
-    };
-
-    bool isRaw = std::find(std::begin(rawExtensions), std::end(rawExtensions),
-                            fileNameNoExt.toUpper()) != std::end(rawExtensions);
-
     _imagePath = imagePath;
-    QImage image;
+    QImage image = getImageFromPath(imagePath);
 
-    if(isRaw){
-        QImageReader reader(imagePath);
-        QSize size = reader.size();
-
-        int w = size.width() -1;
-        int h = size.height() -1;
-
-        QSize newSize = QSize(w,h);
-        reader.setScaledSize(newSize);
-        image = reader.read();
-    } else {
-        image = QImage(imagePath);
-    }
     addStyleSheet();
     setupCanvas(image);
-    updateLayers(image);
 
+    pushLayer(image, "Background");
     d->updateImageCanvas(_items);
 }
 
@@ -65,7 +36,56 @@ PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
 
     addStyleSheet();
     setupCanvas(image);
-    updateLayers(image);
+
+    pushLayer(image, "Background");
+    d->updateImageCanvas(_items);
+}
+/**
+ * @brief PaintWidget::addNewLayer Adds a new layer based on an image
+ * TODO: Support adding documents as layer
+ * @param imagePath
+ */
+void PaintWidget::addNewLayer(const QString &imagePath)
+{
+    QImage image = getImageFromPath(imagePath);
+    QFileInfo info(imagePath);
+    pushLayer(image, info.fileName());
+    d->updateImageCanvas(_items);
+}
+
+QImage PaintWidget::getImageFromPath(const QString &imagePath)
+{
+    if(isRaw(imagePath)){
+        QImageReader reader(imagePath);
+        QSize size = reader.size();
+
+        int w = size.width() -1;
+        int h = size.height() -1;
+
+        QSize newSize = QSize(w,h);
+        reader.setScaledSize(newSize);
+        return reader.read();
+    }
+        return QImage(imagePath);
+}
+
+bool PaintWidget::isRaw(const QString &imagePath)
+{
+    QStringList list = imagePath.split(".");
+    QString fileNameNoExt = list[1];
+
+     QString rawExtensions[] = {
+         "ARW",
+         "BAY",
+         "CR2",
+         "DCS",
+         "MOS",
+         "NEF",
+         "RAW"
+    };
+
+    return std::find(std::begin(rawExtensions), std::end(rawExtensions),
+                            fileNameNoExt.toUpper()) != std::end(rawExtensions);
 }
 
 void PaintWidget::addStyleSheet()
@@ -88,13 +108,14 @@ void PaintWidget::setupCanvas(QImage image)
     setScene(d);
 }
 /**
- * @brief PaintWidget::updateLayers Updates the layer list based on the position of placement.
+ * @brief PaintWidget::updateLayers
  * @param image
+ * @param name
  */
-void PaintWidget::updateLayers(QImage image)
+void PaintWidget::pushLayer(QImage image, const QString& name)
 {
-    // Needs smarter naming based on positions
-    Layer l("Background",image,0,0,image.width(),image.height());
+    // Needs smarter naming based on positions on the stack
+    Layer l(name,image,0,0,image.width(),image.height());
     _items.push_back(l);
 }
 /**
