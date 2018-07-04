@@ -15,6 +15,7 @@
 
 #include "../items/drawing.h"
 #include "../model/canvas.h"
+#include "../items/layer.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -25,6 +26,7 @@ public:
     
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
+    inline QList<Layer> getItems() const { return _items; }
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -33,6 +35,7 @@ private:
     Drawing *d;
     QString _imagePath;
     void addStyleSheet();
+    QList<Layer> _items;
 };
 
 #endif // PAINTWIDGET_H

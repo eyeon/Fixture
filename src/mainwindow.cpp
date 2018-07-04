@@ -45,7 +45,9 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 
     mdiSubWindow->installEventFilter(this);
     mdiSubWindow->show();
+    ui->layerView->updateItems(widget->getItems());
 }
+
 /**
  * @brief MainWindow::updateWindowTitle
  * Updates window title to focused window

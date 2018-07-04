@@ -11,7 +11,7 @@ public:
     LayerManager(QWidget *parent=0);
     ~LayerManager();
 
-    void update(QList<Layer> items);
+    void updateItems(QList<Layer> items);
 
 private:
     QList<Layer> _curItems;

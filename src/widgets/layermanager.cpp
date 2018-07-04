@@ -9,11 +9,11 @@ LayerManager::~LayerManager()
 {
 }
 
-void LayerManager::update(QList<Layer> items)
+void LayerManager::updateItems(QList<Layer> items)
 {
-    QList<Layer>::iterator itr = items.begin();
     _curItems = items;
-    for(;itr != items.end();++itr){
+    QList<Layer>::iterator itr = _curItems.begin();
+    for(;itr != _curItems.end();++itr){
         addItem(itr->getListItem());
     }
 }
