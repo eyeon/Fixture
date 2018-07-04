@@ -13,7 +13,8 @@ void LayerManager::updateItems(QList<Layer> items)
 {
     _curItems = items;
     QList<Layer>::iterator itr = _curItems.begin();
-    for(;itr != _curItems.end();++itr){
-        addItem(itr->getListItem());
+    for(int i=0;itr != _curItems.end();++itr,i++){
+        takeItem(i);
+        insertItem(i,itr->getListItem());
     }
 }

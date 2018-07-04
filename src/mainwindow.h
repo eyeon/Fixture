@@ -25,7 +25,7 @@ public slots:
     void createNewDocument(const Canvas *canvas);
 
 private slots:
-    void updateWindowTitle(QMdiSubWindow *window);
+    void updateWindow(QMdiSubWindow *window);
 
     void on_actionNew_triggered();
 

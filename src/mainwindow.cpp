@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bar->setExpanding(false);
     bar->setDrawBase(false);
     bar->setElideMode(Qt::ElideLeft);
-    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindowTitle(QMdiSubWindow*)));
+    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindow(QMdiSubWindow*)));
 
     _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 }
@@ -45,7 +46,6 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 
     mdiSubWindow->installEventFilter(this);
     mdiSubWindow->show();
-    ui->layerView->updateItems(widget->getItems());
 }
 
 /**
@@ -53,12 +53,14 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
  * Updates window title to focused window
  * @param window
  */
-void MainWindow::updateWindowTitle(QMdiSubWindow *window)
+void MainWindow::updateWindow(QMdiSubWindow *window)
 {
     QString title = "Fixture";
 
     if (window != NULL) {
         title = window->windowTitle() + " - " + title;
+        PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
+        ui->layerView->updateItems(wid->getItems());
     }
     setWindowTitle(title);
 }
