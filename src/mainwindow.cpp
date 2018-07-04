@@ -61,8 +61,10 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
         PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
         ui->layerView->updateItems(wid->getItems());
     }
+    else {
+        ui->layerView->clear();
+    }
     ui->actionImport->setEnabled(window != NULL);
-
     setWindowTitle(title);
 }
 
