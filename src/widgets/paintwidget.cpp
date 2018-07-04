@@ -42,14 +42,12 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
         image = QImage(imagePath);
     }
     addStyleSheet();
-    setSceneRect(image.rect());
-    d = new Drawing(this,image);
-    setScene(d);
+    setupCanvas(image);
+    updateLayers(image);
 
-    Layer l("Background",image,0,0,image.width(),image.height());
-    _items.push_back(l);
     d->updateImageCanvas(_items);
 }
+
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
@@ -66,9 +64,8 @@ PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
     image.fill(Qt::white);
 
     addStyleSheet();
-    setSceneRect(image.rect());
-    d = new Drawing(this,image);
-    setScene(d);
+    setupCanvas(image);
+    updateLayers(image);
 }
 
 void PaintWidget::addStyleSheet()
@@ -79,7 +76,27 @@ void PaintWidget::addStyleSheet()
     QString style( styleFile.readAll() );
     setStyleSheet(style);
 }
-
+/**
+ * @brief PaintWidget::setupCanvas
+ * Sets up the canvas and the drawing environment to place layers
+ * @param image The target QImage layer to be placed.
+ */
+void PaintWidget::setupCanvas(QImage image)
+{
+    setSceneRect(image.rect());
+    d = new Drawing(this,image);
+    setScene(d);
+}
+/**
+ * @brief PaintWidget::updateLayers Updates the layer list based on the position of placement.
+ * @param image
+ */
+void PaintWidget::updateLayers(QImage image)
+{
+    // Needs smarter naming based on positions
+    Layer l("Background",image,0,0,image.width(),image.height());
+    _items.push_back(l);
+}
 /**
  * @brief PaintWidget::wheelEvent Overrides the wheelEvent of QGraphicsView
  * Implements zooming in and out according to the position of the cursor

@@ -36,6 +36,8 @@ private:
     QString _imagePath;
     void addStyleSheet();
     QList<Layer> _items;
+    void setupCanvas(QImage image);
+    void updateLayers(QImage image);
 };
 
 #endif // PAINTWIDGET_H
