@@ -11,10 +11,7 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
 {
     setAcceptDrops(true);
     setDragMode(DragMode::RubberBandDrag);
-    if (!isFileValid(imagePath)) {
-        close();
-        return;
-    }
+
     _imagePath = imagePath;
     QImage image = getImageFromPath(imagePath);
 
@@ -100,7 +97,7 @@ bool PaintWidget::isRaw(const QString &imagePath)
 
 bool PaintWidget::isFileValid(const QString& fileName)
 {
-    return isImageSupported(fileName);
+    return PaintWidget::isImageSupported(fileName);
 }
 
 bool PaintWidget::isImageSupported(const QString &fileName)

@@ -18,6 +18,7 @@
 #include <cmath>
 
 #include "../items/drawing.h"
+#include "../widgets/paintwidget.h"
 #include "../model/canvas.h"
 #include "../items/layer.h"
 
@@ -33,6 +34,7 @@ public:
     inline QList<Layer> getItems() const { return _items; }
     // This has to be extended to accomodate new documents
     inline void updateLayers(QList<Layer> items){ d->updateImageCanvas(items); }
+    static bool isFileValid(const QString& fileName);
 
 public slots:
     void addNewLayer(const QString &imagePath);
@@ -50,8 +52,7 @@ private:
     void pushLayer(QImage image, const QString &name);
     bool isRaw(const QString &imagePath);
 
-    bool isFileValid(const QString& fileName);
-    bool isImageSupported(const QString& fileName);
+    static bool isImageSupported(const QString& fileName);
 };
 
 #endif // PAINTWIDGET_H

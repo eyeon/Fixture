@@ -41,8 +41,10 @@ void MainWindow::dropEvent(QDropEvent *e)
     foreach (const QUrl &url, e->mimeData()->urls()) {
         QString fileName = url.toLocalFile();
 
-        rememberLastPath(fileName);
-        addPaintWidget(new PaintWidget(fileName));
+        if (PaintWidget::isFileValid(fileName)) {
+            rememberLastPath(fileName);
+            addPaintWidget(new PaintWidget(fileName));
+        }
     }
 }
 
@@ -112,8 +114,10 @@ void MainWindow::on_actionOpen_triggered()
 {
     const QString fileName = chooseFile();
 
-    rememberLastPath(fileName);
-    addPaintWidget(new PaintWidget(fileName));
+    if (PaintWidget::isFileValid(fileName)) {
+        rememberLastPath(fileName);
+        addPaintWidget(new PaintWidget(fileName));
+    }
 }
  void MainWindow::rememberLastPath(const QString &fileName)
  {
@@ -156,6 +160,7 @@ void MainWindow::createNewDocument(const Canvas *canvas)
 void MainWindow::on_actionImport_triggered()
 {
     const QString fileName = chooseFile();
+
 
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
     PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
