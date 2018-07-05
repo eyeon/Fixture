@@ -9,9 +9,6 @@
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
 {
-    setAcceptDrops(true);
-    setDragMode(DragMode::RubberBandDrag);
-
     _imagePath = imagePath;
     QImage image = getImageFromPath(imagePath);
 
@@ -44,6 +41,8 @@ PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
 
     pushLayer(image, "Background");
     d->updateImageCanvas(_items);
+
+    connect(d, SIGNAL(importAvailable(QString)), this, SLOT(addNewLayer(QString)));
 }
 /**
  * @brief PaintWidget::addNewLayer Adds a new layer based on an image

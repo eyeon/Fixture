@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bar->setElideMode(Qt::ElideLeft);
 
     setAcceptDrops(true);
-    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
+    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                      this, SLOT(updateWindow(QMdiSubWindow*)));
 
     _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
@@ -146,7 +146,7 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     NewDialog *newDialog = new NewDialog();
-    QObject::connect(newDialog, SIGNAL(canvasAvailable(const Canvas*)), this, SLOT(createNewDocument(const Canvas*)));
+    connect(newDialog, SIGNAL(canvasAvailable(const Canvas*)), this, SLOT(createNewDocument(const Canvas*)));
 
     newDialog->show();
 }
