@@ -9,11 +9,16 @@
 #include <QScrollBar>
 #include <QObject>
 #include <QWidget>
+#include <QGraphicsSceneDragDropEvent>
+#include <QMimeData>
+#include <QDebug>
 
 #include "layer.h"
 
 class Drawing : public QGraphicsScene
 {
+    Q_OBJECT
+
 public:
     Drawing(QWidget *widget,QImage &image);
     ~Drawing();
@@ -25,6 +30,14 @@ public:
 private:
     int _height,_width;
     QImage _image;
+
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *e);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *e);
+    void dropEvent(QGraphicsSceneDragDropEvent *e);
+
+signals:
+    void importAvailable(const QString &fileName);
+
 };
 
 #endif // DRAWING_H

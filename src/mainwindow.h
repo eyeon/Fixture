@@ -5,6 +5,7 @@
 #include <QMdiSubWindow>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QMimeData>
 
 #include "dialogs/newdialog.h"
 #include "widgets/paintwidget.h"
@@ -43,10 +44,11 @@ private:
     void addChildWindow(PaintWidget *widget, bool isNew);
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
-    bool isFileValid(const QString& fileName);
-    bool isImageSupported(const QString& fileName);
     void rememberLastPath(const QString& fileName);
     QString _lastFileLoc;
+
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
 };
 
 #endif // MAINWINDOW_H

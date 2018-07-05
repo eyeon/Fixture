@@ -3,10 +3,12 @@
 Drawing::Drawing(QWidget *widget,QImage &image) :
     QGraphicsScene(widget)
 {
+
     _canvas = addPixmap(QPixmap::fromImage(image));
     _image = image;
     _width = image.width();
     _height = image.height();
+
 }
 
 Drawing::~Drawing()
@@ -34,4 +36,25 @@ void Drawing::updateImageCanvas(QList<Layer> items)
 
     painter.end();
     _canvas->setPixmap(QPixmap::fromImage(surface));
+}
+
+void Drawing::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+
+void Drawing::dragMoveEvent(QGraphicsSceneDragDropEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+void Drawing::dropEvent(QGraphicsSceneDragDropEvent *e)
+{
+    foreach (const QUrl &url, e->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+        emit importAvailable(fileName);
+    }
 }

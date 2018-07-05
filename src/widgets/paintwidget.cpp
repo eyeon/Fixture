@@ -9,14 +9,22 @@
 PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
     QGraphicsView(parent)
 {
+    setAcceptDrops(true);
+    setDragMode(DragMode::RubberBandDrag);
+    if (!isFileValid(imagePath)) {
+        close();
+        return;
+    }
     _imagePath = imagePath;
     QImage image = getImageFromPath(imagePath);
 
     addStyleSheet();
     setupCanvas(image);
-
     pushLayer(image, "Background");
+
     d->updateImageCanvas(_items);
+
+    connect(d, SIGNAL(importAvailable(QString)), this, SLOT(addNewLayer(QString)));
 }
 
 /**
@@ -47,10 +55,12 @@ PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
  */
 void PaintWidget::addNewLayer(const QString &imagePath)
 {
-    QImage image = getImageFromPath(imagePath);
-    QFileInfo info(imagePath);
-    pushLayer(image, info.fileName());
-    d->updateImageCanvas(_items);
+    if (isFileValid(imagePath)) {
+        QImage image = getImageFromPath(imagePath);
+        QFileInfo info(imagePath);
+        pushLayer(image, info.fileName());
+        d->updateImageCanvas(_items);
+     }
 }
 
 QImage PaintWidget::getImageFromPath(const QString &imagePath)
@@ -88,6 +98,17 @@ bool PaintWidget::isRaw(const QString &imagePath)
                             fileNameNoExt.toUpper()) != std::end(rawExtensions);
 }
 
+bool PaintWidget::isFileValid(const QString& fileName)
+{
+    return isImageSupported(fileName);
+}
+
+bool PaintWidget::isImageSupported(const QString &fileName)
+{
+    QImageReader reader(fileName);
+    return reader.format() != "";
+}
+
 void PaintWidget::addStyleSheet()
 {
     QFile styleFile( ":/styles/paintwidget.qss" );
@@ -104,7 +125,8 @@ void PaintWidget::addStyleSheet()
 void PaintWidget::setupCanvas(QImage image)
 {
     setSceneRect(image.rect());
-    d = new Drawing(this,image);
+    d = new Drawing(this, image);
+
     setScene(d);
 }
 /**

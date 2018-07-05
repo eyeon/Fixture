@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     ui->mdiArea->setViewMode(QMdiArea::TabbedView);
     ui->mdiArea->setTabsClosable(true);
     ui->mdiArea->setTabsMovable(true);
@@ -13,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     bar->setExpanding(false);
     bar->setDrawBase(false);
     bar->setElideMode(Qt::ElideLeft);
+
+    setAcceptDrops(true);
     QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                      this, SLOT(updateWindow(QMdiSubWindow*)));
 
@@ -25,6 +28,22 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    foreach (const QUrl &url, e->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+
+        rememberLastPath(fileName);
+        addPaintWidget(new PaintWidget(fileName));
+    }
 }
 
 void MainWindow::updateLayers()
@@ -41,6 +60,7 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
+
     QString title;
     if (widget->getImagePath() != "") {
         QFileInfo info(widget->getImagePath());
@@ -92,10 +112,8 @@ void MainWindow::on_actionOpen_triggered()
 {
     const QString fileName = chooseFile();
 
-    if (isFileValid(fileName)) {
-        rememberLastPath(fileName);
-        addPaintWidget(new PaintWidget(fileName));
-    }
+    rememberLastPath(fileName);
+    addPaintWidget(new PaintWidget(fileName));
 }
  void MainWindow::rememberLastPath(const QString &fileName)
  {
@@ -114,17 +132,6 @@ const QString MainWindow::chooseFile()
                                 "TIFF(*.tif *.tiff);;"
                                 "BMP(*.bmp);;"
                                 "ICO(*.ico)"));
-}
-
-bool MainWindow::isFileValid(const QString& fileName)
-{
-    return isImageSupported(fileName);
-}
-
-bool MainWindow::isImageSupported(const QString &fileName)
-{
-    QImageReader reader(fileName);
-    return reader.format() != "";
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -150,10 +157,8 @@ void MainWindow::on_actionImport_triggered()
 {
     const QString fileName = chooseFile();
 
-    if (isFileValid(fileName)) {
-        QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
-        PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
-        paintWidget->addNewLayer(fileName);
-        ui->layerView->updateItems(paintWidget->getItems());
-    }
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+    PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
+    paintWidget->addNewLayer(fileName);
+    ui->layerView->updateItems(paintWidget->getItems());
 }

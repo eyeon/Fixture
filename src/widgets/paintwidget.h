@@ -10,6 +10,9 @@
 #include <QScrollBar>
 #include <QObject>
 #include <QFileInfo>
+#include <QMimeData>
+#include <QGraphicsSceneDragDropEvent>
+#include <QDebug>
 
 #include <iostream>
 #include <cmath>
@@ -29,8 +32,10 @@ public:
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer> getItems() const { return _items; }
     // This has to be extended to accomodate new documents
-    void addNewLayer(const QString &imagePath);
     inline void updateLayers(QList<Layer> items){ d->updateImageCanvas(items); }
+
+public slots:
+    void addNewLayer(const QString &imagePath);
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -44,6 +49,9 @@ private:
     void setupCanvas(QImage image);
     void pushLayer(QImage image, const QString &name);
     bool isRaw(const QString &imagePath);
+
+    bool isFileValid(const QString& fileName);
+    bool isImageSupported(const QString& fileName);
 };
 
 #endif // PAINTWIDGET_H
