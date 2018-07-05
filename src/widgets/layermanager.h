@@ -3,6 +3,7 @@
 
 #include <QListWidget>
 #include <QEvent>
+#include <QFile>
 
 #include "../items/layer.h"
 
