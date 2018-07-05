@@ -13,18 +13,24 @@ LayerManager::~LayerManager()
 bool LayerManager::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::ChildRemoved){
-        QList<int> changes;
-        QList<Layer>::reverse_iterator itr = _curItems.rbegin();
-        QList<Layer> items;
 
-        for(int i=0;i<count();i++,++itr){
-            int curPos = row(itr->getListItem());
-            items.push_back(_curItems.at(curPos));
+        int n = count();
+        QList<Layer> layerItems;
+
+        for(int i=0;i<n;i++){
+            QListWidgetItem *w = item(i);
+            QList<Layer>::iterator itr = _curItems.begin();
+            for(;itr!= _curItems.end();++itr){
+                if(w == itr->getListItem()){
+                    layerItems.push_front(*itr);
+                    break;
+                }
+            }
         }
 
-        _curItems = items;
-        emit itemschanged();
+        _curItems = layerItems;
 
+        emit itemschanged();
         return true;
     }
 
