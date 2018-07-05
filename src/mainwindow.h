@@ -23,6 +23,7 @@ public:
 
 public slots:
     void createNewDocument(const Canvas *canvas);
+    void updateLayers();
 
 private slots:
     void updateWindow(QMdiSubWindow *window);

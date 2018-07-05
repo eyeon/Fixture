@@ -30,6 +30,7 @@ public:
     inline QList<Layer> getItems() const { return _items; }
     // This has to be extended to accomodate new documents
     void addNewLayer(const QString &imagePath);
+    inline void updateLayers(QList<Layer> items){ d->updateImageCanvas(items); }
 
 protected:
     void wheelEvent(QWheelEvent *event);

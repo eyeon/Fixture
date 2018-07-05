@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,14 +13,26 @@ MainWindow::MainWindow(QWidget *parent) :
     bar->setExpanding(false);
     bar->setDrawBase(false);
     bar->setElideMode(Qt::ElideLeft);
-    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(updateWindow(QMdiSubWindow*)));
+    QObject::connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
+                     this, SLOT(updateWindow(QMdiSubWindow*)));
 
     _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+
+    connect(ui->layerView,SIGNAL(itemschanged()),this,SLOT(updateLayers()));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateLayers()
+{
+    QMdiSubWindow* window = ui->mdiArea->activeSubWindow();
+    PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
+    QList<Layer> updatedLayers = ui->layerView->getitems();
+    wid->updateLayers(updatedLayers);
 }
 
 void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
@@ -60,8 +71,7 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
         title = window->windowTitle() + " - " + title;
         PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
         ui->layerView->updateItems(wid->getItems());
-    }
-    else {
+    } else {
         ui->layerView->clear();
     }
     ui->actionImport->setEnabled(window != NULL);
