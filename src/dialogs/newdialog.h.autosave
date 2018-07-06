@@ -37,8 +37,9 @@ private:
                           Canvas::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
     int getIntValue(QLineEdit *field);
+    int getPixelValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
-    void checkDimensionValidity(int fieldVal);
+    void checkDimensionValidity(QLineEdit *field);
 
     QMap<QString, Canvas::DimensionUnit> *dimensions = new QMap<QString, Canvas::DimensionUnit>;
     void initDimensionUnitList();

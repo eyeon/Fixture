@@ -27,11 +27,12 @@ PaintWidget::PaintWidget(const QString &imagePath,QWidget *parent):
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
+PaintWidget::PaintWidget(const Canvas *canvas, QWidget *parent)
     : QGraphicsView(parent)
 {
-    setImagePath(document->getName());
-    QSize imageSize(document->getWidth(), document->getHeight());
+    setImagePath(canvas->getName());
+    
+    QSize imageSize(canvas->getWidth(), canvas->getHeight());
 
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::white);
@@ -45,7 +46,7 @@ PaintWidget::PaintWidget(const Canvas *document, QWidget *parent)
     connect(d, SIGNAL(importAvailable(QString)), this, SLOT(addNewLayer(QString)));
 }
 /**
- * @brief PaintWidget::addNewLayer Adds a new layer based on an image
+ * @brief PaintWidget::add3NewLayer Adds a new layer based on an image
  * TODO: Support adding documents as layer
  * @param imagePath
  */
