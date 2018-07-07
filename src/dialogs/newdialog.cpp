@@ -37,21 +37,27 @@ void NewDialog::on_actionOk_clicked()
     try {
 
         _dimensionUnit = dimensions->value(ui->widthUnitCombo->currentText());
+        _resolution = (int) getDoubleValue(ui->resTxt);
 
         ui->heightTxt->setFocus();
-        int height = getIntValue(ui->heightTxt);
+        int height = getPixelValue(ui->heightTxt);
 
         ui->widthTxt->setFocus();
-        int width = getIntValue(ui->widthTxt);
+        int width = getPixelValue(ui->widthTxt);
 
         QString docName = ui->docNameVal->text();
 
-        Canvas *canvas = createDocument(docName, width, height, Canvas::PIXELS, 72, Canvas::PPI);
+        Canvas *canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
+        // test
+        qDebug() << "Canvas data: ";
+        qDebug() << "Width: " << canvas->getWidth() <<  "Height: " << canvas->getHeight();
+        qDebug() << "Dimension Unit" << canvas->getDimensionUnit() << "Resolution: " << canvas->getResolution();
         emit canvasAvailable(canvas);
         this->close();
 
     }
     catch (const QString msg) {
+        // We are probably doing it wrong
         showZeroErrorMessage(msg);
         return;
     }
@@ -68,7 +74,7 @@ void NewDialog::on_actionOk_clicked()
  * @param resUnit
  * @return
  */
-Canvas* NewDialog::createDocument(QString docName, double width, double height,
+Canvas* NewDialog::createCanvas(QString docName, double width, double height,
                                  Canvas::DimensionUnit dimUnit, double resolution,
                                  Canvas::ResolutionUnit resUnit) const
 {
@@ -114,7 +120,7 @@ void NewDialog::on_heightTxt_editingFinished()
         showZeroErrorMessage(msg);
     }
 }
-
+// This part needs to be heavily improved.
 void NewDialog::checkDimensionValidity(QLineEdit *field)
 {
     QString fieldStr = field->text();
@@ -126,16 +132,22 @@ void NewDialog::checkDimensionValidity(QLineEdit *field)
     }
 }
 
-int NewDialog::getIntValue(QLineEdit *field)
+double NewDialog::getDoubleValue(QLineEdit *field)
 {
-    return field;
+    QString fieldStr = field->text();
+    return fieldStr.toDouble();
 }
 
 int NewDialog::getPixelValue(QLineEdit *field)
 {
+    double val = getDoubleValue(field);
+
     switch(_dimensionUnit) {
-        case Canvas::DimensionUnit::PIXELS:
- //           return
+    case Canvas::DimensionUnit::INCHES:
+        return val * _resolution;
+    case Canvas::DimensionUnit::CENTIMETERS:
+        return val * _resolution * 2.54;
+    default:
+        return val;
     }
-    return field;
 }
