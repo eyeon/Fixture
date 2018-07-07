@@ -3,6 +3,11 @@
 LayerManager::LayerManager(QWidget *parent):
     QListWidget(parent)
 {
+    QFile styleFile( ":/styles/layermanager.qss" );
+    styleFile.open( QFile::ReadOnly );
+
+    QString style( styleFile.readAll() );
+    setStyleSheet(style);
     installEventFilter(this);
 }
 

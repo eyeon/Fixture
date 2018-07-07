@@ -6,12 +6,6 @@ QMainWindow {
     background-color: #1a1a1a;
 }
 
-#layerView {
-    background-color: #262626;
-    max-width: 300px;
-    border: 1px solid #1a1a1a;
-}
-
 #mainToolBar {
     background-color: #262626;
     border: 1px solid #1a1a1a;

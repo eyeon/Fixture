@@ -16,7 +16,8 @@ Layer::Layer(QString name, QImage &image,
 {
     QIcon ico(QPixmap::fromImage(image));
     _item = new QListWidgetItem(ico,name);
-    _item->setTextAlignment(Qt::AlignLeft);
+    _item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _item->setSizeHint(QSize(0,40));
 }
 
 Layer::~Layer()

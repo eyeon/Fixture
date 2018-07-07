@@ -5,6 +5,7 @@
     <qresource prefix="/styles">
         <file>basic.qss</file>
         <file>paintwidget.qss</file>
+        <file>layermanager.qss</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/close-white-lighter.svg</file>
