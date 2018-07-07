@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "../model/canvas.h"
 
@@ -31,14 +32,19 @@ private slots:
     void on_heightTxt_editingFinished();
 
 private:
-    Canvas *createDocument(QString docName, double width, double height,
+    Canvas *createCanvas(QString docName, double width, double height,
                           Canvas::DimensionUnit dimUnit, double resolution,
                           Canvas::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
-    int getIntValue(QLineEdit *field);
+    int _resolution;
+    Canvas::DimensionUnit _dimensionUnit;
+    double getDoubleValue(QLineEdit *field);
+    int getPixelValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
-    void checkDimensionValidity(int fieldVal);
+    void checkDimensionValidity(QLineEdit *field);
 
+    QMap<QString, Canvas::DimensionUnit> *dimensions = new QMap<QString, Canvas::DimensionUnit>;
+    void initDimensionUnitList();
 };
 
 #endif // NEWDIALOG_H
