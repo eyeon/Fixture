@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QComboBox>
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QMessageBox>
@@ -31,20 +32,40 @@ private slots:
     void on_widthTxt_editingFinished();
     void on_heightTxt_editingFinished();
 
+    void switchDocType(int index);
+    void displayPreset(QString presetKey);
 private:
+    struct PageSize
+    {
+        double width;
+        double height;
+        Canvas::DimensionUnit unit;
+    }
+    Default { 600, 600, Canvas::DimensionUnit::PIXELS};
+
+    enum DocType
+    {
+        DEFAULT, INTERNATIONAL, US_PAPER, CUSTOM
+    };
     Canvas *createCanvas(QString docName, double width, double height,
                           Canvas::DimensionUnit dimUnit, double resolution,
                           Canvas::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;
     int _resolution;
     Canvas::DimensionUnit _dimensionUnit;
-    double getDoubleValue(QLineEdit *field);
+    double getDoubleValue(QLineEdit *fieldVal);
     int getPixelValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
-    void checkDimensionValidity(QLineEdit *field);
+    void checkDimensionValidity(double fieldVal);
+    void displaySizeContents(NewDialog::PageSize size);
+    QMap<Canvas::DimensionUnit, QString> dimensions;
+    QMap<QString, PageSize> currPreset;
+    QMap<DocType, QString> docTypes;
 
-    QMap<QString, Canvas::DimensionUnit> *dimensions = new QMap<QString, Canvas::DimensionUnit>;
+    QMap<QString, PageSize> getInternationalList();
     void initDimensionUnitList();
+    void initPresetList();
+
 };
 
 #endif // NEWDIALOG_H

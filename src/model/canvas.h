@@ -12,7 +12,7 @@ public:
     };
     enum ResolutionUnit
     {
-        PPI, DPI
+        PPI, PPC
     };
 
     Canvas(QString docName,
