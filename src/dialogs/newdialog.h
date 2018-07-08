@@ -62,6 +62,8 @@ private:
 
     void initPresetCombo();
     void initDimensionCombos();
+    void initSignalSlots();
+
 
     QMap<QString, PageSize> getInternationalList();
     QMap<QString, PageSize> getUSPaperList();

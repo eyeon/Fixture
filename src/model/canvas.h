@@ -8,7 +8,7 @@ class Canvas
 public:
     enum DimensionUnit
     {
-        PIXELS, INCHES, CENTIMETERS
+        PIXELS, INCHES, CENTIMETERS, MILLIMETERS, POINTS, PICAS
     };
     enum ResolutionUnit
     {

@@ -10,16 +10,20 @@ NewDialog::NewDialog(QWidget *parent) :
 
     initPresetCombo();
     initDimensionCombos();
-
-    connect(ui->presetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(switchPreset(int)));
-    connect(ui->widthUnitCombo, SIGNAL(currentIndexChanged(int)), ui->heightUnitCombo, SLOT(setCurrentIndex(int)));
-    connect(ui->heightUnitCombo, SIGNAL(currentIndexChanged(int)), ui->widthUnitCombo, SLOT(setCurrentIndex(int)));
-    connect(ui->sizeCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(displaySize(QString)));
+    initSignalSlots();
 }
 
 NewDialog::~NewDialog()
 {
     delete ui;
+}
+
+void NewDialog::initSignalSlots()
+{
+    connect(ui->presetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(switchPreset(int)));
+    connect(ui->widthUnitCombo, SIGNAL(currentIndexChanged(int)), ui->heightUnitCombo, SLOT(setCurrentIndex(int)));
+    connect(ui->heightUnitCombo, SIGNAL(currentIndexChanged(int)), ui->widthUnitCombo, SLOT(setCurrentIndex(int)));
+    connect(ui->sizeCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(displaySize(QString)));
 }
 
 void NewDialog::initPresetCombo()
@@ -47,6 +51,9 @@ QMap<Canvas::DimensionUnit, QString> NewDialog::getDimensionUnitList()
     units.insert(Canvas::DimensionUnit::PIXELS, "Pixels");
     units.insert(Canvas::DimensionUnit::INCHES, "Inches");
     units.insert(Canvas::DimensionUnit::CENTIMETERS, "Centimeters");
+    units.insert(Canvas::DimensionUnit::MILLIMETERS, "Millimeters");
+    units.insert(Canvas::DimensionUnit::POINTS, "Points");
+    units.insert(Canvas::DimensionUnit::PICAS, "Picas");
 
     return units;
 }
@@ -135,6 +142,8 @@ void NewDialog::on_actionOk_clicked()
 
         ui->widthTxt->setFocus();
         int width = getPixelValue(ui->widthTxt);
+
+        qDebug() << height << width;
         QString docName = ui->docNameVal->text();
 
         Canvas *canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
@@ -228,7 +237,13 @@ int NewDialog::getPixelValue(QLineEdit *field)
     case Canvas::DimensionUnit::INCHES:
         return val * _resolution;
     case Canvas::DimensionUnit::CENTIMETERS:
-        return val * _resolution * 2.54;
+        return val * _resolution / 2.54;
+    case Canvas::DimensionUnit::MILLIMETERS:
+        return val * _resolution / 25.4;
+    case Canvas::DimensionUnit::POINTS:
+        return val * _resolution / 72;
+    case Canvas::DimensionUnit::PICAS:
+        return val * _resolution / 16;
     default:
         return val;
     }
