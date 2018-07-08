@@ -32,6 +32,7 @@ private slots:
     void on_widthTxt_editingFinished();
     void on_heightTxt_editingFinished();
 
+    void switchToCustomPreset(const QString &string);
     void switchPreset(int index);
     void displaySize(QString presetKey);
 private:

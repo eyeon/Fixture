@@ -24,8 +24,17 @@ void NewDialog::initSignalSlots()
     connect(ui->widthUnitCombo, SIGNAL(currentIndexChanged(int)), ui->heightUnitCombo, SLOT(setCurrentIndex(int)));
     connect(ui->heightUnitCombo, SIGNAL(currentIndexChanged(int)), ui->widthUnitCombo, SLOT(setCurrentIndex(int)));
     connect(ui->sizeCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(displaySize(QString)));
+    connect(ui->widthTxt, SIGNAL(textEdited(const QString&)), this, SLOT(switchToCustomPreset(const QString&)));
+    connect(ui->heightTxt, SIGNAL(textEdited(const QString&)), this, SLOT(switchToCustomPreset(const QString&)));
 }
 
+void NewDialog::switchToCustomPreset(const QString &string)
+{
+    ui->presetCombo->blockSignals(true);
+    ui->presetCombo->setCurrentIndex(Preset::CUSTOM);
+    ui->sizeCombo->setDisabled(true);
+    ui->presetCombo->blockSignals(false);
+}
 void NewDialog::initPresetCombo()
 {
     QMap<Preset, QString> presets = getPresetList();
@@ -109,10 +118,12 @@ void NewDialog::switchPreset(int index)
         _currSize = getUSPaperList();
         ui->sizeCombo->addItems(QStringList(_currSize.keys()));
         break;
-    default:
+    case Preset::DEFAULT:
         ui->sizeCombo->setDisabled(true);
         displaySizeContents(NewDialog::Default);
         break;
+    default:
+        ui->sizeCombo->setDisabled(true);
     }
 }
 
