@@ -41,10 +41,10 @@
         <widget class="QLineEdit" name="docNameVal"/>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="docTypeCombo"/>
+        <widget class="QComboBox" name="presetCombo"/>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="docTypeLbl">
+        <widget class="QLabel" name="presetLbl">
          <property name="text">
           <string>Document type:</string>
          </property>
@@ -335,7 +335,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="presetCombo">
+         <widget class="QComboBox" name="sizeCombo">
           <property name="enabled">
            <bool>false</bool>
           </property>

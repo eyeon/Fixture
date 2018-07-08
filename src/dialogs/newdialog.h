@@ -32,8 +32,8 @@ private slots:
     void on_widthTxt_editingFinished();
     void on_heightTxt_editingFinished();
 
-    void switchDocType(int index);
-    void displayPreset(QString presetKey);
+    void switchPreset(int index);
+    void displaySize(QString presetKey);
 private:
     struct PageSize
     {
@@ -43,7 +43,7 @@ private:
     }
     Default { 600, 600, Canvas::DimensionUnit::PIXELS};
 
-    enum DocType
+    enum Preset
     {
         DEFAULT, INTERNATIONAL, US_PAPER, CUSTOM
     };
@@ -58,13 +58,15 @@ private:
     void showZeroErrorMessage(QString fieldName);
     void checkDimensionValidity(double fieldVal);
     void displaySizeContents(NewDialog::PageSize size);
-    QMap<Canvas::DimensionUnit, QString> dimensions;
-    QMap<QString, PageSize> currPreset;
-    QMap<DocType, QString> docTypes;
+    QMap<QString, PageSize> _currSize;
+
+    void initPresetCombo();
+    void initDimensionCombos();
 
     QMap<QString, PageSize> getInternationalList();
-    void initDimensionUnitList();
-    void initPresetList();
+    QMap<QString, PageSize> getUSPaperList();
+    QMap<Canvas::DimensionUnit, QString> getDimensionUnitList();
+    QMap<Preset, QString> getPresetList();
 
 };
 

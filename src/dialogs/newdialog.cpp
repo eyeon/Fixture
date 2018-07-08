@@ -8,22 +8,13 @@ NewDialog::NewDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->actionBtnsContainer->setAlignment(Qt::AlignTop);
 
-    initPresetList();
-    ui->docTypeCombo->addItems(QStringList(docTypes.values()));
-    ui->docTypeCombo->setCurrentIndex(DocType::DEFAULT);
+    initPresetCombo();
+    initDimensionCombos();
 
-    initDimensionUnitList();
-
-    ui->widthUnitCombo->addItems(QStringList(dimensions.values()));
-    ui->widthUnitCombo->setCurrentIndex(Canvas::DimensionUnit::PIXELS);
-
-    ui->heightUnitCombo->addItems(QStringList(dimensions.values()));
-    ui->heightUnitCombo->setCurrentIndex(Canvas::DimensionUnit::PIXELS);
-
-    connect(ui->docTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(switchDocType(int)));
+    connect(ui->presetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(switchPreset(int)));
     connect(ui->widthUnitCombo, SIGNAL(currentIndexChanged(int)), ui->heightUnitCombo, SLOT(setCurrentIndex(int)));
     connect(ui->heightUnitCombo, SIGNAL(currentIndexChanged(int)), ui->widthUnitCombo, SLOT(setCurrentIndex(int)));
-    connect(ui->presetCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(displayPreset(QString)));
+    connect(ui->sizeCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(displaySize(QString)));
 }
 
 NewDialog::~NewDialog()
@@ -31,58 +22,96 @@ NewDialog::~NewDialog()
     delete ui;
 }
 
-void NewDialog::initDimensionUnitList()
+void NewDialog::initPresetCombo()
 {
-    dimensions.insert(Canvas::DimensionUnit::PIXELS, "Pixels");
-    dimensions.insert(Canvas::DimensionUnit::INCHES, "Inches");
-    dimensions.insert(Canvas::DimensionUnit::CENTIMETERS, "Centimeters");
+    QMap<Preset, QString> presets = getPresetList();
+    ui->presetCombo->addItems(QStringList(presets.values()));
+    ui->presetCombo->setCurrentIndex(Preset::DEFAULT);
 }
 
-void NewDialog::initPresetList()
+void NewDialog::initDimensionCombos()
 {
-    docTypes.insert(DocType::DEFAULT, "Fixture Default");
-    docTypes.insert(DocType::INTERNATIONAL, "International");
-    docTypes.insert(DocType::US_PAPER, "US Paper");
-    docTypes.insert(DocType::CUSTOM, "Custom");
+    QMap<Canvas::DimensionUnit, QString> unitMap = getDimensionUnitList();
+
+    ui->widthUnitCombo->addItems(QStringList(unitMap.values()));
+    ui->widthUnitCombo->setCurrentIndex(Canvas::DimensionUnit::PIXELS);
+
+    ui->heightUnitCombo->addItems(QStringList(unitMap.values()));
+    ui->heightUnitCombo->setCurrentIndex(Canvas::DimensionUnit::PIXELS);
 }
-QMap<QString, NewDialog::PageSize> NewDialog::getInternationalList()
+
+QMap<Canvas::DimensionUnit, QString> NewDialog::getDimensionUnitList()
 {
-    QMap<QString, PageSize> presets;
+    QMap<Canvas::DimensionUnit, QString> units;
 
-    PageSize A1 {23.39, 33.11, Canvas::INCHES};
-    PageSize A2 {16.54, 23.39, Canvas::INCHES};
-    PageSize A3 {11.69, 16.54, Canvas::INCHES};
-    PageSize A4 {8.27, 11.69, Canvas::INCHES};
-    PageSize A5 {5.83, 8.27, Canvas::INCHES};
+    units.insert(Canvas::DimensionUnit::PIXELS, "Pixels");
+    units.insert(Canvas::DimensionUnit::INCHES, "Inches");
+    units.insert(Canvas::DimensionUnit::CENTIMETERS, "Centimeters");
 
-    presets.insert("A1", A1);
-    presets.insert("A2", A2);
-    presets.insert("A3", A3);
-    presets.insert("A4", A4);
-    presets.insert("A5", A5);
+    return units;
+}
+
+QMap<NewDialog::Preset, QString> NewDialog::getPresetList()
+{
+    QMap<Preset, QString> presets;
+
+    presets.insert(Preset::DEFAULT, "Fixture Default");
+    presets.insert(Preset::INTERNATIONAL, "International");
+    presets.insert(Preset::US_PAPER, "US Paper");
+    presets.insert(Preset::CUSTOM, "Custom");
 
     return presets;
 }
 
-void NewDialog::switchDocType(int index)
+QMap<QString, NewDialog::PageSize> NewDialog::getInternationalList()
 {
+    QMap<QString, PageSize> stdSizes;
+
+    stdSizes.insert("A1", {23.39, 33.11, Canvas::INCHES});
+    stdSizes.insert("A2", {16.54, 23.39, Canvas::INCHES});
+    stdSizes.insert("A3", {11.69, 16.54, Canvas::INCHES});
+    stdSizes.insert("A4", {8.27, 11.69, Canvas::INCHES});
+    stdSizes.insert("A5", {5.83, 8.27, Canvas::INCHES});
+
+    return stdSizes;
+}
+
+QMap<QString, NewDialog::PageSize> NewDialog::getUSPaperList()
+{
+    QMap<QString, PageSize> stdSizes;
+
+    stdSizes.insert("Letter", {8.5, 11, Canvas::INCHES});
+    stdSizes.insert("Legal", {8.5, 14, Canvas::INCHES});
+    stdSizes.insert("Ledger", {11, 17, Canvas::INCHES});
+    stdSizes.insert("Tabloid", {17, 11, Canvas::INCHES});
+    stdSizes.insert("Executive", {7.25, 10.55, Canvas::INCHES});
+
+    return stdSizes;
+}
+void NewDialog::switchPreset(int index)
+{
+    ui->sizeCombo->clear();
+    ui->sizeCombo->setDisabled(false);
+
     switch (index) {
-    case DocType::INTERNATIONAL:
-        ui->presetCombo->setDisabled(false);
-        currPreset = getInternationalList();
-        ui->presetCombo->addItems(QStringList(currPreset.keys()));
+    case Preset::INTERNATIONAL:
+        _currSize = getInternationalList();
+        ui->sizeCombo->addItems(QStringList(_currSize.keys()));
+        break;
+    case Preset::US_PAPER:
+        _currSize = getUSPaperList();
+        ui->sizeCombo->addItems(QStringList(_currSize.keys()));
         break;
     default:
-        ui->presetCombo->clear();
-        ui->presetCombo->setDisabled(true);
+        ui->sizeCombo->setDisabled(true);
         displaySizeContents(NewDialog::Default);
         break;
     }
 }
 
-void NewDialog::displayPreset(QString presetKey)
+void NewDialog::displaySize(QString presetKey)
 {
-    PageSize size = currPreset.value(presetKey);
+    PageSize size = _currSize.value(presetKey);
     displaySizeContents(size);
 }
 
