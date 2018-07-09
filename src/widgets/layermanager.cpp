@@ -20,17 +20,12 @@ bool LayerManager::eventFilter(QObject *obj, QEvent *event)
     if(event->type() == QEvent::ChildRemoved){
 
         int n = count();
-        QList<Layer> layerItems;
+        QList<Layer*> layerItems;
 
         for(int i=0;i<n;i++){
             QListWidgetItem *w = item(i);
-            QList<Layer>::iterator itr = _curItems.begin();
-            for(;itr!= _curItems.end();++itr){
-                if(w == itr->getListItem()){
-                    layerItems.push_front(*itr);
-                    break;
-                }
-            }
+            Layer *l = dynamic_cast<Layer*>(w);
+            layerItems.push_front(l);
         }
 
         _curItems = layerItems;
@@ -42,7 +37,7 @@ bool LayerManager::eventFilter(QObject *obj, QEvent *event)
     return QListWidget::eventFilter(obj,event);
 }
 
-void LayerManager::updateItems(QList<Layer> items)
+void LayerManager::updateItems(QList<Layer*> items)
 {
     int max = count();
     for(int i=max-1;i>=0;i--){
@@ -50,8 +45,8 @@ void LayerManager::updateItems(QList<Layer> items)
     }
 
     _curItems = items;
-    QList<Layer>::reverse_iterator itr = _curItems.rbegin();
+    QList<Layer*>::reverse_iterator itr = _curItems.rbegin();
     for(int i=0;itr != _curItems.rend();++itr,i++){
-        insertItem(i,itr->getListItem());
+        insertItem(i,*itr);
     }
 }

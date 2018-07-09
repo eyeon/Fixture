@@ -29,24 +29,26 @@ SOURCES +=  \
     src/main.cpp \
     src/mainwindow.cpp \
     src/widgets/layermanager.cpp \
-    src/items/drawing.cpp \
-    src/items/layer.cpp \
     src/model/canvas.cpp \
     src/tools/tool.cpp \
     src/tools/selecttool.cpp \
-    src/tools/pantool.cpp
+    src/tools/pantool.cpp \
+    src/layers/rasterlayer.cpp \
+    src/layers/layer.cpp \
+    src/model/drawing.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
     src/widgets/paintwidget.h \
     src/mainwindow.h \
     src/widgets/layermanager.h \
-    src/items/drawing.h \
-    src/items/layer.h \
     src/model/canvas.h \
     src/tools/tool.h \
     src/tools/selecttool.h \
-    src/tools/pantool.h
+    src/tools/pantool.h \
+    src/layers/rasterlayer.h \
+    src/layers/layer.h \
+    src/model/drawing.h
 
 FORMS += \
     src/mainwindow.ui \

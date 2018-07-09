@@ -12,7 +12,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
 
-#include "layer.h"
+#include "../layers/rasterlayer.h"
 
 class Drawing : public QGraphicsScene
 {
@@ -23,7 +23,7 @@ public:
     ~Drawing();
 
     void initialize(const QImage &image);
-    void updateImageCanvas(QList<Layer>items);
+    void updateImageCanvas(QList<Layer*>items);
 
     QGraphicsPixmapItem *_canvas;
 private:

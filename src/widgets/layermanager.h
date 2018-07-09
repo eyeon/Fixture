@@ -5,7 +5,7 @@
 #include <QEvent>
 #include <QFile>
 
-#include "../items/layer.h"
+#include "../layers/rasterlayer.h"
 
 class LayerManager : public QListWidget
 {
@@ -14,8 +14,8 @@ public:
     LayerManager(QWidget *parent=0);
     ~LayerManager();
 
-    void updateItems(QList<Layer> items);
-    inline QList<Layer> getitems() { return _curItems; }
+    void updateItems(QList<Layer*> items);
+    inline QList<Layer*> getitems() { return _curItems; }
 
 signals:
     void itemschanged();
@@ -24,7 +24,7 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 private:
-    QList<Layer> _curItems;
+    QList<Layer*> _curItems;
 };
 
 #endif // LAYERMANAGER_H
