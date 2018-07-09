@@ -3,11 +3,11 @@
 
 #include "tool.h"
 
-class SelectTool : public Tool
+class Transform : public Tool
 {
 public:
-    SelectTool(QWidget *parent=0);
-    ~SelectTool();
+    Transform(QWidget *parent=0);
+    ~Transform();
 };
 
 #endif // SELECTTOOL_H

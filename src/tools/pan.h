@@ -3,11 +3,11 @@
 
 #include "tool.h"
 
-class PanTool : public Tool
+class Pan : public Tool
 {
 public:
-    PanTool(QWidget *parent=0);
-    ~PanTool();
+    Pan(QWidget *parent=0);
+    ~Pan();
 };
 
 #endif // PANTOOL_H

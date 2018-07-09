@@ -7,8 +7,8 @@ class Tool : public QAction
 {
 public:
     enum ToolType{
-        SelectTool,
-        PanTool
+        Transform,
+        Pan
     };
 
     Tool(QIcon ico,const QString &name,QCursor cur,ToolType type,QWidget* parent = 0);

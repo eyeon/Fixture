@@ -21,8 +21,8 @@
 #include "../widgets/paintwidget.h"
 #include "../model/canvas.h"
 #include "../items/layer.h"
-#include "../tools/selecttool.h"
-#include "../tools/pantool.h"
+#include "../tools/transform.h"
+#include "../tools/pan.h"
 
 class PaintWidget : public QGraphicsView
 {

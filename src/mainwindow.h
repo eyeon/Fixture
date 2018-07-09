@@ -11,8 +11,8 @@
 
 #include "dialogs/newdialog.h"
 #include "widgets/paintwidget.h"
-#include "tools/pantool.h"
-#include "tools/selecttool.h"
+#include "tools/pan.h"
+#include "tools/transform.h"
 
 namespace Ui {
 class MainWindow;
@@ -45,8 +45,8 @@ private:
     QActionGroup *_toolsGroup;
     QList<QAction*> _toolsList;
     PaintWidget *_currentPaintWidget;
-    SelectTool *_select;
-    PanTool *_pan;
+    Transform *_select;
+    Pan *_pan;
     Tool::ToolType _currentTool;
 
     const QString chooseFile();

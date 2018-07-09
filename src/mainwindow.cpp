@@ -27,11 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _toolsGroup = new QActionGroup(ui->mainToolBar);
 
-    _select = new SelectTool();
+    _select = new Transform();
     _toolsGroup->addAction(_select);
     _toolsList.push_back(_select);
 
-    _pan = new PanTool();
+    _pan = new Pan();
     _toolsGroup->addAction(_pan);
     _toolsList.push_back(_pan);
 
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainToolBar->addActions(_toolsList);
 
     _select->toggle();
-    _currentTool = Tool::SelectTool;
+    _currentTool = Tool::Transform;
 }
 
 MainWindow::~MainWindow()
@@ -180,8 +180,8 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::rememberLastPath(const QString &fileName)
 {
- QFileInfo info(fileName);
- _lastFileLoc = info.absolutePath();
+    QFileInfo info(fileName);
+    _lastFileLoc = info.absolutePath();
 }
 
 const QString MainWindow::chooseFile()
@@ -226,5 +226,3 @@ void MainWindow::on_actionImport_triggered()
     paintWidget->addNewLayer(fileName);
     ui->layerView->updateItems(paintWidget->getItems());
 }
-
-

@@ -33,8 +33,8 @@ SOURCES +=  \
     src/items/layer.cpp \
     src/model/canvas.cpp \
     src/tools/tool.cpp \
-    src/tools/selecttool.cpp \
-    src/tools/pantool.cpp
+    src/tools/transform.cpp \
+    src/tools/pan.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
@@ -45,8 +45,8 @@ HEADERS += \
     src/items/layer.h \
     src/model/canvas.h \
     src/tools/tool.h \
-    src/tools/selecttool.h \
-    src/tools/pantool.h
+    src/tools/transform.h \
+    src/tools/pan.h
 
 FORMS += \
     src/mainwindow.ui \

@@ -144,18 +144,18 @@ void PaintWidget::toolChanged(QAction *action)
     Tool *activeTool = dynamic_cast<Tool*>(action);
     switch (activeTool->getToolType()){
 
-    case Tool::SelectTool:
-        _currentTool = Tool::SelectTool;
+    case Tool::Transform:
+        _currentTool = Tool::Transform;
         setCursor(activeTool->getToolCursor());
         break;
 
-    case Tool::PanTool:
-        _currentTool = Tool::PanTool;
+    case Tool::Pan:
+        _currentTool = Tool::Pan;
         setDragMode(QGraphicsView::ScrollHandDrag);
         break;
     }
 
-    if (activeTool->getToolType() != Tool::PanTool){
+    if (activeTool->getToolType() != Tool::Pan){
         setDragMode(QGraphicsView::NoDrag);
     }
 }
