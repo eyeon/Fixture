@@ -30,10 +30,7 @@ void NewDialog::initSignalSlots()
 
 void NewDialog::switchToCustomPreset(const QString &string)
 {
-    ui->presetCombo->blockSignals(true);
     ui->presetCombo->setCurrentIndex(Preset::CUSTOM);
-    ui->sizeCombo->setDisabled(true);
-    ui->presetCombo->blockSignals(false);
 }
 void NewDialog::initPresetCombo()
 {
@@ -106,25 +103,28 @@ QMap<QString, NewDialog::PageSize> NewDialog::getUSPaperList()
 }
 void NewDialog::switchPreset(int index)
 {
-    ui->sizeCombo->clear();
     ui->sizeCombo->setDisabled(false);
 
     switch (index) {
     case Preset::INTERNATIONAL:
+        ui->sizeCombo->clear();
         _currSize = getInternationalList();
         ui->sizeCombo->addItems(QStringList(_currSize.keys()));
         break;
     case Preset::US_PAPER:
+        ui->sizeCombo->clear();
         _currSize = getUSPaperList();
         ui->sizeCombo->addItems(QStringList(_currSize.keys()));
         break;
     case Preset::DEFAULT:
+        ui->sizeCombo->clear();
         ui->sizeCombo->setDisabled(true);
         displaySizeContents(NewDialog::Default);
         break;
     default:
         ui->sizeCombo->setDisabled(true);
-    }
+     }
+
 }
 
 void NewDialog::displaySize(QString presetKey)
