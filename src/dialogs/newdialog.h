@@ -71,8 +71,6 @@ private:
     QMap<Canvas::DimensionUnit, QString> getDimensionUnitList();
     QMap<Preset, QString> getPresetList();
 
-    QMap<QString, Canvas::DimensionUnit> *dimensions = new QMap<QString, Canvas::DimensionUnit>;
-    void initDimensionUnitList();
 };
 
 #endif // NEWDIALOG_H
