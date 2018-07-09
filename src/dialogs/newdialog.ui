@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>324</height>
+    <height>331</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,36 +41,10 @@
         <widget class="QLineEdit" name="docNameVal"/>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="docTypeCombo">
-         <item>
-          <property name="text">
-           <string>Fixture Default</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Letter</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>A3</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>A4</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Custom</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="presetCombo"/>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="docTypeLbl">
+        <widget class="QLabel" name="presetLbl">
          <property name="text">
           <string>Document type:</string>
          </property>
@@ -361,7 +335,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="sizeCombo">
           <property name="enabled">
            <bool>false</bool>
           </property>

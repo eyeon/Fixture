@@ -8,11 +8,11 @@ class Canvas
 public:
     enum DimensionUnit
     {
-        PIXELS, INCHES, CENTIMETERS
+        PIXELS, INCHES, CENTIMETERS, MILLIMETERS, POINTS, PICAS
     };
     enum ResolutionUnit
     {
-        PPI, DPI
+        PPI, PPC
     };
 
     Canvas(QString docName,
