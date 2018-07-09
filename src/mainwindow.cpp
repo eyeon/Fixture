@@ -74,7 +74,7 @@ void MainWindow::updateLayers()
 {
     QMdiSubWindow* window = ui->mdiArea->activeSubWindow();
     PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
-    QList<Layer> updatedLayers = ui->layerView->getitems();
+    QList<Layer*> updatedLayers = ui->layerView->getitems();
     wid->updateLayers(updatedLayers);
 }
 
@@ -137,20 +137,7 @@ void MainWindow::onSelectionChange()
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
 
     if(currentWindow != NULL){
-        PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
-        QList<Layer> items = paintWidget->getItems();
-        QList<QListWidgetItem*> selectedItems = ui->layerView->selectedItems();
-        QList<QListWidgetItem*>::iterator itrSelect = selectedItems.begin();
-        QList<Layer>::iterator itrPresent = items.begin();
-        QList<int> selected;
-        for(int i=0;itrSelect!= selectedItems.end();++itrSelect,i++){
-            for(;itrPresent != items.end();++itrPresent) {
-                if(*itrSelect == itrPresent->getListItem()){
-                    selected.push_back(i);
-                }
-            }
-        }
-        paintWidget->setSelectedLayers(selected);
+
     }
 }
 

@@ -135,7 +135,7 @@ void PaintWidget::setupCanvas(QImage image)
 void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
-    Layer l(name,image,0,0,image.width(),image.height());
+    RasterLayer* l = new RasterLayer(name,image,0,0,image.width(),image.height());
     _items.push_back(l);
 }
 

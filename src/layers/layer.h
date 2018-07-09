@@ -5,25 +5,23 @@
 #include <QImage>
 #include <QListWidgetItem>
 
-enum class LayerType{
-    RasterLayer,
-    VectorLayer,
-    TextLayer,
-    AdjustmentLayer
-};
-
-class Layer
+class Layer : public QListWidgetItem
 {
 public:
-    Layer(QString name, QImage &image,
+    enum LayerType{
+        RasterLayer,
+        VectorLayer,
+        TextLayer,
+        AdjustmentLayer
+    };
+
+    Layer(QString name,LayerType type,
           int x, int y,
           int height, int width);
 
     ~Layer();
 
-    inline QImage getImage() { return _image; }
     inline QString getName() { return _name; }
-    inline QListWidgetItem* getListItem() { return _item; }
     inline int getX() { return _x; }
     inline int getY() { return _y; }
     inline int getWidth() { return _width; }
@@ -34,12 +32,12 @@ public:
     void setScale(double factor);
     void setPos(int x, int y);
 
+    virtual QImage getBitmap() = 0;
+
 private:
     QString _name;
-    QImage _image;
-    int _x,_y,_width,_height;
     LayerType _type;
-    QListWidgetItem *_item;
+    int _x,_y,_width,_height;
 };
 
 #endif // LAYER_H

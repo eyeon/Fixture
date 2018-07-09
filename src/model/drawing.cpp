@@ -15,7 +15,7 @@ Drawing::~Drawing()
 {
 }
 
-void Drawing::updateImageCanvas(QList<Layer> items)
+void Drawing::updateImageCanvas(QList<Layer *> items)
 {
     QImage surface = QImage(_width,_height, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&surface);
@@ -27,11 +27,12 @@ void Drawing::updateImageCanvas(QList<Layer> items)
     painter.fillRect(surface.rect(), brush);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    QList<Layer>::iterator itr = items.begin();
+    QList<Layer*>::iterator itr = items.begin();
     for(;itr != items.end();++itr){
-        QImage img = itr->getImage();
-        img.scaled(itr->getWidth(),itr->getHeight());
-        painter.drawImage(itr->getX(), itr->getY(), img);
+        RasterLayer *l = dynamic_cast<RasterLayer*>(*itr);
+        QImage img = l->getBitmap();
+        img.scaled(l->getWidth(),l->getHeight());
+        painter.drawImage(l->getX(), l->getY(), img);
     }
 
     painter.end();

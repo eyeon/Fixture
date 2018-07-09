@@ -17,12 +17,12 @@
 #include <iostream>
 #include <cmath>
 
-#include "../items/drawing.h"
+#include "../model/drawing.h"
 #include "../widgets/paintwidget.h"
 #include "../model/canvas.h"
-#include "../items/layer.h"
 #include "../tools/transform.h"
 #include "../tools/pan.h"
+#include "../layers/rasterlayer.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -33,9 +33,9 @@ public:
     
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
-    inline QList<Layer> getItems() const { return _items; }
+    inline QList<Layer*> getItems() const { return _items; }
     // This has to be extended to accomodate new documents
-    inline void updateLayers(QList<Layer> items){ d->updateImageCanvas(items); }
+    inline void updateLayers(QList<Layer*> items){ d->updateImageCanvas(items); }
     inline void setSelectedLayers(QList<int> layers){ _selectedLayers = layers; }
     static bool isFileValid(const QString& fileName);
     void toolChanged(QAction *action);
@@ -49,7 +49,7 @@ protected:
 private:
     Drawing *d;
     QString _imagePath;
-    QList<Layer> _items;
+    QList<Layer*> _items;
     Tool::ToolType _currentTool;
     QList<int> _selectedLayers;
 
