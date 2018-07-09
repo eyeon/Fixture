@@ -125,6 +125,7 @@ void PaintWidget::setupCanvas(QImage image)
     d = new Drawing(this, image);
 
     setScene(d);
+    fitInView(d->sceneRect(), Qt::KeepAspectRatio);
 }
 /**
  * @brief PaintWidget::updateLayers
