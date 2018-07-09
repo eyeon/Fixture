@@ -154,11 +154,9 @@ void NewDialog::on_actionOk_clicked()
         ui->widthTxt->setFocus();
         int width = getPixelValue(ui->widthTxt);
 
-        qDebug() << height << width;
         QString docName = ui->docNameVal->text();
 
         Canvas *canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
-
         emit canvasAvailable(canvas);
         this->close();
 
