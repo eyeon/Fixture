@@ -7,10 +7,10 @@ NewDialog::NewDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->actionBtnsContainer->setAlignment(Qt::AlignTop);
-
     initPresetCombo();
     initDimensionCombos();
     initSignalSlots();
+
 }
 
 NewDialog::~NewDialog()
@@ -148,6 +148,9 @@ void NewDialog::on_actionOk_clicked()
         _dimensionUnit = (Canvas::DimensionUnit) ui->widthUnitCombo->currentIndex();
         _resolution = (int) getDoubleValue(ui->resTxt);
 
+        _dimensionUnit = dimensions->value(ui->widthUnitCombo->currentText());
+        _resolution = (int) getDoubleValue(ui->resTxt);
+
         ui->heightTxt->setFocus();
         int height = getPixelValue(ui->heightTxt);
 
@@ -158,7 +161,6 @@ void NewDialog::on_actionOk_clicked()
         QString docName = ui->docNameVal->text();
 
         Canvas *canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
-
         emit canvasAvailable(canvas);
         this->close();
 
@@ -219,6 +221,7 @@ void NewDialog::on_heightTxt_editingFinished()
 {
     try {       
         checkDimensionValidity(getDoubleValue(ui->heightTxt));
+
     }
     catch (const QString msg) {        
         ui->heightTxt->setFocus();
@@ -227,7 +230,11 @@ void NewDialog::on_heightTxt_editingFinished()
 }
 // This part needs to be heavily improved.
 void NewDialog::checkDimensionValidity(double fieldVal)
+
 {
+    QString fieldStr = field->text();
+    int fieldVal = fieldStr.toDouble();
+
     if (fieldVal < 1) {
         QString error = "Cannot set dimension value less than 1";
         throw error;
