@@ -6,12 +6,11 @@
 class Canvas
 {
 public:
-    enum DimensionUnit
-    {
+    enum DimensionUnit{
         PIXELS, INCHES, CENTIMETERS, MILLIMETERS, POINTS, PICAS
     };
-    enum ResolutionUnit
-    {
+
+    enum ResolutionUnit{
         PPI, PPC
     };
 

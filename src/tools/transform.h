@@ -12,12 +12,6 @@ public:
     void move(QMouseEvent *event);
     void press(QMouseEvent *event);
     void release(QMouseEvent *event);
-
-private:
-    int _curMousex, _curMousey,_prevMousex,_prevMousey;
-    int _mouseButton;
-
-    void setLayerPos(int dx, int dy);
 };
 
 #endif // SELECTTOOL_H

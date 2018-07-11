@@ -34,14 +34,14 @@ public:
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer*> getItems() const { return _items; }
-    // This has to be extended to accomodate new documents
-    inline void updateLayers(QList<Layer*> items){ d->updateImageCanvas(items); }
-    void setSelectedLayers(QList<Layer*> layers);
     void setTool(Tool *tool);
     static bool isFileValid(const QString& fileName);
 
+    Drawing *d;
+
 public slots:
     void addNewLayer(const QString &imagePath);
+    void setSelectedLayers();
 
 signals:
     void layersSelected(QList<Layer*> layers);
@@ -53,7 +53,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 private:
-    Drawing *d;
     QString _imagePath;
     QList<Layer*> _items;
     QList<Layer*> _selectedLayers;

@@ -11,7 +11,7 @@ class AbstractSelection : public virtual Tool
     Q_OBJECT
 
 public:
-    AbstractSelection(QWidget *parent=0);
+    AbstractSelection();
 
 public:
     inline void setLayers(QList<Layer*> &selectedLayers) { _layers = &selectedLayers; }

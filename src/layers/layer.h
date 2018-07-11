@@ -4,6 +4,7 @@
 #include <QString>
 #include <QImage>
 #include <QListWidgetItem>
+#include <QGraphicsItem>
 
 class Layer : public QListWidgetItem
 {
@@ -36,6 +37,9 @@ public:
     /*virtual void changeBrightness(double delta) = 0;
     virtual void changeSaturation(double delta) = 0;
     virtual void changeContrast(double delta) = 0;*/
+
+    virtual void setSelected(bool select) = 0;
+    virtual void setZvalue(int z) = 0;
 
 private:
     QString _name;
