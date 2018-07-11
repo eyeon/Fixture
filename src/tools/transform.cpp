@@ -6,6 +6,7 @@ Transform::Transform(QWidget* parent):
          Tool::SELECTION,parent)
 {
     setShortcut(Qt::Key_V);
+    _mouseButton = -1;
 }
 
 Transform::~Transform()
@@ -19,7 +20,7 @@ void Transform::press(QMouseEvent *event)
     _prevMousex = event->x();
     _prevMousey = event->y();
 
-    _leftClick = event->button() == Qt::LeftButton;
+    _mouseButton = Qt::LeftButton;
     _firstMove = true;
 }
 
@@ -33,7 +34,9 @@ void Transform::move(QMouseEvent *event)
     _curMousex = event->x();
     _curMousey = event->y();
 
-    if(_leftClick){
+    switch(_mouseButton){
+
+    case Qt::LeftButton: {
         QList<Layer*>::iterator itr = _layers->begin();
 
         int diffx = _curMousex - _prevMousex;
@@ -52,8 +55,12 @@ void Transform::move(QMouseEvent *event)
             //Check if the mouse is over any of the selected layers
             //if not then don't do anything.
         }
+
         _firstMove = false;
         _prevMousex = _curMousex;
         _prevMousey = _curMousey;
+        break;
+    }
+
     }
 }
