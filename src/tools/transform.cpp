@@ -21,12 +21,10 @@ void Transform::press(QMouseEvent *event)
     _prevMousey = event->y();
 
     _mouseButton = event->button();
-    _firstMove = true;
 }
 
 void Transform::release(QMouseEvent *event)
 {
-    _firstMove = false;
 }
 
 void Transform::move(QMouseEvent *event)
@@ -41,15 +39,8 @@ void Transform::move(QMouseEvent *event)
         int dx = _curMousex - _prevMousex;
         int dy = _curMousey - _prevMousey;
 
-        if(!_firstMove){
-            setLayerPos(dx,dy);
-        }
-        else{
-            //Check if the mouse is over any of the selected layers
-            //if not then don't do anything.
-        }
+        setLayerPos(dx,dy);
 
-        _firstMove = false;
         _prevMousex = _curMousex;
         _prevMousey = _curMousey;
         break;
