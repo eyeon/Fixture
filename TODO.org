@@ -1,3 +1,0 @@
-* TODO
-
-- PaintWidget doesn't depend on _currentTool
