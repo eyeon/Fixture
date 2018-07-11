@@ -20,7 +20,7 @@ void Transform::press(QMouseEvent *event)
     _prevMousex = event->x();
     _prevMousey = event->y();
 
-    _mouseButton = Qt::LeftButton;
+    _mouseButton = event->button();
     _firstMove = true;
 }
 
@@ -37,19 +37,12 @@ void Transform::move(QMouseEvent *event)
     switch(_mouseButton){
 
     case Qt::LeftButton: {
-        QList<Layer*>::iterator itr = _layers->begin();
 
-        int diffx = _curMousex - _prevMousex;
-        int diffy = _curMousey - _prevMousey;
+        int dx = _curMousex - _prevMousex;
+        int dy = _curMousey - _prevMousey;
 
         if(!_firstMove){
-            for(;itr!= _layers->end();++itr){
-
-                Layer* temp = *itr;
-                int x = temp->getX() + diffx;
-                int y = temp->getY() + diffy;
-                temp->setPos(x,y);
-            }
+            setLayerPos(dx,dy);
         }
         else{
             //Check if the mouse is over any of the selected layers
@@ -62,5 +55,17 @@ void Transform::move(QMouseEvent *event)
         break;
     }
 
+    }
+}
+
+void Transform::setLayerPos(int dx, int dy)
+{
+    QList<Layer*>::iterator itr = _layers->begin();
+
+    for(;itr!= _layers->end();++itr){
+        Layer* temp = *itr;
+        int x = temp->getX() + dx;
+        int y = temp->getY() + dy;
+        temp->setPos(x,y);
     }
 }
