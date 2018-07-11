@@ -18,6 +18,7 @@ private:
     bool _firstMove;
     int _mouseButton;
 
+    void setLayerPos(int dx, int dy);
 };
 
 #endif // SELECTTOOL_H
