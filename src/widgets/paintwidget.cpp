@@ -16,10 +16,13 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
     setupCanvas(image);
     pushLayer(image, "Background");
 
-    d->updateImageCanvas(_items);
-
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(addNewLayer(QString)));
+
+    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
+
+    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
+    
 }
 
 /**
@@ -42,7 +45,6 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
     setupCanvas(image);
 
     pushLayer(image, "Background");
-    d->updateImageCanvas(_items);
 
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(addNewLayer(QString)));
@@ -59,7 +61,6 @@ void PaintWidget::addNewLayer(const QString &imagePath)
         QImage image = getImageFromPath(imagePath);
         QFileInfo info(imagePath);
         pushLayer(image, info.fileName());
-        d->updateImageCanvas(_items);
      }
 }
 
@@ -142,6 +143,9 @@ void PaintWidget::pushLayer(QImage image, const QString& name)
     // Needs smarter naming based on positions on the stack
     RasterLayer* l = new RasterLayer(name,image,0,0,image.width(),image.height());
     _items.push_back(l);
+    d->clearSelection();
+    l->setSelected(true);
+    d->addItem(l);
 }
 
 /**
@@ -163,10 +167,16 @@ void PaintWidget::wheelEvent(QWheelEvent *event)
     verticalScrollBar()->setValue(move.y() + verticalScrollBar()->value());
 }
 
-void PaintWidget::setSelectedLayers(QList<Layer *> layers)
+void PaintWidget::setSelectedLayers()
 {
-    _selectedLayers = layers;
-    emit layersSelected(_selectedLayers);
+    QList<QGraphicsItem*> selectedItems = d->selectedItems();
+
+    QList<QGraphicsItem*>::iterator itr = selectedItems.begin();
+
+    for(;itr != selectedItems.end();++itr){
+        Layer *l = dynamic_cast<Layer*>(*itr);
+        l->setSelected(true);
+    }
 }
 /**
  * @brief PaintWidget::setTool Sets up the tool and passes on layers/selection areas if necessary
@@ -207,7 +217,5 @@ void PaintWidget::mouseReleaseEvent(QMouseEvent *event)
 void PaintWidget::mouseMoveEvent(QMouseEvent *event)
 {
     _currentTool->move(event);
-
-    d->updateImageCanvas(_items);
     QGraphicsView::mouseMoveEvent(event);
 }

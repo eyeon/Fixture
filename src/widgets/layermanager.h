@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QPainter>
 
-#include "../layers/rasterlayer.h"
+#include "../layers/layer.h"
 
 class LayerManager : public QListWidget
 {

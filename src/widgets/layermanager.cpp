@@ -21,17 +21,12 @@ bool LayerManager::eventFilter(QObject *obj, QEvent *event)
     if(event->type() == QEvent::ChildRemoved){
 
         int n = count();
-        QList<Layer*> layerItems;
 
         for(int i=0;i<n;i++){
             QListWidgetItem *w = item(i);
             Layer *l = dynamic_cast<Layer*>(w);
-            layerItems.push_front(l);
+            l->setZvalue(n-i);
         }
-
-        _curItems = layerItems;
-
-        emit itemschanged();
         return true;
     }
 

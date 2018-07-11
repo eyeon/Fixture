@@ -23,12 +23,9 @@ public:
     ~Drawing();
 
     void initialize(const QImage &image);
-    void updateImageCanvas(QList<Layer*>items);
 
-    QGraphicsPixmapItem *_canvas;
 private:
     int _height,_width;
-    QImage _image;
 
     void dragEnterEvent(QGraphicsSceneDragDropEvent *e);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *e);

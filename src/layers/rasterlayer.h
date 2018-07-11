@@ -1,9 +1,11 @@
 #ifndef RASTERLAYER_H
 #define RASTERLAYER_H
 
+#include <QGraphicsPixmapItem>
+
 #include "layer.h"
 
-class RasterLayer : public Layer
+class RasterLayer : public Layer, public QGraphicsPixmapItem
 {
 public:
     RasterLayer(QString name,QImage image,
@@ -11,7 +13,8 @@ public:
                 int height, int width);
     ~RasterLayer();
 
-    inline QImage getBitmap() { return _image; }
+    void setSelected(bool select);
+    void setZvalue(int z);
 
 private:
     QImage _image;

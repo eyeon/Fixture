@@ -88,7 +88,6 @@ void MainWindow::updateLayers()
     QMdiSubWindow* window = ui->mdiArea->activeSubWindow();
     PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
     QList<Layer*> updatedLayers = ui->layerView->getitems();
-    wid->updateLayers(updatedLayers);
 }
 
 void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
@@ -161,15 +160,12 @@ void MainWindow::onSelectionChange()
     if(currentWindow != NULL){
         QList<QListWidgetItem*> widgetItems = ui->layerView->selectedItems();
         PaintWidget* wid = qobject_cast<PaintWidget*>(currentWindow->widget());
-        QList<Layer*> layerItems;
         QList<QListWidgetItem*>::iterator itr = widgetItems.begin();
-
+        wid->d->clearSelection();
         for(;itr != widgetItems.end();++itr){
             Layer *l = dynamic_cast<Layer*>(*itr);
-            layerItems.push_back(l);
+            l->setSelected(true);
         }
-
-        wid->setSelectedLayers(layerItems);
     }
 }
 
