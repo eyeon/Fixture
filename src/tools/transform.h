@@ -15,7 +15,6 @@ public:
 
 private:
     int _curMousex, _curMousey,_prevMousex,_prevMousey;
-    bool _firstMove;
     int _mouseButton;
 
     void setLayerPos(int dx, int dy);
