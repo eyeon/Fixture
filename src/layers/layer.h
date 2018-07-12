@@ -46,12 +46,14 @@ public:
     virtual void setLayerSelected(bool select) = 0;
     virtual void setZvalue(int z) = 0;
 
+protected:
+    bool _drawBounds, _transformMode;
+
 private:
     QString _name;
     LayerType _type;
     int _x,_y,_width,_height;
     double _brightness,_contrast,_saturation;
-    bool _drawBounds, _transformMode;
 };
 
 #endif // LAYER_H
