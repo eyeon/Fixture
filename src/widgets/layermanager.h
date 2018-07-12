@@ -16,7 +16,7 @@ public:
     ~LayerManager();
 
     void updateItems(QList<Layer*> items);
-    inline QList<Layer*> getitems() { return _curItems; }
+    QList<QListWidgetItem*> getitems();
 
 signals:
     void itemschanged();

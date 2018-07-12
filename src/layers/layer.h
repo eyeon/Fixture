@@ -31,8 +31,6 @@ public:
 
     inline void setWidth(int width) {  _width = width; }
     inline void setHeight(int height) { _height = height; }
-    inline void toggleLock(){ _locked = !_locked; }
-    inline bool isLocked() { return _locked; }
     void setScale(double factor);
     void setPos(int x, int y);
 
@@ -40,7 +38,8 @@ public:
     virtual void changeSaturation(double delta) = 0;
     virtual void changeContrast(double delta) = 0;*/
 
-    virtual void setSelected(bool select) = 0;
+    virtual void setSceneSelected(bool select) = 0;
+    virtual void setLayerSelected(bool select) = 0;
     virtual void setZvalue(int z) = 0;
 
 private:
@@ -48,7 +47,6 @@ private:
     LayerType _type;
     int _x,_y,_width,_height;
     double _brightness,_contrast,_saturation;
-    bool _locked;
 };
 
 #endif // LAYER_H

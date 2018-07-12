@@ -46,3 +46,16 @@ void LayerManager::updateItems(QList<Layer*> items)
         insertItem(i,*itr);
     }
 }
+
+QList<QListWidgetItem*> LayerManager::getitems()
+{
+    QList<QListWidgetItem*> l;
+
+    int n = count();
+
+    for(int i=0;i<n;i++){
+        l.push_back(item(i));
+    }
+
+    return l;
+}
