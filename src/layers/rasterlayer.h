@@ -2,6 +2,7 @@
 #define RASTERLAYER_H
 
 #include <QGraphicsPixmapItem>
+#include <QPainter>
 
 #include "layer.h"
 

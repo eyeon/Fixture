@@ -22,8 +22,6 @@ public:
     Drawing(QWidget *widget,QImage &image);
     ~Drawing();
 
-    void initialize(const QImage &image);
-
 private:
     int _height,_width;
 

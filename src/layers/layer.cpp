@@ -10,7 +10,7 @@
 Layer::Layer(QString name, LayerType type,
              int x, int y, int height, int width):
     _name(name),_type(type),
-    _x(x), _y(y),_width(width), _height(height)
+    _x(x), _y(y),_width(width), _height(height),_locked(false)
 {
     _brightness = 1;
     _contrast = 1;

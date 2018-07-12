@@ -21,7 +21,6 @@ Drawing::~Drawing()
 {
 }
 
-
 void Drawing::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     if (e->mimeData()->hasUrls()) {

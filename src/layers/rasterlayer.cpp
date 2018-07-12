@@ -8,6 +8,7 @@ RasterLayer::RasterLayer(QString name, QImage image,
     setIcon(ico);
     setPixmap(QPixmap::fromImage(image));
     QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
+
 }
 
 RasterLayer::~RasterLayer()
