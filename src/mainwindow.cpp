@@ -35,8 +35,6 @@ void MainWindow::initSignalsAndSlots()
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                      this, SLOT(updateWindow(QMdiSubWindow*)));
 
-    connect(ui->layerView,SIGNAL(itemschanged()),this,SLOT(updateLayers()));
-
     connect(ui->mainToolBar,SIGNAL(actionTriggered(QAction*)),
             this,SLOT(changeTool(QAction*)));
 
@@ -81,12 +79,6 @@ void MainWindow::dropEvent(QDropEvent *e)
             addPaintWidget(new PaintWidget(fileName, _currentTool));
         }
     }
-}
-
-void MainWindow::updateLayers()
-{
-    QMdiSubWindow* window = ui->mdiArea->activeSubWindow();
-    PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
 }
 
 void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)

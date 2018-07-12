@@ -3,6 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPainter>
+#include <QGraphicsScene>
 
 #include "layer.h"
 
@@ -17,6 +18,10 @@ public:
     void setSceneSelected(bool select);
     void setLayerSelected(bool select);
     void setZvalue(int z);
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     QImage _image;
