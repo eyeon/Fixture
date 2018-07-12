@@ -1,5 +1,5 @@
 #include "paintwidget.h"
-
+#include <QDebug>
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on image path
@@ -21,7 +21,8 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 
     connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
 
-    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
+    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
+                   | QPainter::SmoothPixmapTransform);
     
 }
 
@@ -170,12 +171,17 @@ void PaintWidget::wheelEvent(QWheelEvent *event)
 void PaintWidget::setSelectedLayers()
 {
     QList<QGraphicsItem*> selectedItems = d->selectedItems();
+    QList<QGraphicsItem*> allItems = items();
+    QList<QGraphicsItem*>::iterator itr = allItems.begin();
 
-    QList<QGraphicsItem*>::iterator itr = selectedItems.begin();
-
-    for(;itr != selectedItems.end();++itr){
+    for(;itr != allItems.end();++itr){
         Layer *l = dynamic_cast<Layer*>(*itr);
-        l->setSelected(true);
+        if(!selectedItems.empty() && selectedItems.contains(*itr)) {
+            l->setSelected(true);
+        }else if ( (*itr)->flags() == QGraphicsItem::ItemIsSelectable ) {
+            l->setSelected(false);
+            qDebug() << "noo";
+        }
     }
 }
 /**
@@ -218,4 +224,9 @@ void PaintWidget::mouseMoveEvent(QMouseEvent *event)
 {
     _currentTool->move(event);
     QGraphicsView::mouseMoveEvent(event);
+}
+
+void PaintWidget::paintEvent(QPaintEvent *event)
+{
+    QGraphicsView::paintEvent(event);
 }
