@@ -142,11 +142,10 @@ void PaintWidget::setupCanvas(QImage image)
 void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
-    RasterLayer* l = new RasterLayer(name,image,0,0,image.width(),image.height());
+    RasterLayer* l = new RasterLayer(name,image,0,0,image.width(),image.height(),d->parentItem);
     _items.push_back(l);
     d->clearSelection();
     l->setLayerSelected(true);
-    d->addItem(l);
 }
 
 /**
@@ -171,7 +170,7 @@ void PaintWidget::wheelEvent(QWheelEvent *event)
 void PaintWidget::setSelectedLayers()
 {
     QList<QGraphicsItem*> selectedItems = d->selectedItems();
-    QList<QGraphicsItem*> allItems = items();
+    QList<QGraphicsItem*> allItems = d->parentItem->childItems();
     QList<QGraphicsItem*>::iterator itr = allItems.begin();
 
     for(;itr != allItems.end();++itr){

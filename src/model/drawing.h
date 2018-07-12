@@ -22,6 +22,8 @@ public:
     Drawing(QWidget *widget,QImage &image);
     ~Drawing();
 
+    QGraphicsItem *parentItem;
+
 private:
     int _height,_width;
 

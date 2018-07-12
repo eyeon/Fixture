@@ -2,7 +2,8 @@
 #include <QDebug>
 
 RasterLayer::RasterLayer(QString name, QImage image,
-                         int x, int y, int height, int width):
+                         int x, int y, int height, int width,
+                         QGraphicsItem *parentItem):
     Layer(name,Layer::RasterLayer,x,y,height,width), _image(image)
 {
     QIcon ico(QPixmap::fromImage(image));
@@ -13,6 +14,7 @@ RasterLayer::RasterLayer(QString name, QImage image,
                                   QGraphicsItem::ItemSendsGeometryChanges);
     _drawBounds = false;
     _transformMode = false;
+    setParentItem(parentItem);
 
 }
 
