@@ -21,11 +21,11 @@ class Drawing : public QGraphicsScene
 public:
     Drawing(QWidget *widget,QImage &image);
     ~Drawing();
-
-    QGraphicsItem *parentItem;
+    inline QGraphicsItem* getParentItem(){ return _parentItem; }
 
 private:
     int _height,_width;
+    QGraphicsItem *_parentItem;
 
     void dragEnterEvent(QGraphicsSceneDragDropEvent *e);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *e);

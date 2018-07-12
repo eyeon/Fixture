@@ -14,8 +14,8 @@ Drawing::Drawing(QWidget *widget,QImage &image) :
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(surface.rect(), brush);
     painter.end();
-    parentItem = addPixmap(QPixmap::fromImage(surface));
-    parentItem->setFlag(QGraphicsItem::ItemClipsChildrenToShape);
+    _parentItem = addPixmap(QPixmap::fromImage(surface));
+    _parentItem->setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 }
 
 Drawing::~Drawing()
