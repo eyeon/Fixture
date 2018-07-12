@@ -30,21 +30,19 @@ class PaintWidget : public QGraphicsView
 public:
     PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent=0);
     PaintWidget(const Canvas *document, Tool *tool, QWidget *parent=0);
-    
+
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer*> getItems() const { return _items; }
     void setTool(Tool *tool);
     static bool isFileValid(const QString& fileName);
 
-    Drawing *d;
-
 public slots:
     void addNewLayer(const QString &imagePath);
     void setSelectedLayers();
 
 signals:
-    void layerSelectionCleared();
+    void layersSelected(QList<Layer*> layers);
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -53,9 +51,9 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 private:
+    Drawing *d;
     QString _imagePath;
     QList<Layer*> _items;
-    QList<Layer*> _selectedLayers;
 
     QImage getImageFromPath(const QString &imagePath);
     void setupCanvas(QImage image);
