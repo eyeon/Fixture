@@ -10,9 +10,9 @@
 class RasterLayer : public Layer, public QGraphicsPixmapItem
 {
 public:
-    RasterLayer(QString name,QImage image,
+    RasterLayer(QString name, QImage image,
                 int x, int y,
-                int height, int width);
+                int height, int width, QGraphicsItem *parentItem);
     ~RasterLayer();
 
     void setSceneSelected(bool select);

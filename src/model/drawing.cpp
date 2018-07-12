@@ -5,7 +5,7 @@ Drawing::Drawing(QWidget *widget,QImage &image) :
 {
     _width = image.width();
     _height = image.height();
-    /*
+
     QImage surface = QImage(_width,_height, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&surface);
     QBrush brush;
@@ -14,8 +14,8 @@ Drawing::Drawing(QWidget *widget,QImage &image) :
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(surface.rect(), brush);
     painter.end();
-    QGraphicsPixmapItem *itm = addPixmap(QPixmap::fromImage(surface));
-    itm->setFlag(QGraphicsItem::ItemIsSelectable);*/
+    parentItem = addPixmap(QPixmap::fromImage(surface));
+    parentItem->setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 }
 
 Drawing::~Drawing()
