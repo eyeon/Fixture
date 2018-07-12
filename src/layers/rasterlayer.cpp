@@ -16,9 +16,13 @@ RasterLayer::~RasterLayer()
 
 }
 
-void RasterLayer::setSelected(bool select)
+void RasterLayer::setSceneSelected(bool select)
 {
-    QGraphicsPixmapItem::setSelected(select);
+    QGraphicsItem::setSelected(select);
+}
+
+void RasterLayer::setLayerSelected(bool select)
+{
     QListWidgetItem::setSelected(select);
 }
 

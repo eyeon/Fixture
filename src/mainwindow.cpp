@@ -87,7 +87,6 @@ void MainWindow::updateLayers()
 {
     QMdiSubWindow* window = ui->mdiArea->activeSubWindow();
     PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
-    QList<Layer*> updatedLayers = ui->layerView->getitems();
 }
 
 void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
@@ -158,13 +157,17 @@ void MainWindow::onSelectionChange()
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
 
     if(currentWindow != NULL){
-        QList<QListWidgetItem*> widgetItems = ui->layerView->selectedItems();
-        PaintWidget* wid = qobject_cast<PaintWidget*>(currentWindow->widget());
+        QList<QListWidgetItem*> widgetSelectedItems = ui->layerView->selectedItems();
+        QList<QListWidgetItem*> widgetItems = ui->layerView->getitems();
         QList<QListWidgetItem*>::iterator itr = widgetItems.begin();
-        wid->d->clearSelection();
         for(;itr != widgetItems.end();++itr){
             Layer *l = dynamic_cast<Layer*>(*itr);
-            l->setSelected(true);
+
+            if(widgetSelectedItems.contains(*itr)){
+                l->setSceneSelected(true);
+            }else{
+                l->setSceneSelected(false);
+            }
         }
     }
 }

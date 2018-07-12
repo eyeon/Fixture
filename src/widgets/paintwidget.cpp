@@ -145,7 +145,7 @@ void PaintWidget::pushLayer(QImage image, const QString& name)
     RasterLayer* l = new RasterLayer(name,image,0,0,image.width(),image.height());
     _items.push_back(l);
     d->clearSelection();
-    l->setSelected(true);
+    l->setLayerSelected(true);
     d->addItem(l);
 }
 
@@ -176,11 +176,10 @@ void PaintWidget::setSelectedLayers()
 
     for(;itr != allItems.end();++itr){
         Layer *l = dynamic_cast<Layer*>(*itr);
-        if(!selectedItems.empty() && selectedItems.contains(*itr)) {
-            l->setSelected(true);
-        }else if ( (*itr)->flags() == QGraphicsItem::ItemIsSelectable ) {
-            l->setSelected(false);
-            qDebug() << "noo";
+        if(selectedItems.contains(*itr)) {
+            l->setLayerSelected(true);
+        }else{
+            l->setLayerSelected(false);
         }
     }
 }
@@ -197,7 +196,7 @@ void PaintWidget::setTool(Tool *tool)
     case Tool::SELECTION: {
         // Selection tools require layers
         AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
-        curTool->setLayers(_selectedLayers);
+        //curTool->setLayers(_selectedLayers);
         break;
     }
     default:
@@ -224,9 +223,4 @@ void PaintWidget::mouseMoveEvent(QMouseEvent *event)
 {
     _currentTool->move(event);
     QGraphicsView::mouseMoveEvent(event);
-}
-
-void PaintWidget::paintEvent(QPaintEvent *event)
-{
-    QGraphicsView::paintEvent(event);
 }

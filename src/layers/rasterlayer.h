@@ -14,7 +14,8 @@ public:
                 int height, int width);
     ~RasterLayer();
 
-    void setSelected(bool select);
+    void setSceneSelected(bool select);
+    void setLayerSelected(bool select);
     void setZvalue(int z);
 
 private:

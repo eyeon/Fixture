@@ -44,15 +44,13 @@ public slots:
     void setSelectedLayers();
 
 signals:
-    void layersSelected(QList<Layer*> layers);
+    void layerSelectionCleared();
 
 protected:
     void wheelEvent(QWheelEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-
-    void paintEvent(QPaintEvent *event);
 
 private:
     QString _imagePath;
