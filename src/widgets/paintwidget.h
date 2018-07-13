@@ -23,6 +23,7 @@
 #include "../tools/abstractselection.h"
 #include "../tools/tool.h"
 #include "../layers/rasterlayer.h"
+#include "../tools/transform.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -63,6 +64,7 @@ private:
 
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
+    int count;
 };
 
 #endif // PAINTWIDGET_H

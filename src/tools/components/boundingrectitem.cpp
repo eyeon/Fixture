@@ -1,15 +1,20 @@
 #include "boundingrectitem.h"
 
-BoundingRectItem::BoundingRectItem(QPointF max, QPointF min)
+BoundingRectItem::BoundingRectItem()
+{    
+    setFlag(QGraphicsItem::ItemIsMovable);
+    _transformMode = false;
+    _width = 0;
+    _height = 0;
+}
+
+void BoundingRectItem::setPoints(QPointF min, QPointF max)
 {
     _boundingRect.setTopLeft(min);
     _boundingRect.setBottomRight(max);
 
     _width = max.x() - min.x();
     _height = max.y() - min.y();
-
-    setFlag(QGraphicsItem::ItemIsMovable);
-    _transformMode = false;
 }
 
 void BoundingRectItem::paint(QPainter *painter,
