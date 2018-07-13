@@ -30,6 +30,8 @@ private:
     QString _name;
     ToolType _type;
 
+    void drawRectItem();
+
 };
 
 #endif // TOOL_H

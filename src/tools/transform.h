@@ -2,7 +2,9 @@
 #define SELECTTOOL_H
 
 #include <QDebug>
+
 #include "abstractselection.h"
+#include "components/boundingrectitem.h"
 
 class Transform : public AbstractSelection
 {
@@ -12,6 +14,12 @@ public:
     void move(QMouseEvent *event);
     void press(QMouseEvent *event);
     void release(QMouseEvent *event);
+
+private:
+    void drawBoundingRect();
+
+    BoundingRectItem *_rect;
+    bool _transformMode, _drawBounds;
 };
 
 #endif // SELECTTOOL_H

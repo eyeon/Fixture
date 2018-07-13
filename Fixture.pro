@@ -37,7 +37,8 @@ SOURCES +=  \
     src/layers/layer.cpp \
     src/model/drawing.cpp \
     src/tools/abstractselection.cpp \
-    src/tools/abstractperception.cpp
+    src/tools/abstractperception.cpp \
+    src/tools/components/boundingrectitem.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
@@ -52,7 +53,8 @@ HEADERS += \
     src/layers/layer.h \
     src/model/drawing.h \
     src/tools/abstractselection.h \
-    src/tools/abstractperception.h
+    src/tools/abstractperception.h \
+    src/tools/components/boundingrectitem.h
 
 FORMS += \
     src/mainwindow.ui \

@@ -142,9 +142,11 @@ void PaintWidget::setupCanvas(QImage image)
 void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
-    RasterLayer* l = new RasterLayer(name,image,0,0,
-                                     image.width(),image.height(),
-                                     d->getParentItem());
+    RasterLayer* l = new RasterLayer(name,image,d->getParentItem());
+    if(name == "Background"){
+        l->setLocked(false);
+    }
+
     _items.push_back(l);
     d->clearSelection();
     l->setLayerSelected(true);
@@ -197,13 +199,14 @@ void PaintWidget::setTool(Tool *tool)
     case Tool::SELECTION: {
         // Selection tools require layers
         AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
-        //curTool->setLayers(_selectedLayers);
+        curTool->setScene(d);
         break;
     }
     default:
         break;
     }
 }
+
 /**
  * @brief PaintWidget::mousePressEvent Delegating to the current tool
  * @param event

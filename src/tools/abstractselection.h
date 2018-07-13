@@ -5,6 +5,7 @@
 #include "../layers/layer.h"
 
 #include <QMouseEvent>
+#include <QGraphicsScene>
 
 class AbstractSelection : public virtual Tool
 {
@@ -14,10 +15,10 @@ public:
     AbstractSelection();
 
 public:
-    inline void setLayers(QList<Layer*> &selectedLayers) { _layers = &selectedLayers; }
+    inline void setScene(QGraphicsScene* scene) { _scene = scene;}
 
 protected:
-    QList<Layer*> *_layers;
+    QGraphicsScene *_scene;
 
 };
 
