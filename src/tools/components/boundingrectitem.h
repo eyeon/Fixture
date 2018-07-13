@@ -2,11 +2,15 @@
 #define BOUNDINGRECTITEM_H
 
 #include <QGraphicsRectItem>
+#include <QPainter>
 
-class BoundingRectItem : QGraphicsRectItem
+class BoundingRectItem : public QGraphicsRectItem
 {
 public:
-    BoundingRectItem(QPointF max, QPointF min);
+    BoundingRectItem();
+
+    inline void transformMode(bool set){ _transformMode = set; }
+    void setPoints(QPointF min,QPointF max);
 
 protected:
     void paint(QPainter *painter,

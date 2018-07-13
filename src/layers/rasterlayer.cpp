@@ -10,8 +10,6 @@ RasterLayer::RasterLayer(QString name, QImage image,
     setPixmap(QPixmap::fromImage(image));
     QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
                                   QGraphicsItem::ItemIsSelectable);
-    _drawBounds = false;
-    _transformMode = false;
     setParentItem(parentItem);
 
 }

@@ -23,7 +23,9 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
-    
+
+    count = 0;
+
 }
 
 /**
@@ -176,7 +178,6 @@ void PaintWidget::setSelectedLayers()
     QList<QGraphicsItem*> selectedItems = d->selectedItems();
     QList<QGraphicsItem*> allItems = d->getParentItem()->childItems();
     QList<QGraphicsItem*>::iterator itr = allItems.begin();
-
     for(;itr != allItems.end();++itr){
         Layer *l = dynamic_cast<Layer*>(*itr);
         if(selectedItems.contains(*itr)) {
@@ -198,13 +199,14 @@ void PaintWidget::setTool(Tool *tool)
     switch (_currentTool->getToolType()) {
     case Tool::SELECTION: {
         // Selection tools require layers
-        AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
+        Transform *curTool = dynamic_cast<Transform*>(tool);
         curTool->setScene(d);
         break;
     }
     default:
         break;
     }
+    count++;
 }
 
 /**
