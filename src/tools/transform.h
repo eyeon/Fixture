@@ -15,14 +15,18 @@ public:
     void press(QMouseEvent *event);
     void release(QMouseEvent *event);
 
-    void drawBounds(bool draw);
     void setTransformMode(bool set);
+    void drawBounds(bool draw);
+
+private slots:
+    void updateBounds();
 
 private:
     void drawBoundingRect();
     void removeBoundingRect();
 
     BoundingRectItem *_rect;
+    bool _boundsDrawn;
 };
 
 #endif // SELECTTOOL_H

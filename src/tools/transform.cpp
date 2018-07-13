@@ -7,6 +7,7 @@ Transform::Transform(QWidget* parent):
 {
     setShortcut(Qt::Key_V);
     _rect = new BoundingRectItem();
+    _boundsDrawn = false;
 }
 
 Transform::~Transform()
@@ -24,6 +25,10 @@ void Transform::release(QMouseEvent *event)
 
 void Transform::move(QMouseEvent *event)
 {
+    if(_boundsDrawn){
+        drawBoundingRect();
+        _scene->update(_scene->sceneRect());
+    }
 }
 
 void Transform::drawBounds(bool draw)
@@ -33,6 +38,8 @@ void Transform::drawBounds(bool draw)
     }else{
         _rect->setVisible(false);
     }
+
+    _boundsDrawn = draw;
 }
 
 void Transform::setTransformMode(bool set)
@@ -47,10 +54,11 @@ void Transform::drawBoundingRect()
     QPointF max(INT_MIN,INT_MIN),min(INT_MAX,INT_MAX);
 
     for(;itr != selected.end();++itr){
-        qDebug() << "ping";
         QGraphicsItem* temp = *itr;
         QPointF itmTopLeft = temp->boundingRect().topLeft();
         QPointF itmBottomRight = temp->boundingRect().bottomRight();
+        itmTopLeft = temp->mapToScene(itmTopLeft);
+        itmBottomRight = temp->mapToScene(itmBottomRight);
         if(itmTopLeft.x() < min.x()){
             min.setX(itmTopLeft.x());
         }
@@ -60,13 +68,12 @@ void Transform::drawBoundingRect()
         }
 
         if(itmBottomRight.x() > max.x()){
-            max.setY(itmBottomRight.x());
+            max.setX(itmBottomRight.x());
         }
 
         if(itmBottomRight.y() > max.y()){
             max.setY(itmBottomRight.y());
         }
-
     }
 
     _rect->setPoints(min,max);
