@@ -23,9 +23,6 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
-
-    count = 0;
-
 }
 
 /**
@@ -206,7 +203,6 @@ void PaintWidget::setTool(Tool *tool)
     default:
         break;
     }
-    count++;
 }
 
 /**

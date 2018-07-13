@@ -21,9 +21,9 @@ void BoundingRectItem::paint(QPainter *painter,
                              const QStyleOptionGraphicsItem *option,
                              QWidget *widget)
 {
-    painter->setPen(QPen(Qt::gray, 0.5, Qt::DashLine));
+    painter->setPen(QPen(Qt::gray, 1, Qt::DashLine));
     if(_transformMode){
-        painter->setPen(QPen(Qt::black, 0.5, Qt::SolidLine));
+        painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
     }
     painter->drawRect(_boundingRect);
     QPointF topleft = _boundingRect.topLeft();
@@ -31,9 +31,9 @@ void BoundingRectItem::paint(QPainter *painter,
     QPointF bottomRight = _boundingRect.topLeft();
     bottomRight += QPointF(2,2);
     QRectF r(topleft,bottomRight);
-    painter->setPen(QPen(Qt::gray, 0.5, Qt::SolidLine));
+    painter->setPen(QPen(Qt::gray, 1, Qt::SolidLine));
     if(_transformMode){
-        painter->setPen(QPen(Qt::black, 0.5, Qt::SolidLine));
+        painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
     }
     painter->drawRect(r);
     r.translate(_width/2,0);
