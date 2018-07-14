@@ -39,6 +39,7 @@ private:
     ToolType _type;
 
     void drawRectItem();
+    virtual void connectMenu() = 0;
 
 };
 
