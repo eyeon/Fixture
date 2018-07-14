@@ -5,6 +5,7 @@
 
 #include "abstractselection.h"
 #include "components/boundingrectitem.h"
+#include "tooloptions/transform_menu.h"
 
 class Transform : public AbstractSelection
 {
@@ -17,6 +18,7 @@ public:
 
     void setTransformMode(bool set);
     void drawBounds(bool draw);
+    QWidget *getToolMenu();
 
 private slots:
     void updateBounds();
@@ -24,6 +26,7 @@ private slots:
 private:
     void drawBoundingRect();
     void removeBoundingRect();
+    void connectMenu();
 
     BoundingRectItem *_rect;
     bool _boundsDrawn;

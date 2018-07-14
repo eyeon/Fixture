@@ -3,7 +3,7 @@
 Transform::Transform(QWidget* parent):
     Tool(QIcon(":/tools/select.svg"),"Transform Tool (V)",
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
-         Tool::SELECTION,parent)
+         Tool::SELECTION, Tool::TRANSFORM, parent)
 {
     setShortcut(Qt::Key_V);
     _rect = new BoundingRectItem();
@@ -89,3 +89,15 @@ void Transform::removeBoundingRect()
 {
     delete _rect;
 }
+
+QWidget* Transform::getToolMenu()
+{
+    TransformMenu *menu = new TransformMenu();
+    return menu;
+}
+
+void Transform::connectMenu()
+{
+
+}
+

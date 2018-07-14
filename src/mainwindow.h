@@ -15,6 +15,7 @@
 #include "tools/transform.h"
 #include "tools/tool.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -51,6 +52,7 @@ private:
     void initTools();
     void initSignalsAndSlots();
     void setDefaultTool(Tool *tool);
+    void setCurrentTool(Tool *tool);
     const QString chooseFile();
     void addChildWindow(PaintWidget *widget, bool isNew);
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
