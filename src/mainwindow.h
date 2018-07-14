@@ -48,6 +48,7 @@ private:
     Transform *_transform;
     Pan *_pan;
     Tool *_currentTool;
+    QWidget *_menu;
 
     void initTools();
     void initSignalsAndSlots();

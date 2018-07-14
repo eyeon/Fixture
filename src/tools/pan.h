@@ -2,6 +2,7 @@
 #define PANTOOL_H
 
 #include "abstractperception.h"
+#include "tooloptions/pan_menu.h"
 
 class Pan : public AbstractPerception
 {

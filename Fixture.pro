@@ -39,7 +39,8 @@ SOURCES +=  \
     src/tools/abstractselection.cpp \
     src/tools/abstractperception.cpp \
     src/tools/components/boundingrectitem.cpp \
-    src/tools/tooloptions/transform_menu.cpp
+    src/tools/tooloptions/transform_menu.cpp \
+    src/tools/tooloptions/pan_menu.cpp
 
 HEADERS += \
     src/dialogs/newdialog.h \
@@ -57,12 +58,14 @@ HEADERS += \
     src/tools/abstractperception.h \
     src/tools/tooloptions/transform_menu.h \
     src/builders/toolmenubuilder.h \
+    src/tools/tooloptions/pan_menu.h \
     src/tools/components/boundingrectitem.h
 
 FORMS += \
     src/mainwindow.ui \
     src/dialogs/newdialog.ui \
-    src/tools/tooloptions/transform_menu.ui
+    src/tools/tooloptions/transform_menu.ui \
+    src/tools/tooloptions/pan_menu.ui
 
 RESOURCES += \
     resources/resources.qrc
