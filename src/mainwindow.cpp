@@ -66,8 +66,11 @@ void MainWindow::setDefaultTool(Tool *tool)
 
 void MainWindow::setCurrentTool(Tool *tool)
 {
-    QWidget *menu = tool->getToolMenu();
-    ui->toolMenuBar->insertWidget(NULL, menu);
+    if (_menu != NULL) {
+        delete _menu;
+    }
+    _menu = tool->getToolMenu();
+    ui->toolMenuBar->insertWidget(NULL, _menu);
 
     _currentTool = tool;
 }

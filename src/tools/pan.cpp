@@ -26,5 +26,6 @@ void Pan::release(QMouseEvent *event)
 
 QWidget* Pan::getToolMenu()
 {
-
+    PanMenu *menu = new PanMenu();
+    return menu;
 }

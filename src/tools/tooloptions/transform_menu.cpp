@@ -12,3 +12,8 @@ TransformMenu::~TransformMenu()
 {
     delete ui;
 }
+
+void TransformMenu::on_pushButton_clicked()
+{
+    //emit a signal
+}
