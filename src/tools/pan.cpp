@@ -29,3 +29,8 @@ QWidget* Pan::getToolMenu()
     PanMenu *menu = new PanMenu();
     return menu;
 }
+
+void Pan::connectMenu()
+{
+
+}
