@@ -195,7 +195,7 @@ void PaintWidget::setTool(Tool *tool)
     setCursor(tool->getToolCursor());
     _currentTool = tool;
 
-    switch (_currentTool->getToolType()) {
+    switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
         // Selection tools require layers
         Transform *curTool = dynamic_cast<Transform*>(tool);

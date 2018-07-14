@@ -10,6 +10,10 @@ QMainWindow {
     background-color: #262626;
 }
 
+#toolMenuBar {
+    background-color:  rgb(75, 75, 75);
+    border: none;
+}
 QToolButton{
     padding: 10;
     border: none;

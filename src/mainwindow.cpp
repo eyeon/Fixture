@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tools/tooloptions/transform_menu.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,6 +61,14 @@ void MainWindow::initTools()
 void MainWindow::setDefaultTool(Tool *tool)
 {
     tool->toggle();
+    setCurrentTool(tool);
+}
+
+void MainWindow::setCurrentTool(Tool *tool)
+{
+    QWidget *menu = tool->getToolMenu();
+    ui->toolMenuBar->insertWidget(NULL, menu);
+
     _currentTool = tool;
 }
 void MainWindow::dragEnterEvent(QDragEnterEvent *e)
@@ -128,13 +137,13 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
 void MainWindow::changeTool(QAction *action)
 {
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
-    _currentTool = dynamic_cast<Tool*>(action);
+    setCurrentTool(dynamic_cast<Tool*>(action));
 
     if(currentWindow != NULL){
         PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
         paintWidget->setTool(_currentTool);
 
-        if (_currentTool->getToolType() == Tool::PERCEPTION){
+        if (_currentTool->getToolGroup() == Tool::PERCEPTION){
             //The cursor needs to be fixed for zoom here.
             paintWidget->setDragMode(QGraphicsView::ScrollHandDrag);
         }
