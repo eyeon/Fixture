@@ -6,6 +6,7 @@
         <file>basic.qss</file>
         <file>paintwidget.qss</file>
         <file>layermanager.qss</file>
+        <file>tool-menu.qss</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/close-white-lighter.svg</file>
@@ -17,5 +18,6 @@
         <file>icons/angle-bottom.svg</file>
         <file>tools/select.svg</file>
         <file>tools/pan.svg</file>
+        <file>icons/check-tick.svg</file>
     </qresource>
 </RCC>

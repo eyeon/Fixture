@@ -2,10 +2,11 @@
 #include "ui_transform_menu.h"
 
 TransformMenu::TransformMenu( QWidget *parent) :
-    QFrame(parent),
+    ToolMenu(parent),
     ui(new Ui::TransformOptions)
 {
     ui->setupUi(this);
+    addStyleSheet();
 }
 
 TransformMenu::~TransformMenu()
