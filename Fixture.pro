@@ -57,7 +57,6 @@ HEADERS += \
     src/tools/abstractselection.h \
     src/tools/abstractperception.h \
     src/tools/tooloptions/transform_menu.h \
-    src/builders/toolmenubuilder.h \
     src/tools/tooloptions/pan_menu.h \
     src/tools/components/boundingrectitem.h
 
