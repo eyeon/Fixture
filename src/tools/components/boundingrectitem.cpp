@@ -6,6 +6,8 @@ BoundingRectItem::BoundingRectItem()
     _transformMode = false;
     _width = 0;
     _height = 0;
+    setAcceptHoverEvents(true);
+
 }
 
 void BoundingRectItem::setPoints(QPointF min, QPointF max)
@@ -21,7 +23,7 @@ void BoundingRectItem::paint(QPainter *painter,
                              const QStyleOptionGraphicsItem *option,
                              QWidget *widget)
 {
-    painter->setPen(QPen(Qt::gray, 1, Qt::DashLine));
+    painter->setPen(QPen(Qt::black, 1, Qt::DashLine));
     if(_transformMode){
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
     }
@@ -50,4 +52,19 @@ void BoundingRectItem::paint(QPainter *painter,
     painter->drawRect(r);
     r.translate(0,-1 * _height/2 - 0.75);
     painter->drawRect(r);
+}
+
+void BoundingRectItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() << "hover entered";
+}
+
+void BoundingRectItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() << "hover leaved";
+}
+
+void BoundingRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() << "hover moved";
 }

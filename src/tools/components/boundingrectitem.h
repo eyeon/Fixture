@@ -3,19 +3,44 @@
 
 #include <QGraphicsRectItem>
 #include <QPainter>
+#include <QDebug>
 
 class BoundingRectItem : public QGraphicsRectItem
 {
 public:
+
+    enum HotSpot{
+        ScaleTopLeftCorner,
+        ScaleTopRightCorner,
+        ScaleBottomLeftCorner,
+        ScaleBottomRightCorner,
+        ScaleTopBoundary,
+        ScaleBottomBoundary,
+        ScaleLeftBoundary,
+        ScaleRightBoundary,
+        RotateTopLeftCorner,
+        RotateTopRightCorner,
+        RotateBottomLeftCorner,
+        RotateBottomRightCorner,
+        Move
+    };
+
     BoundingRectItem();
 
     inline void transformMode(bool set){ _transformMode = set; }
     void setPoints(QPointF min,QPointF max);
 
+signals:
+    void mouseIsHovering(HotSpot);
+
 protected:
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
                QWidget *widget);
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     QRectF _boundingRect;

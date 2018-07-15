@@ -64,6 +64,7 @@ private:
 
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
+    int count;
 };
 
 #endif // PAINTWIDGET_H
