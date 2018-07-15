@@ -9,6 +9,8 @@
 
 class Transform : public AbstractSelection
 {
+    Q_OBJECT
+
 public:
     Transform(QWidget *parent=0);
     ~Transform();
@@ -17,16 +19,15 @@ public:
     void release(QMouseEvent *event);
 
     void setTransformMode(bool set);
-    void drawBounds(bool draw);
     QWidget *getToolMenu();
 
-private slots:
-    void updateBounds();
+public slots:
+    void drawBounds(bool draw);
 
 private:
     void drawBoundingRect();
     void removeBoundingRect();
-    void connectMenu();
+    void connectMenu(TransformMenu *menu);
 
     BoundingRectItem *_rect;
     bool _boundsDrawn;
