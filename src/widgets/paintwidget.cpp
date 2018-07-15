@@ -23,6 +23,8 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
+
+    count = 0;
 }
 
 /**
@@ -198,11 +200,15 @@ void PaintWidget::setTool(Tool *tool)
         // Selection tools require layers
         Transform *curTool = dynamic_cast<Transform*>(tool);
         curTool->setScene(d);
+        if(count > 2){
+            curTool->drawBounds(true);
+        }
         break;
     }
     default:
         break;
     }
+    count++;
 }
 
 /**
