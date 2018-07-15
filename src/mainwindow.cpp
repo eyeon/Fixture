@@ -67,10 +67,19 @@ void MainWindow::setDefaultTool(Tool *tool)
 void MainWindow::setCurrentTool(Tool *tool)
 {
     QWidget *menuWidget = tool->getToolMenu();
+
     if (_menu != NULL) {
         _menu->setVisible(false);
     }
 
+    updateMenuFromCache(menuWidget);
+    // TODO: Remember preferences
+    _menu->setVisible(true);
+    _currentTool = tool;
+}
+
+void MainWindow::updateMenuFromCache(QWidget *menuWidget)
+{
     if (_toolMenuCache.contains(menuWidget)) {
         _menu = _toolMenuCache.value(menuWidget);
     }
@@ -78,9 +87,6 @@ void MainWindow::setCurrentTool(Tool *tool)
         _menu = ui->toolMenuBar->addWidget(menuWidget);
         _toolMenuCache.insert(menuWidget, _menu);
     }
-
-    _menu->setVisible(true);
-    _currentTool = tool;
 }
 void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 {

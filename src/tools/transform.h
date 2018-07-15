@@ -30,8 +30,6 @@ private:
 
     BoundingRectItem *_rect;
     bool _boundsDrawn;
-    TransformMenu *_menu;
-    bool menuExists = false;
 };
 
 #endif // SELECTTOOL_H

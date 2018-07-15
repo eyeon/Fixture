@@ -55,6 +55,7 @@ private:
     void initSignalsAndSlots();
     void setDefaultTool(Tool *tool);
     void setCurrentTool(Tool *tool);
+    void updateMenuFromCache(QWidget *widget);
     const QString chooseFile();
     void addChildWindow(PaintWidget *widget, bool isNew);
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
