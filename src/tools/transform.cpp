@@ -92,9 +92,14 @@ void Transform::removeBoundingRect()
 
 QWidget* Transform::getToolMenu()
 {
-    TransformMenu *menu = new TransformMenu();
-    return menu;
+    if (menuExists) {
+        return _menu;
+    }
+    menuExists = true;
+    _menu = new TransformMenu();
+    return _menu;
 }
+
 
 void Transform::connectMenu()
 {

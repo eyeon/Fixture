@@ -42,7 +42,7 @@
    <item>
     <widget class="QCheckBox" name="checkBox">
      <property name="text">
-      <string>Auto Select</string>
+      <string>Auto Select Layer</string>
      </property>
     </widget>
    </item>

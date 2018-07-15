@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -48,7 +48,8 @@ private:
     Transform *_transform;
     Pan *_pan;
     Tool *_currentTool;
-    QWidget *_menu;
+    QAction *_menu;
+    QMap<QWidget*, QAction*> _toolMenuCache;
 
     void initTools();
     void initSignalsAndSlots();
@@ -62,6 +63,7 @@ private:
 
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
+
 };
 
 #endif // MAINWINDOW_H
