@@ -30,19 +30,19 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QCheckBox" name="checkBox">
      <property name="text">
-      <string>Show Bounding Box</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
+      <string>Auto Select</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="checkBox_2">
      <property name="text">
-      <string>Auto Select Layer</string>
+      <string>Show Transform Controls</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
