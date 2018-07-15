@@ -15,9 +15,6 @@ public:
     explicit TransformMenu(QWidget *parent = 0);
     ~TransformMenu();
 
-private slots:
-    void on_pushButton_clicked();
-
 private:
     Ui::TransformOptions *ui;
 };
