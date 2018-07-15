@@ -42,6 +42,8 @@ protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
+    QRectF boundingRect() const;
+
 private:
     QRectF _boundingRect;
     qreal _width, _height;

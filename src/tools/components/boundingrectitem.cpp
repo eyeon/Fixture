@@ -54,6 +54,11 @@ void BoundingRectItem::paint(QPainter *painter,
     painter->drawRect(r);
 }
 
+QRectF BoundingRectItem::boundingRect() const
+{
+    return QRectF(_boundingRect.topLeft() - QPointF(5,5),_boundingRect.bottomRight() + QPointF(5,5));
+}
+
 void BoundingRectItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     qDebug() << "hover entered";
