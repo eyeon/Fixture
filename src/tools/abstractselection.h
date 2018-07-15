@@ -8,12 +8,12 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-class AbstractSelection : public virtual Tool
+class AbstractSelection : public Tool
 {
     Q_OBJECT
 
 public:
-    AbstractSelection();
+    AbstractSelection(QIcon ico, const QString &name, QCursor cur, ToolGroup group, ToolType type, QWidget* parent = 0);
 
 public:
     inline void setScene(QGraphicsScene* scene) { _scene = scene;}

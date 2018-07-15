@@ -13,3 +13,8 @@ TransformMenu::~TransformMenu()
 {
     delete ui;
 }
+
+void TransformMenu::on_showTransfromCheck_stateChanged(int arg1)
+{
+    emit showTransform(arg1 == Qt::Checked);
+}

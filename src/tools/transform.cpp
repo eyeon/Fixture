@@ -1,7 +1,7 @@
 #include "transform.h"
 
 Transform::Transform(QWidget* parent):
-    Tool(QIcon(":/tools/select.svg"),"Transform Tool (V)",
+    AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
          Tool::SELECTION, Tool::TRANSFORM, parent)
 {
@@ -96,12 +96,16 @@ QWidget* Transform::getToolMenu()
         return _menu;
     }
     _menuExists = true;
-    _menu = new TransformMenu();
+
+    TransformMenu *transformMenu = new TransformMenu();
+    _menu = transformMenu;
+    connectMenu(transformMenu);
+
     return _menu;
 }
 
-void Transform::connectMenu()
+void Transform::connectMenu(TransformMenu *menu)
 {
-
+    connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
 }
 

@@ -15,6 +15,13 @@ public:
     explicit TransformMenu(QWidget *parent = 0);
     ~TransformMenu();
 
+private slots:
+
+    void on_showTransfromCheck_stateChanged(int arg1);
+
+signals:
+    void autoSelect(bool check);
+    void showTransform(bool show);
 private:
     Ui::TransformOptions *ui;
 };

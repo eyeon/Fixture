@@ -38,7 +38,7 @@ private:
     ToolGroup _group;
     ToolType _type;
     void drawRectItem();
-    virtual void connectMenu() = 0;
+   // virtual void connectMenu() = 0;
 
 protected:
     QWidget *_menu;

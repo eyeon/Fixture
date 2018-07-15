@@ -197,7 +197,6 @@ padding: 2px; </string>
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolMenuBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -212,6 +211,7 @@ padding: 2px; </string>
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
