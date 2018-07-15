@@ -1,13 +1,13 @@
 #ifndef TRANSFORMOPTIONS_H
 #define TRANSFORMOPTIONS_H
 
-#include <QFrame>
+#include "toolmenu.h"
 
 namespace Ui {
 class TransformOptions;
 }
 
-class TransformMenu : public QFrame
+class TransformMenu : public ToolMenu
 {
     Q_OBJECT
 
