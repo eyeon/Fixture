@@ -12,7 +12,7 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
     setImagePath(imagePath);
 
     QImage image = getImageFromPath(imagePath);
-    loadNewDocument(tool, image.rect());
+    prepareDocument(tool, image.rect());
     pushLayer(image, "Background");
 }
 
@@ -28,7 +28,7 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
     setImagePath(canvas->getName());
 
     QImage image = drawEmptyImage(canvas);
-    loadNewDocument(tool, image.rect());
+    prepareDocument(tool, image.rect());
     pushLayer(image, "Background");
 }
 
@@ -41,7 +41,7 @@ QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
 
     return image;
 }
-void PaintWidget::loadNewDocument(Tool *tool, QRect rect)
+void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 {
     addStyleSheet();
     setTool(tool);
