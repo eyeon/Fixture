@@ -58,11 +58,11 @@ private:
 
     QImage getImageFromPath(const QString &imagePath);
     QImage drawEmptyImage(const Canvas *canvas);
-    void loadNewDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
     void pushLayer(QImage image, const QString &name);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();
+    void prepareDocument(Tool *tool, QRect rect);
 
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
