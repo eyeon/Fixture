@@ -254,7 +254,6 @@ void MainWindow::on_actionImport_triggered()
     const QString fileName = chooseFile();
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
     PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
-    paintWidget->addNewLayer(fileName);
+    paintWidget->importPathToLayer(fileName);
     ui->layerView->updateItems(paintWidget->getItems());
-
 }

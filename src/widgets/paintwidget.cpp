@@ -9,6 +9,7 @@
 PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
+    setImagePath(imagePath);
     QImage image = getImageFromPath(imagePath);
     prepareDocument(tool, image.rect());
 
@@ -19,7 +20,6 @@ void PaintWidget::createBgLayer(const QImage &image)
 {
     RasterLayer *layer = getLayerFromImage(image, "Background");
     layer->setLocked(true);
-    layer->setParentItem(d->getParentItem());
     pushLayer(layer);
 }
 /**
@@ -31,6 +31,7 @@ void PaintWidget::createBgLayer(const QImage &image)
 PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
+    setImagePath(canvas->getName());
     QImage image = drawEmptyImage(canvas);
     prepareDocument(tool, image.rect());
 
@@ -53,7 +54,7 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
     setupCanvas(rect);
 
     connect(d, SIGNAL(importAvailable(QString)),
-            this, SLOT(addNewLayer(QString)));
+            this, SLOT(importPathToLayer(QString)));
 
     connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
 
@@ -66,13 +67,16 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
  * TODO: Support adding documents as layer
  * @param imagePath
  */
-void PaintWidget::addNewLayer(const QString &imagePath)
+void PaintWidget::importPathToLayer(const QString &fileName)
 {
-    if (isFileValid(imagePath)) {
-        QImage image = getImageFromPath(imagePath);
-        QFileInfo info(imagePath);
-        pushLayer(image, info.fileName());
-     }
+    if (isFileValid(fileName)) {
+
+        QImage image = getImageFromPath(fileName);
+        QFileInfo info(fileName);
+
+        RasterLayer *layer = getLayerFromImage(image, info.fileName());
+        pushLayer(layer);
+    }
 }
 
 QImage PaintWidget::getImageFromPath(const QString &imagePath)
@@ -150,11 +154,11 @@ void PaintWidget::setupCanvas(QRect rect)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(Layer *layer)
+void PaintWidget::pushLayer(RasterLayer *layer)
 {
     // Needs smarter naming based on positions on the stack
-
-   _items.push_back(layer);
+    layer->setParentItem(d->getParentItem());
+    _items.push_back(layer);
     d->clearSelection();
     layer->setLayerSelected(true);
 }

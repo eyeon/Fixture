@@ -1,0 +1,122 @@
+diff --git a/src/mainwindow.cpp b/src/mainwindow.cpp
+index 9d10d41..74cac88 100644
+--- a/src/mainwindow.cpp
++++ b/src/mainwindow.cpp
+@@ -254,7 +254,6 @@ void MainWindow::on_actionImport_triggered()
+     const QString fileName = chooseFile();
+     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+     PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
+-    paintWidget->addNewLayer(fileName);
++    paintWidget->importPathToLayer(fileName);
+     ui->layerView->updateItems(paintWidget->getItems());
+-
+ }
+diff --git a/src/widgets/paintwidget.cpp b/src/widgets/paintwidget.cpp
+index c9ff399..70954dc 100644
+--- a/src/widgets/paintwidget.cpp
++++ b/src/widgets/paintwidget.cpp
+@@ -9,6 +9,7 @@
+ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
+  QGraphicsView(parent)
+ {
++    setImagePath(imagePath);
+     QImage image = getImageFromPath(imagePath);
+     prepareDocument(tool, image.rect());
+ 
+@@ -19,7 +20,6 @@ void PaintWidget::createBgLayer(const QImage &image)
+ {
+     RasterLayer *layer = getLayerFromImage(image, "Background");
+     layer->setLocked(true);
+-    layer->setParentItem(d->getParentItem());
+     pushLayer(layer);
+ }
+ /**
+@@ -31,6 +31,7 @@ void PaintWidget::createBgLayer(const QImage &image)
+ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
+  QGraphicsView(parent)
+ {
++    setImagePath(canvas->getName());
+     QImage image = drawEmptyImage(canvas);
+     prepareDocument(tool, image.rect());
+ 
+@@ -53,7 +54,7 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
+     setupCanvas(rect);
+ 
+     connect(d, SIGNAL(importAvailable(QString)),
+-            this, SLOT(addNewLayer(QString)));
++            this, SLOT(importPathToLayer(QString)));
+ 
+     connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
+ 
+@@ -66,13 +67,16 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
+  * TODO: Support adding documents as layer
+  * @param imagePath
+  */
+-void PaintWidget::addNewLayer(const QString &imagePath)
++void PaintWidget::importPathToLayer(const QString &fileName)
+ {
+-    if (isFileValid(imagePath)) {
+-        QImage image = getImageFromPath(imagePath);
+-        QFileInfo info(imagePath);
+-        pushLayer(image, info.fileName());
+-     }
++    if (isFileValid(fileName)) {
++
++        QImage image = getImageFromPath(fileName);
++        QFileInfo info(fileName);
++
++        RasterLayer *layer = getLayerFromImage(image, info.fileName());
++        pushLayer(layer);
++    }
+ }
+ 
+ QImage PaintWidget::getImageFromPath(const QString &imagePath)
+@@ -150,11 +154,11 @@ void PaintWidget::setupCanvas(QRect rect)
+  * @param image
+  * @param name
+  */
+-void PaintWidget::pushLayer(Layer *layer)
++void PaintWidget::pushLayer(RasterLayer *layer)
+ {
+     // Needs smarter naming based on positions on the stack
+-
+-   _items.push_back(layer);
++    layer->setParentItem(d->getParentItem());
++    _items.push_back(layer);
+     d->clearSelection();
+     layer->setLayerSelected(true);
+ }
+diff --git a/src/widgets/paintwidget.h b/src/widgets/paintwidget.h
+index 05e5ebc..cb56ea7 100644
+--- a/src/widgets/paintwidget.h
++++ b/src/widgets/paintwidget.h
+@@ -37,9 +37,11 @@ public:
+     inline QList<Layer*> getItems() const { return _items; }
+     void setTool(Tool *tool);
+     static bool isFileValid(const QString& fileName);
++    static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
++    QImage getImageFromPath(const QString &imagePath);
+ 
+ public slots:
+-    void addNewLayer(const QString &imagePath);
++    void importPathToLayer(const QString &fileName);
+     void setSelectedLayers();
+ 
+ signals:
+@@ -57,15 +59,13 @@ private:
+     QList<Layer*> _items;
+ 
+     void createBgLayer(const QImage &image);
+-    QImage getImageFromPath(const QString &imagePath);
+     QImage drawEmptyImage(const Canvas *canvas);
+     void prepareDocument(Tool *tool, QRect rect);
+     void setupCanvas(QRect rect);
+-    void pushLayer(Layer *layer);
++    void pushLayer(RasterLayer *layer);
+     bool isRaw(const QString &imagePath);
+     void addStyleSheet();
+ 
+-    static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
+     static bool isImageSupported(const QString& fileName);
+     Tool  *_currentTool;
+     int count;

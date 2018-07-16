@@ -37,9 +37,10 @@ public:
     inline QList<Layer*> getItems() const { return _items; }
     void setTool(Tool *tool);
     static bool isFileValid(const QString& fileName);
+    static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
 
 public slots:
-    void addNewLayer(const QString &imagePath);
+    void importPathToLayer(const QString &fileName);
     void setSelectedLayers();
 
 signals:
@@ -56,16 +57,15 @@ private:
     QString _imagePath;
     QList<Layer*> _items;
 
-    void createBgLayer(const QImage &image);
     QImage getImageFromPath(const QString &imagePath);
+    void createBgLayer(const QImage &image);
     QImage drawEmptyImage(const Canvas *canvas);
     void prepareDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
-    void pushLayer(Layer *layer);
+    void pushLayer(RasterLayer *layer);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();
 
-    static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
     int count;
