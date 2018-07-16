@@ -35,6 +35,9 @@ public:
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer*> getItems() const { return _items; }
+    // This has to be extended to accomodate new documents
+    inline void updateLayers(QList<Layer*> items){ d->updateImageCanvas(items); }
+    void setSelectedLayers(QList<Layer*> layers);
     void setTool(Tool *tool);
     static bool isFileValid(const QString& fileName);
     static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
@@ -57,6 +60,7 @@ private:
     QString _imagePath;
     QList<Layer*> _items;
 
+
     QImage getImageFromPath(const QString &imagePath);
     void createBgLayer(const QImage &image);
     QImage drawEmptyImage(const Canvas *canvas);
@@ -68,7 +72,6 @@ private:
 
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
-    int count;
 };
 
 #endif // PAINTWIDGET_H

@@ -1,8 +1,6 @@
 #ifndef SELECTTOOL_H
 #define SELECTTOOL_H
 
-#include <QDebug>
-
 #include "abstractselection.h"
 #include "components/boundingrectitem.h"
 #include "tooloptions/transform_menu.h"

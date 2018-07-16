@@ -1,5 +1,4 @@
 #include "rasterlayer.h"
-#include <QDebug>
 
 RasterLayer::RasterLayer(const QString &name, const QImage &image):
     Layer(name, Layer::RasterLayer), _image(image)

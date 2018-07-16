@@ -6,7 +6,6 @@
 
 #include <QMouseEvent>
 #include <QGraphicsScene>
-#include <QDebug>
 
 class AbstractSelection : public Tool
 {

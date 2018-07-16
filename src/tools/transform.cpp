@@ -49,6 +49,10 @@ void Transform::setTransformMode(bool set)
 
 void Transform::drawBoundingRect()
 {
+    if(_scene == NULL){
+        return;
+    }
+
     QList<QGraphicsItem*> selected = _scene->selectedItems();
     QList<QGraphicsItem*>::iterator itr = selected.begin();
     QPointF max(INT_MIN,INT_MIN),min(INT_MAX,INT_MAX);

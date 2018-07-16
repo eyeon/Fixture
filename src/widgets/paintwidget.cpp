@@ -1,5 +1,5 @@
 #include "paintwidget.h"
-#include <QDebug>
+
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on image path
@@ -22,6 +22,7 @@ void PaintWidget::createBgLayer(const QImage &image)
     layer->setLocked(true);
     pushLayer(layer);
 }
+
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
@@ -147,6 +148,11 @@ void PaintWidget::setupCanvas(QRect rect)
 
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
+
+    if(_currentTool->getToolGroup() == Tool::SELECTION) {
+        AbstractSelection *tool = dynamic_cast<AbstractSelection*>(_currentTool);
+        tool->setScene(d);
+    }
 }
 
 /**
@@ -202,6 +208,7 @@ void PaintWidget::setSelectedLayers()
         }
     }
 }
+
 /**
  * @brief PaintWidget::setTool Sets up the tool and passes on layers/selection areas if necessary
  * @param tool
@@ -213,18 +220,15 @@ void PaintWidget::setTool(Tool *tool)
 
     switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
-        // Selection tools require layers
-        Transform *curTool = dynamic_cast<Transform*>(tool);
-        curTool->setScene(d);
-        if(count > 2){
-            curTool->drawBounds(true);
+        AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
+        if(d != NULL){
+            curTool->setScene(d);
         }
         break;
     }
     default:
         break;
     }
-    count++;
 }
 
 /**
