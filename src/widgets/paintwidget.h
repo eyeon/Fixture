@@ -36,7 +36,6 @@ public:
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer*> getItems() const { return _items; }
     // This has to be extended to accomodate new documents
-    inline void updateLayers(QList<Layer*> items){ d->updateImageCanvas(items); }
     void setSelectedLayers(QList<Layer*> layers);
     void setTool(Tool *tool);
     static bool isFileValid(const QString& fileName);

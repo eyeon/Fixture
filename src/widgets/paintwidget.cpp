@@ -16,13 +16,6 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
     createBgLayer(image);
 }
 
-void PaintWidget::createBgLayer(const QImage &image)
-{
-    RasterLayer *layer = getLayerFromImage(image, "Background");
-    layer->setLocked(true);
-    pushLayer(layer);
-}
-
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
@@ -37,6 +30,13 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
     prepareDocument(tool, image.rect());
 
     createBgLayer(image);
+}
+
+void PaintWidget::createBgLayer(const QImage &image)
+{
+    RasterLayer *layer = getLayerFromImage(image, "Background");
+    layer->setLocked(true);
+    pushLayer(layer);
 }
 
 QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
@@ -172,7 +172,6 @@ void PaintWidget::pushLayer(RasterLayer *layer)
 RasterLayer* PaintWidget::getLayerFromImage(const QImage &image, const QString &name)
 {
     return new RasterLayer(name, image);
-
 }
 
 /**

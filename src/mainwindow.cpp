@@ -147,8 +147,16 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
     } else {
         ui->layerView->clear();
     }
-    ui->actionImport->setEnabled(window != NULL);
+
+    updateActions(window != NULL);
     setWindowTitle(title);
+}
+
+void MainWindow::updateActions(bool val)
+{
+    ui->actionImport->setEnabled(val);
+    ui->actionSave->setEnabled(val);
+    ui->actionSaveAs->setEnabled(val);
 }
 
 void MainWindow::changeTool(QAction *action)
@@ -259,3 +267,16 @@ void MainWindow::on_actionImport_triggered()
 
 }
 
+void MainWindow::on_actionSave_triggered()
+{
+}
+
+void MainWindow::on_actionSaveAs_triggered()
+{
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+    PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                       _lastFileLoc,
+                                       tr("Fixture Document (*.fxd *.fxt)"));
+}
