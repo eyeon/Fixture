@@ -258,4 +258,3 @@ void MainWindow::on_actionImport_triggered()
     ui->layerView->updateItems(paintWidget->getItems());
 
 }
-

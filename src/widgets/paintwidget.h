@@ -56,14 +56,16 @@ private:
     QString _imagePath;
     QList<Layer*> _items;
 
+    void createBgLayer(const QImage &image);
     QImage getImageFromPath(const QString &imagePath);
     QImage drawEmptyImage(const Canvas *canvas);
-    void loadNewDocument(Tool *tool, QRect rect);
+    void prepareDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
-    void pushLayer(QImage image, const QString &name);
+    void pushLayer(Layer *layer);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();
 
+    static RasterLayer *getLayerFromImage(const QImage &image, const QString &name);
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
     int count;

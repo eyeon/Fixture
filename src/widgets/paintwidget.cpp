@@ -9,13 +9,19 @@
 PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
-    setImagePath(imagePath);
-
     QImage image = getImageFromPath(imagePath);
     prepareDocument(tool, image.rect());
-    pushLayer(image, "Background");
+
+    createBgLayer(image);
 }
 
+void PaintWidget::createBgLayer(const QImage &image)
+{
+    RasterLayer *layer = getLayerFromImage(image, "Background");
+    layer->setLocked(true);
+    layer->setParentItem(d->getParentItem());
+    pushLayer(layer);
+}
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
@@ -25,11 +31,10 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
-    setImagePath(canvas->getName());
-
     QImage image = drawEmptyImage(canvas);
     prepareDocument(tool, image.rect());
-    pushLayer(image, "Background");
+
+    createBgLayer(image);
 }
 
 QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
@@ -145,20 +150,20 @@ void PaintWidget::setupCanvas(QRect rect)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(QImage image, const QString& name)
+void PaintWidget::pushLayer(Layer *layer)
 {
     // Needs smarter naming based on positions on the stack
-    RasterLayer* l = new RasterLayer(name, image, d->getParentItem());
 
-    if(name == "Background"){
-        l->setLocked(true);
-    }
-
-    _items.push_back(l);
+   _items.push_back(layer);
     d->clearSelection();
-    l->setLayerSelected(true);
+    layer->setLayerSelected(true);
 }
 
+RasterLayer* PaintWidget::getLayerFromImage(const QImage &image, const QString &name)
+{
+    return new RasterLayer(name, image);
+
+}
 
 /**
  * @brief PaintWidget::wheelEvent Overrides the wheelEvent of QGraphicsView

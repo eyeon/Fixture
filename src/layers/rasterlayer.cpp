@@ -1,17 +1,14 @@
 #include "rasterlayer.h"
 #include <QDebug>
 
-RasterLayer::RasterLayer(QString name, QImage image,
-                         QGraphicsItem *parentItem):
-    Layer(name,Layer::RasterLayer), _image(image)
+RasterLayer::RasterLayer(const QString &name, const QImage &image):
+    Layer(name, Layer::RasterLayer), _image(image)
 {
     QIcon ico(QPixmap::fromImage(image));
     setIcon(ico);
     setPixmap(QPixmap::fromImage(image));
     QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
-                                  QGraphicsItem::ItemIsSelectable);
-    setParentItem(parentItem);
-
+                                  QGraphicsItem::ItemIsSelectable);   
 }
 
 RasterLayer::~RasterLayer()

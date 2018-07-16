@@ -10,7 +10,7 @@
 class RasterLayer : public Layer, public QGraphicsPixmapItem
 {
 public:
-    RasterLayer(QString name, QImage image, QGraphicsItem *parentItem);
+    RasterLayer(const QString &name, const QImage &image);
     ~RasterLayer();
 
     void setLocked(bool lock);
