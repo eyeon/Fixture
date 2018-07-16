@@ -1,7 +1,7 @@
 #include "drawing.h"
 
-Drawing::Drawing(QWidget *widget, int height, int width) :
-    width(width), _height(height),
+Drawing::Drawing(QWidget *widget, int width, int height) :
+    _width(width), _height(height),
     QGraphicsScene(widget)
 
 {
