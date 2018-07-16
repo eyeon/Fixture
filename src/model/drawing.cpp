@@ -1,11 +1,10 @@
 #include "drawing.h"
 
-Drawing::Drawing(QWidget *widget,QImage &image) :
+Drawing::Drawing(QWidget *widget, int height, int width) :
+    width(width), _height(height),
     QGraphicsScene(widget)
-{
-    _width = image.width();
-    _height = image.height();
 
+{
     QImage surface = QImage(_width,_height, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&surface);
     QBrush brush;

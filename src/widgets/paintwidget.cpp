@@ -133,6 +133,8 @@ void PaintWidget::setupCanvas(QImage image)
 
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
+
+    qDebug() << d->width() << d->height();
 }
 
 /**
@@ -144,6 +146,7 @@ void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
     RasterLayer* l = new RasterLayer(name,image,d->getParentItem());
+
     if(name == "Background"){
         l->setLocked(false);
     }
@@ -152,6 +155,7 @@ void PaintWidget::pushLayer(QImage image, const QString& name)
     d->clearSelection();
     l->setLayerSelected(true);
 }
+
 
 /**
  * @brief PaintWidget::wheelEvent Overrides the wheelEvent of QGraphicsView
