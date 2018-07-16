@@ -1,5 +1,4 @@
 #include "rasterlayer.h"
-#include <QDebug>
 
 RasterLayer::RasterLayer(QString name, QImage image,
                          QGraphicsItem *parentItem):

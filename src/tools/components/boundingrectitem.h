@@ -29,6 +29,7 @@ public:
 
     inline void transformMode(bool set){ _transformMode = set; }
     void setPoints(QPointF min,QPointF max);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
     void mouseIsHovering(HotSpot);
