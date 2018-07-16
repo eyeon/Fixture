@@ -48,6 +48,8 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
 
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(addNewLayer(QString)));
+
+    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
 }
 
 /**
@@ -126,11 +128,14 @@ void PaintWidget::addStyleSheet()
  */
 void PaintWidget::setupCanvas(QImage image)
 {
-    setSceneRect(image.rect());
     d = new Drawing(this, image);
-
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
+
+    if(_currentTool->getToolGroup() == Tool::SELECTION) {
+        AbstractSelection *tool = dynamic_cast<AbstractSelection*>(_currentTool);
+        tool->setScene(d);
+    }
 }
 
 /**
@@ -142,10 +147,6 @@ void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
     RasterLayer* l = new RasterLayer(name,image,d->getParentItem());
-    if(name == "Background"){
-        l->setLocked(false);
-    }
-
     _items.push_back(l);
     d->clearSelection();
     l->setLayerSelected(true);
@@ -195,15 +196,15 @@ void PaintWidget::setTool(Tool *tool)
 
     switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
-        // Selection tools require layers
-        Transform *curTool = dynamic_cast<Transform*>(tool);
-        curTool->setScene(d);
+        AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
+        if(d != NULL){
+            curTool->setScene(d);
+        }
         break;
     }
     default:
         break;
     }
-    count++;
 }
 
 /**
