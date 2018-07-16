@@ -257,3 +257,4 @@ void MainWindow::on_actionImport_triggered()
     paintWidget->addNewLayer(fileName);
     ui->layerView->updateItems(paintWidget->getItems());
 }
+
