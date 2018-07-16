@@ -9,20 +9,11 @@
 PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
-    _imagePath = imagePath;
+    setImagePath(imagePath);
+
     QImage image = getImageFromPath(imagePath);
-    setTool(tool);
-    addStyleSheet();
-    setupCanvas(image);
+    loadNewDocument(tool, image.rect());
     pushLayer(image, "Background");
-
-    connect(d, SIGNAL(importAvailable(QString)),
-            this, SLOT(addNewLayer(QString)));
-
-    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
-
-    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
-                   | QPainter::SmoothPixmapTransform);
 }
 
 /**
@@ -35,21 +26,34 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
     setImagePath(canvas->getName());
-    setTool(tool);
+
+    QImage image = drawEmptyImage(canvas);
+    loadNewDocument(tool, image.rect());
+    pushLayer(image, "Background");
+}
+
+QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
+{
     QSize imageSize(canvas->getWidth(), canvas->getHeight());
 
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::white);
 
+    return image;
+}
+void PaintWidget::loadNewDocument(Tool *tool, QRect rect)
+{
     addStyleSheet();
-    setupCanvas(image);
-
-    pushLayer(image, "Background");
+    setTool(tool);
+    setupCanvas(rect);
 
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(addNewLayer(QString)));
 
     connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
+
+    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
+                   | QPainter::SmoothPixmapTransform);
 }
 
 /**
@@ -126,9 +130,12 @@ void PaintWidget::addStyleSheet()
  * Sets up the canvas and the drawing environment to place layers
  * @param image The target QImage layer to be placed.
  */
-void PaintWidget::setupCanvas(QImage image)
+void PaintWidget::setupCanvas(QRect rect)
 {
-    d = new Drawing(this, image);
+    setSceneRect(rect);
+
+    d = new Drawing(this, rect.width(), rect.height());
+
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
 
@@ -146,7 +153,7 @@ void PaintWidget::setupCanvas(QImage image)
 void PaintWidget::pushLayer(QImage image, const QString& name)
 {
     // Needs smarter naming based on positions on the stack
-    RasterLayer* l = new RasterLayer(name,image,d->getParentItem());
+    RasterLayer* l = new RasterLayer(name, image, d->getParentItem());
     _items.push_back(l);
     d->clearSelection();
     l->setLayerSelected(true);

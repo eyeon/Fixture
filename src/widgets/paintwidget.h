@@ -57,7 +57,9 @@ private:
     QList<Layer*> _items;
 
     QImage getImageFromPath(const QString &imagePath);
-    void setupCanvas(QImage image);
+    QImage drawEmptyImage(const Canvas *canvas);
+    void loadNewDocument(Tool *tool, QRect rect);
+    void setupCanvas(QRect rect);
     void pushLayer(QImage image, const QString &name);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();

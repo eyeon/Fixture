@@ -19,7 +19,7 @@ class Drawing : public QGraphicsScene
     Q_OBJECT
 
 public:
-    Drawing(QWidget *widget, int height, int width);
+    Drawing(QWidget *widget, int width, int height);
     ~Drawing();
     inline QGraphicsItem* getParentItem(){ return _parentItem; }
 
