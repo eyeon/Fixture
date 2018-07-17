@@ -6,8 +6,6 @@ BoundingRectItem::BoundingRectItem()
     _transformMode = false;
     _width = 0;
     _height = 0;
-    setAcceptHoverEvents(true);
-
 }
 
 void BoundingRectItem::setPoints(QPointF min, QPointF max)
@@ -58,24 +56,4 @@ QRectF BoundingRectItem::boundingRect() const
 {
     return QRectF(_boundingRect.topLeft() - QPointF(5,5),
                   _boundingRect.bottomRight() + QPointF(5,5));
-}
-
-void BoundingRectItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    qDebug() << "hover entered";
-}
-
-void BoundingRectItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    qDebug() << "hover leaved";
-}
-
-void BoundingRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
-{
-    qDebug() << "hover moved";
-}
-
-void BoundingRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << "pressed";
 }

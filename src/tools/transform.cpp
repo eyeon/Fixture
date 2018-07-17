@@ -32,6 +32,7 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
     _prevPos = event->scenePos();
     QGraphicsItem* itm = _scene->itemAt(_prevPos,QTransform());
     _mouseButton = event->button();
+
     if(_autoSelect){
         if(itm != 0 && itm->flags() & QGraphicsItem::ItemIsSelectable){
             if(event->modifiers() & Qt::ControlModifier){
@@ -44,7 +45,10 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
             _scene->clearSelection();
         }
         emit _scene->selectionChanged();
-    }else if(!(_scene->selectedItems().contains(itm))){
+        return;
+    }
+
+    if(!(_scene->selectedItems().contains(itm))){
         _mouseButton = -1;
     }
 }
@@ -70,8 +74,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         qreal dx = _curPos.x() - _prevPos.x();
         qreal dy = _curPos.y() - _prevPos.y();
         foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-            QPointF p(itm->x() + dx, itm->y() + dy);
-            itm->setPos(p);
+            itm->moveBy(dx,dy);
         }
     }
 
@@ -150,14 +153,7 @@ void Transform::drawBoundingRect()
     }else{
         _scene->addItem(_rect);
     }
-}
 
-/**
- * @brief Transform::removeBoundingRect
- */
-void Transform::removeBoundingRect()
-{
-    delete _rect;
 }
 
 /**

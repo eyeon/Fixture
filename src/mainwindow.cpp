@@ -144,6 +144,7 @@ void MainWindow::updateWindow(QMdiSubWindow *window)
         title = window->windowTitle() + " - " + title;
         PaintWidget* wid = qobject_cast<PaintWidget*> (window->widget());
         ui->layerView->updateItems(wid->getItems());
+        wid->setTool(_currentTool);
     } else {
         ui->layerView->clear();
     }

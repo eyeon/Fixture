@@ -25,7 +25,6 @@ public slots:
 
 private:
     void drawBoundingRect();
-    void removeBoundingRect();
     void connectMenu(TransformMenu *menu);
 
     BoundingRectItem *_rect;
