@@ -66,11 +66,6 @@ private:
 
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
-
-    friend QDataStream& operator<<(QDataStream &out, Layer* const& c);
-   // QDataStream& operator>>(QDataStream &in, Layer*& c);
-    // friend QDataStream & operator >> (QDataStream &stream, RasterLayer* layer);
-
 };
 
 #endif // MAINWINDOW_H

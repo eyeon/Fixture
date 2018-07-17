@@ -12,10 +12,10 @@ class Layer : public QListWidgetItem
 {
 public:
     enum LayerType{
-        RasterLayer,
-        VectorLayer,
-        TextLayer,
-        AdjustmentLayer
+        RASTER,
+        VECTOR,
+        TEXT,
+        ADJUSTMENT
     };
 
     Layer(QString name, LayerType type);

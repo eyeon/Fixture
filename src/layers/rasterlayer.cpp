@@ -1,7 +1,7 @@
 #include "rasterlayer.h"
 
 RasterLayer::RasterLayer(const QString &name, const QImage &image):
-    Layer(name, Layer::RasterLayer), _image(image)
+    Layer(name, Layer::RASTER), _image(image)
 {
     QIcon ico(QPixmap::fromImage(image));
     setIcon(ico);
