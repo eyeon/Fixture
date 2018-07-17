@@ -30,6 +30,8 @@ private:
 
     BoundingRectItem *_rect;
     bool _boundsDrawn,_autoSelect;
+    QPointF _prevPos, _curPos;
+    int _mouseButton;
 };
 
 #endif // SELECTTOOL_H

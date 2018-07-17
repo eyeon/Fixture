@@ -1,5 +1,9 @@
 #include "transform.h"
 
+/**
+ * @brief Transform::Transform
+ * @param parent
+ */
 Transform::Transform(QWidget* parent):
     AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
@@ -8,35 +12,76 @@ Transform::Transform(QWidget* parent):
     setShortcut(Qt::Key_V);
     _rect = new BoundingRectItem();
     _boundsDrawn = false;
+    _mouseButton = -1;
 }
 
+/**
+ * @brief Transform::~Transform
+ */
 Transform::~Transform()
 {
 }
 
-
+/**
+ * @brief Transform::press
+ * @param event
+ */
 void Transform::press(QGraphicsSceneMouseEvent *event)
 {
-    if(!_autoSelect){
-        return;
-    }
 
-    QGraphicsItem* itm = _scene->itemAt(event->pos(),QTransform());
-    itm->setSelected(true);
-    emit _scene->selectionChanged();
+    _prevPos = event->scenePos();
+    QGraphicsItem* itm = _scene->itemAt(_prevPos,QTransform());
+    _mouseButton = event->button();
+    if(_autoSelect){
+        if(itm != 0 && itm->flags() & QGraphicsItem::ItemIsSelectable){
+            itm->setSelected(true);
+        }else{
+            _scene->clearSelection();
+        }
+        emit _scene->selectionChanged();
+    }else if(!(_scene->selectedItems().contains(itm))){
+        _mouseButton = -1;
+    }
 }
 
+/**
+ * @brief Transform::release
+ * @param event
+ */
 void Transform::release(QGraphicsSceneMouseEvent *event)
 {
+    _mouseButton = -1;
 }
 
+/**
+ * @brief Transform::move
+ * @param event
+ */
 void Transform::move(QGraphicsSceneMouseEvent *event)
 {
+    _curPos = event->scenePos();
+
+    if(_mouseButton == Qt::LeftButton){
+        qreal dx = _curPos.x() - _prevPos.x();
+        qreal dy = _curPos.y() - _prevPos.y();
+        foreach(QGraphicsItem *itm,_scene->selectedItems()) {
+            QPointF p(itm->x() + dx, itm->y() + dy);
+            itm->setPos(p);
+        }
+    }
+
+    _prevPos = _curPos;
+
     if(_boundsDrawn){
         drawBoundingRect();
+        _scene->update(_scene->sceneRect());
     }
 }
 
+/**
+ * @brief Transform::drawBounds
+ * @param draw
+ */
 void Transform::drawBounds(bool draw)
 {
     if(draw){
@@ -48,11 +93,18 @@ void Transform::drawBounds(bool draw)
     _boundsDrawn = draw;
 }
 
+/**
+ * @brief Transform::setTransformMode
+ * @param set
+ */
 void Transform::setTransformMode(bool set)
 {
     _rect->transformMode(set);
 }
 
+/**
+ * @brief Transform::drawBoundingRect
+ */
 void Transform::drawBoundingRect()
 {
     if(_scene == NULL){
@@ -95,11 +147,18 @@ void Transform::drawBoundingRect()
     }
 }
 
+/**
+ * @brief Transform::removeBoundingRect
+ */
 void Transform::removeBoundingRect()
 {
     delete _rect;
 }
 
+/**
+ * @brief Transform::getToolMenu
+ * @return
+ */
 QWidget* Transform::getToolMenu()
 {
     if (_menuExists) {
@@ -114,6 +173,10 @@ QWidget* Transform::getToolMenu()
     return _menu;
 }
 
+/**
+ * @brief Transform::connectMenu
+ * @param menu
+ */
 void Transform::connectMenu(TransformMenu *menu)
 {
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
