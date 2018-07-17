@@ -34,7 +34,12 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
     _mouseButton = event->button();
     if(_autoSelect){
         if(itm != 0 && itm->flags() & QGraphicsItem::ItemIsSelectable){
-            itm->setSelected(true);
+            if(event->modifiers() & Qt::ControlModifier){
+                itm->setSelected(true);
+            }else{
+                if(_scene->selectedItems().length() < 2) _scene->clearSelection();
+                itm->setSelected(true);
+            }
         }else{
             _scene->clearSelection();
         }
