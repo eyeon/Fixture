@@ -257,6 +257,5 @@ void MainWindow::on_actionImport_triggered()
     PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
     paintWidget->addNewLayer(fileName);
     ui->layerView->updateItems(paintWidget->getItems());
-
 }
 

@@ -3,7 +3,6 @@
 
 #include <QGraphicsRectItem>
 #include <QPainter>
-#include <QDebug>
 
 class BoundingRectItem : public QGraphicsRectItem
 {

@@ -208,27 +208,3 @@ void PaintWidget::setTool(Tool *tool)
         break;
     }
 }
-
-/**
- * @brief PaintWidget::mousePressEvent Delegating to the current tool
- * @param event
- */
-/*
-void PaintWidget::mousePressEvent(QMouseEvent *event)
-{
-   _currentTool->press(event);
-    QGraphicsView::mousePressEvent(event);
-}
-
-void PaintWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    _currentTool->release(event);
-    QGraphicsView::mouseReleaseEvent(event);
-}
-
-void PaintWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    _currentTool->move(event);
-    QGraphicsView::mouseMoveEvent(event);
-}
-*/
