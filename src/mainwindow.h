@@ -8,13 +8,11 @@
 #include <QMimeData>
 #include <QActionGroup>
 #include <QIcon>
-
 #include "dialogs/newdialog.h"
 #include "widgets/paintwidget.h"
 #include "tools/pan.h"
 #include "tools/transform.h"
 #include "tools/tool.h"
-
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +25,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 
 public slots:
     void createNewDocument(const Canvas *canvas);
@@ -68,8 +67,9 @@ private:
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
 
-    friend QDataStream & operator << (QDataStream &stream, Layer* &layer);
-   // friend QDataStream & operator >> (QDataStream &stream, RasterLayer* layer);
+    friend QDataStream& operator<<(QDataStream &out, Layer* const& c);
+   // QDataStream& operator>>(QDataStream &in, Layer*& c);
+    // friend QDataStream & operator >> (QDataStream &stream, RasterLayer* layer);
 
 };
 

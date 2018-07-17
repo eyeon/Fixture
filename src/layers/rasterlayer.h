@@ -18,6 +18,8 @@ public:
     void setLayerSelected(bool select);
     void setZvalue(int z);
     void setParent(QGraphicsItem *parent);
+    inline QPixmap getPixmap() const { return pixmap(); }
+    inline QPointF getPos() const { return QGraphicsPixmapItem::pos(); }
 
 protected:
     void paint(QPainter *painter,

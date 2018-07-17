@@ -281,14 +281,13 @@ void MainWindow::on_actionSaveAs_triggered()
                                        tr("Fixture Document (*.fxd *.fxt)"));
 
     QFile file(fileName);
+
     file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);   // we will serialize the data into the file
-    out << paintWidget->getItems().at(0);
+    QDataStream out(&file);
+
+    QList<Layer*> layers = paintWidget->getItems();
+
+    out << layers;
 }
 
-QDataStream & operator << (QDataStream &stream, Layer *&layer)
-{
-    stream << layer->getName();
-    qDebug() << layer->getName();
-    return stream;
-}
+
