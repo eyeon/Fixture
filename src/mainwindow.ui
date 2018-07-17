@@ -19,6 +19,21 @@ color:rgb(255,255,255);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QMdiArea" name="mdiArea">
       <property name="sizePolicy">
@@ -200,6 +215,9 @@ padding: 2px; </string>
   <widget class="QToolBar" name="toolMenuBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="movable">
     <bool>false</bool>

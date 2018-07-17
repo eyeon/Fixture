@@ -1,6 +1,4 @@
 QFrame {
-    border: 1px solid #333333;
-    border-radius: 2px;
     padding: 7px;
     padding-left: 10px;
     font-size: 10px;
