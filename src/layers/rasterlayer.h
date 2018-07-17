@@ -11,6 +11,7 @@ class RasterLayer : public Layer, public QGraphicsPixmapItem
 {
 public:
     RasterLayer(const QString &name, const QImage &image);
+    RasterLayer();
     ~RasterLayer();
 
     void setLocked(bool lock);
@@ -20,6 +21,14 @@ public:
     void setParent(QGraphicsItem *parent);
     inline QPixmap getPixmap() const { return pixmap(); }
     inline QPointF getPos() const { return QGraphicsPixmapItem::pos(); }
+    inline void setLayerPos(QPointF pos) { setPos(pos);}
+    inline void setLayerPixmap(QPixmap pixmap) { setPixmap(pixmap); }
+    friend QDataStream & operator<< (QDataStream& out,  RasterLayer* const& layer)
+    {
+        out << layer->getName() << layer->getPos() << layer->getPixmap();
+        return out;
+    }
+
 
 protected:
     void paint(QPainter *painter,

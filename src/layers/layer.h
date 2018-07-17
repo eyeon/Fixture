@@ -10,7 +10,9 @@
 
 class Layer : public QListWidgetItem
 {
+
 public:
+
     enum LayerType{
         RASTER,
         VECTOR,
@@ -31,11 +33,20 @@ public:
     virtual void setParent(QGraphicsItem *parent) = 0;
     virtual QPixmap getPixmap() const = 0;
     virtual QPointF getPos() const = 0;
-    friend QDataStream & operator<< (QDataStream& out, const Layer *layer)
+    virtual void setLayerPixmap(QPixmap pixmap) = 0;
+    virtual void setLayerPos(QPointF pos) = 0;
+    friend QDataStream & operator>> (QDataStream& in, Layer *&layer)
     {
-        out << layer->getName() << layer->getPos() << layer->getPixmap();
-        return out;
+        QString name;
+        QPointF pos;
+        QPixmap pixmap;
+        in >> name >> pos >> pixmap;
+
+        qDebug() << name;
+        qDebug() << in;
+        return in;
     }
+
 private:
     QString _name;
     LayerType _type;

@@ -10,6 +10,11 @@ RasterLayer::RasterLayer(const QString &name, const QImage &image):
                                   QGraphicsItem::ItemIsSelectable);   
 }
 
+RasterLayer::RasterLayer() :
+    Layer("something", Layer::RASTER)
+{
+}
+
 RasterLayer::~RasterLayer()
 {
 }
