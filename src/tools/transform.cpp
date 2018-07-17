@@ -112,4 +112,3 @@ void Transform::connectMenu(TransformMenu *menu)
 {
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
 }
-

@@ -283,6 +283,12 @@ void MainWindow::on_actionSaveAs_triggered()
     QFile file(fileName);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);   // we will serialize the data into the file
-    out << QString("the answer is");   // serialize a string
-    out << (qint32)42;        // serialize an integer
+    out << paintWidget->getItems().at(0);
+}
+
+QDataStream & operator << (QDataStream &stream, Layer *&layer)
+{
+    stream << layer->getName();
+    qDebug() << layer->getName();
+    return stream;
 }

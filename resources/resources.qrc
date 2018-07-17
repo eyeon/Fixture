@@ -19,5 +19,6 @@
         <file>tools/select.svg</file>
         <file>tools/pan.svg</file>
         <file>icons/check-tick.svg</file>
+        <file>tools/paint.svg</file>
     </qresource>
 </RCC>
