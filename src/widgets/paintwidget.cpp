@@ -160,10 +160,10 @@ void PaintWidget::setupCanvas(QRect rect)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(RasterLayer *layer)
+void PaintWidget::pushLayer(Layer *layer)
 {
     // Needs smarter naming based on positions on the stack
-    layer->setParentItem(d->getParentItem());
+    layer->setParent(d->getParentItem());
     _items.push_back(layer);
     d->clearSelection();
     layer->setLayerSelected(true);

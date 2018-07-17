@@ -1,0 +1,81 @@
+diff --git a/src/layers/layer.h b/src/layers/layer.h
+index b49cbe9..4913a25 100644
+--- a/src/layers/layer.h
++++ b/src/layers/layer.h
+@@ -26,6 +26,7 @@ public:
+     virtual void setSceneSelected(bool select) = 0;
+     virtual void setLayerSelected(bool select) = 0;
+     virtual void setZvalue(int z) = 0;
++    virtual void setParent(QGraphicsItem *parent) = 0;
+ 
+ private:
+     QString _name;
+diff --git a/src/layers/rasterlayer.cpp b/src/layers/rasterlayer.cpp
+index ffaaa9a..f197e0c 100644
+--- a/src/layers/rasterlayer.cpp
++++ b/src/layers/rasterlayer.cpp
+@@ -1,7 +1,6 @@
+ #include "rasterlayer.h"
+ 
+-RasterLayer::RasterLayer(QString name, QImage image,
+-                         QGraphicsItem *parentItem):
++RasterLayer::RasterLayer(QString name, QImage image):
+     Layer(name,Layer::RasterLayer), _image(image)
+ {
+     QIcon ico(QPixmap::fromImage(image));
+@@ -9,7 +8,6 @@ RasterLayer::RasterLayer(QString name, QImage image,
+     setPixmap(QPixmap::fromImage(image));
+     QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
+                                   QGraphicsItem::ItemIsSelectable);
+-    setParentItem(parentItem);
+ 
+ }
+ 
+@@ -37,6 +35,11 @@ void RasterLayer::setZvalue(int z)
+     QGraphicsPixmapItem::setZValue(z);
+ }
+ 
++void RasterLayer::setParent(QGraphicsItem *parent)
++{
++    QGraphicsPixmapItem::setParentItem(parent);
++}
++
+ void RasterLayer::paint(QPainter *painter,
+                         const QStyleOptionGraphicsItem *option,
+                         QWidget *widget)
+diff --git a/src/layers/rasterlayer.h b/src/layers/rasterlayer.h
+index 5061c5d..8323a4c 100644
+--- a/src/layers/rasterlayer.h
++++ b/src/layers/rasterlayer.h
+@@ -10,13 +10,14 @@
+ class RasterLayer : public Layer, public QGraphicsPixmapItem
+ {
+ public:
+-    RasterLayer(QString name, QImage image, QGraphicsItem *parentItem);
++    RasterLayer(QString name, QImage image);
+     ~RasterLayer();
+ 
+     void setLocked(bool lock);
+     void setSceneSelected(bool select);
+     void setLayerSelected(bool select);
+     void setZvalue(int z);
++    void setParent(QGraphicsItem *parent);
+ 
+ protected:
+     void paint(QPainter *painter,
+diff --git a/src/widgets/paintwidget.cpp b/src/widgets/paintwidget.cpp
+index ac10a5a..27c7929 100644
+--- a/src/widgets/paintwidget.cpp
++++ b/src/widgets/paintwidget.cpp
+@@ -153,8 +153,10 @@ void PaintWidget::setupCanvas(QRect rect)
+ void PaintWidget::pushLayer(QImage image, const QString& name)
+ {
+     // Needs smarter naming based on positions on the stack
+-    RasterLayer* l = new RasterLayer(name, image, d->getParentItem());
++    RasterLayer* l = new RasterLayer(name, image);
+     _items.push_back(l);
++    Layer *lay = dynamic_cast<Layer *>(l);
++    lay->setParent(d->getParentItem());
+     d->clearSelection();
+     l->setLayerSelected(true);
+ }

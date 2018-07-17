@@ -17,6 +17,7 @@ public:
     void setSceneSelected(bool select);
     void setLayerSelected(bool select);
     void setZvalue(int z);
+    void setParent(QGraphicsItem *parent);
 
 protected:
     void paint(QPainter *painter,

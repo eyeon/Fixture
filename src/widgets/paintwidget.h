@@ -65,7 +65,7 @@ private:
     QImage drawEmptyImage(const Canvas *canvas);
     void prepareDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
-    void pushLayer(RasterLayer *layer);
+    void pushLayer(Layer *layer);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();
 

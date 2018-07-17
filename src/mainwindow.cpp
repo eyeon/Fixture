@@ -262,9 +262,9 @@ void MainWindow::on_actionImport_triggered()
     const QString fileName = chooseFile();
     QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
     PaintWidget* paintWidget = qobject_cast<PaintWidget*> (currentWindow->widget());
+
     paintWidget->importPathToLayer(fileName);
     ui->layerView->updateItems(paintWidget->getItems());
-
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -279,4 +279,10 @@ void MainWindow::on_actionSaveAs_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                        _lastFileLoc,
                                        tr("Fixture Document (*.fxd *.fxt)"));
+
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);   // we will serialize the data into the file
+    out << QString("the answer is");   // serialize a string
+    out << (qint32)42;        // serialize an integer
 }

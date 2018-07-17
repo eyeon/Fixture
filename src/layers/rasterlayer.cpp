@@ -33,6 +33,11 @@ void RasterLayer::setZvalue(int z)
 {
     QGraphicsPixmapItem::setZValue(z);
 }
+void RasterLayer::setParent(QGraphicsItem *parent)
+{
+    QGraphicsPixmapItem::setParentItem(parent);
+}
+
 
 void RasterLayer::paint(QPainter *painter,
                         const QStyleOptionGraphicsItem *option,
