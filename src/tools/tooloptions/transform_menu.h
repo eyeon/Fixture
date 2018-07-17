@@ -19,6 +19,8 @@ private slots:
 
     void on_showTransfromCheck_stateChanged(int arg1);
 
+    void on_autoSelectCheck_stateChanged(int arg1);
+
 signals:
     void autoSelect(bool check);
     void showTransform(bool show);

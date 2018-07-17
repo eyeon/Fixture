@@ -21,6 +21,7 @@ public:
 
 public slots:
     void drawBounds(bool draw);
+    inline void setAutoSelect(bool set){ _autoSelect = set;}
 
 private:
     void drawBoundingRect();
@@ -28,7 +29,7 @@ private:
     void connectMenu(TransformMenu *menu);
 
     BoundingRectItem *_rect;
-    bool _boundsDrawn;
+    bool _boundsDrawn,_autoSelect;
 };
 
 #endif // SELECTTOOL_H

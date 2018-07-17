@@ -18,3 +18,8 @@ void TransformMenu::on_showTransfromCheck_stateChanged(int arg1)
 {
     emit showTransform(arg1 == Qt::Checked);
 }
+
+void TransformMenu::on_autoSelectCheck_stateChanged(int arg1)
+{
+    emit autoSelect(arg1 == Qt::Checked);
+}

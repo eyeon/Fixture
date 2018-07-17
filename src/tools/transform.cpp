@@ -17,6 +17,10 @@ Transform::~Transform()
 
 void Transform::press(QGraphicsSceneMouseEvent *event)
 {
+    if(!_autoSelect){
+        return;
+    }
+
     QGraphicsItem* itm = _scene->itemAt(event->pos(),QTransform());
     itm->setSelected(true);
     emit _scene->selectionChanged();
@@ -113,5 +117,6 @@ QWidget* Transform::getToolMenu()
 void Transform::connectMenu(TransformMenu *menu)
 {
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
+    connect(menu, SIGNAL(autoSelect(bool)),this,SLOT(setAutoSelect(bool)));
 }
 
