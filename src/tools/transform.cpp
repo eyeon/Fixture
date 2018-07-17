@@ -15,19 +15,21 @@ Transform::~Transform()
 }
 
 
-void Transform::press(QMouseEvent *event)
+void Transform::press(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem* itm = _scene->itemAt(event->pos(),QTransform());
+    itm->setSelected(true);
+    emit _scene->selectionChanged();
+}
+
+void Transform::release(QGraphicsSceneMouseEvent *event)
 {
 }
 
-void Transform::release(QMouseEvent *event)
-{
-}
-
-void Transform::move(QMouseEvent *event)
+void Transform::move(QGraphicsSceneMouseEvent *event)
 {
     if(_boundsDrawn){
         drawBoundingRect();
-        _scene->update(_scene->sceneRect());
     }
 }
 

@@ -44,8 +44,8 @@ QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
 void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 {
     addStyleSheet();
-    setTool(tool);
     setupCanvas(rect);
+    setTool(tool);
 
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(addNewLayer(QString)));
@@ -135,14 +135,8 @@ void PaintWidget::setupCanvas(QRect rect)
     setSceneRect(rect);
 
     d = new Drawing(this, rect.width(), rect.height());
-
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
-
-    if(_currentTool->getToolGroup() == Tool::SELECTION) {
-        AbstractSelection *tool = dynamic_cast<AbstractSelection*>(_currentTool);
-        tool->setScene(d);
-    }
 }
 
 /**
@@ -201,7 +195,7 @@ void PaintWidget::setTool(Tool *tool)
 {
     setCursor(tool->getToolCursor());
     _currentTool = tool;
-
+    d->setTool(tool);
     switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
         AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
@@ -219,6 +213,7 @@ void PaintWidget::setTool(Tool *tool)
  * @brief PaintWidget::mousePressEvent Delegating to the current tool
  * @param event
  */
+/*
 void PaintWidget::mousePressEvent(QMouseEvent *event)
 {
    _currentTool->press(event);
@@ -236,3 +231,4 @@ void PaintWidget::mouseMoveEvent(QMouseEvent *event)
     _currentTool->move(event);
     QGraphicsView::mouseMoveEvent(event);
 }
+*/

@@ -11,15 +11,15 @@ Pan::~Pan()
 {
 
 }
-void Pan::move(QMouseEvent *event)
+void Pan::move(QGraphicsSceneMouseEvent *event)
 {
 
 }
-void Pan::press(QMouseEvent *event)
+void Pan::press(QGraphicsSceneMouseEvent *event)
 {
 
 }
-void Pan::release(QMouseEvent *event)
+void Pan::release(QGraphicsSceneMouseEvent *event)
 {
 
 }

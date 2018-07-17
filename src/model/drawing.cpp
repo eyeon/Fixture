@@ -42,3 +42,18 @@ void Drawing::dropEvent(QGraphicsSceneDragDropEvent *e)
         emit importAvailable(fileName);
     }
 }
+
+void Drawing::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    _tool->press(event);
+}
+
+void Drawing::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    _tool->move(event);
+}
+
+void Drawing::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    _tool->release(event);
+}

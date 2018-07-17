@@ -12,9 +12,9 @@ class Transform : public AbstractSelection
 public:
     Transform(QWidget *parent=0);
     ~Transform();
-    void move(QMouseEvent *event);
-    void press(QMouseEvent *event);
-    void release(QMouseEvent *event);
+    void move(QGraphicsSceneMouseEvent *event);
+    void press(QGraphicsSceneMouseEvent *event);
+    void release(QGraphicsSceneMouseEvent *event);
 
     void setTransformMode(bool set);
     QWidget *getToolMenu();
