@@ -41,6 +41,7 @@ QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
 
     return image;
 }
+
 void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 {
     addStyleSheet();
@@ -54,6 +55,8 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
+
+    setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 }
 
 /**
@@ -184,6 +187,11 @@ void PaintWidget::setSelectedLayers()
         }else{
             l->setLayerSelected(false);
         }
+    }
+
+    if(_currentTool->getToolType() == Tool::TRANSFORM) {
+        Transform *t = dynamic_cast<Transform*>(_currentTool);
+        t->updateBounds();
     }
 }
 

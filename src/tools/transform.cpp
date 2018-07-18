@@ -12,7 +12,7 @@ Transform::Transform(QWidget* parent):
     setShortcut(Qt::Key_V);
     _rect = new BoundingRectItem();
     _boundsDrawn = false;
-    _mouseButton = -1;
+    _mouseButton = Qt::NoButton;
 }
 
 /**
@@ -45,6 +45,7 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
             _scene->clearSelection();
         }
         emit _scene->selectionChanged();
+        drawBounds(_boundsDrawn);
         return;
     }
 
@@ -59,7 +60,8 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
  */
 void Transform::release(QGraphicsSceneMouseEvent *event)
 {
-    _mouseButton = -1;
+    event->accept();
+    _mouseButton = Qt::NoButton;
 }
 
 /**
@@ -79,11 +81,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
     }
 
     _prevPos = _curPos;
-
-    if(_boundsDrawn){
-        drawBoundingRect();
-        _scene->update(_scene->sceneRect());
-    }
+    updateBounds();
 }
 
 /**
@@ -108,6 +106,14 @@ void Transform::drawBounds(bool draw)
 void Transform::setTransformMode(bool set)
 {
     _rect->transformMode(set);
+}
+
+void Transform::updateBounds()
+{
+    if(_boundsDrawn){
+        drawBoundingRect();
+        _scene->update(_scene->sceneRect());
+    }
 }
 
 /**
@@ -144,6 +150,13 @@ void Transform::drawBoundingRect()
         if(itmBottomRight.y() > max.y()){
             max.setY(itmBottomRight.y());
         }
+    }
+
+    if(max == QPointF(INT_MIN,INT_MIN) || min == QPointF(INT_MAX,INT_MAX)) {
+        if(_scene->items().contains(_rect)){
+            _rect->setVisible(false);
+        }
+        return;
     }
 
     _rect->setPoints(min,max);
