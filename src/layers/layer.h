@@ -14,7 +14,7 @@ class Layer : public QListWidgetItem
 public:
 
     enum LayerType{
-        RASTER,
+        RASTER = QListWidgetItem::UserType,
         VECTOR,
         TEXT,
         ADJUSTMENT
@@ -23,33 +23,27 @@ public:
     Layer(QString name, LayerType type);
 
     ~Layer();
-
+    inline void setName(QString &name) { _name = name; }
     inline QString getName() const { return _name; }
-    inline LayerType getType() { return _type; }
-
+    inline LayerType getType() const { return _type; }
+    inline void setType(LayerType type) { _type = type; }
     virtual void setSceneSelected(bool select) = 0;
     virtual void setLayerSelected(bool select) = 0;
     virtual void setZvalue(int z) = 0;
     virtual void setParent(QGraphicsItem *parent) = 0;
     virtual QPixmap getPixmap() const = 0;
     virtual QPointF getPos() const = 0;
-    virtual void setLayerPixmap(QPixmap pixmap) = 0;
-    virtual void setLayerPos(QPointF pos) = 0;
-    friend QDataStream & operator>> (QDataStream& in, Layer *&layer)
-    {
-        QString name;
-        QPointF pos;
-        QPixmap pixmap;
-        in >> name >> pos >> pixmap;
-
-        qDebug() << name;
-        qDebug() << in;
-        return in;
-    }
-
-private:
+    virtual void write(QDataStream&) const = 0;
+    virtual void read(QDataStream&) = 0;
+    friend QDataStream &operator<<(QDataStream &out, const Layer* layer);
+    friend QDataStream &operator<<(QDataStream &out, Layer* layer);
+    friend QDataStream& operator <<(QDataStream& stream, const QList<Layer*>& l);
+    friend QDataStream& operator >> (QDataStream& stream, QList<Layer*>& l);
+protected:
     QString _name;
     LayerType _type;
+
+
 };
 
 #endif // LAYER_H

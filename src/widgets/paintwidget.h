@@ -31,6 +31,7 @@ class PaintWidget : public QGraphicsView
 public:
     PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent=0);
     PaintWidget(const Canvas *document, Tool *tool, QWidget *parent=0);
+    void pushLayer(Layer *layer);
 
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
@@ -65,7 +66,6 @@ private:
     QImage drawEmptyImage(const Canvas *canvas);
     void prepareDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
-    void pushLayer(Layer *layer);
     bool isRaw(const QString &imagePath);
     void addStyleSheet();
 

@@ -52,3 +52,17 @@ void RasterLayer::paint(QPainter *painter,
     tampered.state &= ~QStyle::State_Selected;
     QGraphicsPixmapItem::paint(painter,&tampered,widget);
 }
+
+void RasterLayer::write(QDataStream &ds) const
+{
+
+    Layer::write(ds);
+    ds << getPixmap() << getPos();
+}
+
+void RasterLayer::read(QDataStream &ds)
+{
+    QPointF pos;
+    ds >> pos;
+    setPos(pos);
+}

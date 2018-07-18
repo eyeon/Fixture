@@ -23,12 +23,9 @@ public:
     inline QPointF getPos() const { return QGraphicsPixmapItem::pos(); }
     inline void setLayerPos(QPointF pos) { setPos(pos);}
     inline void setLayerPixmap(QPixmap pixmap) { setPixmap(pixmap); }
-    friend QDataStream & operator<< (QDataStream& out,  RasterLayer* const& layer)
-    {
-        out << layer->getName() << layer->getPos() << layer->getPixmap();
-        return out;
-    }
 
+    void write(QDataStream&) const;
+    void read(QDataStream&);
 
 protected:
     void paint(QPainter *painter,

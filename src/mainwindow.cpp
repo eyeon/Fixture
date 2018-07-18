@@ -285,12 +285,17 @@ void MainWindow::on_actionSaveAs_triggered()
     file.open(QIODevice::ReadWrite);
     QDataStream out(&file);
 
-    //QList<Layer*> layers = paintWidget->getItems();
-    Layer *layer = paintWidget->getItems().at(0);
-    out << layer;
+   //QList<Layer*> layers = paintWidget->getItems();
+    QList<Layer*> layers;
+    out >> layers;
 
-    Layer *raster = new RasterLayer;
-    out >> raster;
+    qDebug() << layers;
+
+    qDebug() << layers.size();
+
+    //qDebug() << layers.at(1)->getName();
+   // out << *layer;
+    file.close();
 }
 
 
