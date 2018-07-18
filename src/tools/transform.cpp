@@ -28,7 +28,6 @@ Transform::~Transform()
  */
 void Transform::press(QGraphicsSceneMouseEvent *event)
 {
-
     _prevPos = event->scenePos();
     QGraphicsItem* itm = _scene->itemAt(_prevPos,QTransform());
     _mouseButton = event->button();
@@ -50,7 +49,7 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
     }
 
     if(!(_scene->selectedItems().contains(itm))){
-        _mouseButton = -1;
+        _mouseButton = Qt::NoButton;
     }
 }
 
