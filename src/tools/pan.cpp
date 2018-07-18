@@ -13,15 +13,15 @@ Pan::~Pan()
 }
 void Pan::move(QGraphicsSceneMouseEvent *event)
 {
-
+    event->accept();
 }
 void Pan::press(QGraphicsSceneMouseEvent *event)
 {
-
+    event->accept();
 }
 void Pan::release(QGraphicsSceneMouseEvent *event)
 {
-
+    event->accept();
 }
 
 QWidget* Pan::getToolMenu()
