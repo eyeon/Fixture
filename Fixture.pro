@@ -84,4 +84,5 @@ DISTFILES += \
     resources/tools/pan.svg \
     resources/basic.qss \
     resources/layermanager.qss \
-    resources/paintwidget.qss
+    resources/paintwidget.qss \
+    uncrustify.cfg
