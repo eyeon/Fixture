@@ -1,18 +1,38 @@
 #include "rasterlayer.h"
 
-RasterLayer::RasterLayer(const QString &name, const QImage &image):
-    Layer(name, Layer::RASTER), _image(image)
+
+RasterLayer::RasterLayer(const QString &name):
+    Layer(name, Layer::RASTER)
 {
-    QIcon ico(QPixmap::fromImage(image));
-    setIcon(ico);
-    setPixmap(QPixmap::fromImage(image));
-    QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
-                                  QGraphicsItem::ItemIsSelectable);   
 }
 
-RasterLayer::RasterLayer() :
-    Layer("something", Layer::RASTER)
+RasterLayer::RasterLayer(const RasterLayer &other):
+    Layer(other.getName(), Layer::RASTER)
 {
+    create(other.getPixmap());
+}
+
+RasterLayer::RasterLayer(const QString &name, const QImage &image):
+    Layer(name, Layer::RASTER)
+{
+    create(QPixmap::fromImage(image));;
+}
+
+RasterLayer::RasterLayer(const QString &name, const QPixmap &pixmap) :
+    Layer(name, Layer::RASTER)
+
+{
+    create(pixmap);
+}
+
+void RasterLayer::create(const QPixmap &pixmap)
+{
+    QIcon icon(pixmap);
+    setIcon(icon);
+    setPixmap(pixmap);
+
+    QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
+                                  QGraphicsItem::ItemIsSelectable);
 }
 
 RasterLayer::~RasterLayer()
@@ -62,7 +82,17 @@ void RasterLayer::write(QDataStream &ds) const
 
 void RasterLayer::read(QDataStream &ds)
 {
+    QPixmap pixmap;
     QPointF pos;
-    ds >> pos;
+    ds >> pixmap >> pos;
+    create(pixmap);
     setPos(pos);
+
+    qDebug() << getName() << getPixmap() << getPos();
 }
+
+Layer* RasterLayer::clone() const
+{
+    return new RasterLayer(*this);
+}
+

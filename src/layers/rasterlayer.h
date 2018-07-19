@@ -10,8 +10,11 @@
 class RasterLayer : public Layer, public QGraphicsPixmapItem
 {
 public:
+    RasterLayer(const QString &name);
+    RasterLayer(const RasterLayer &other);
     RasterLayer(const QString &name, const QImage &image);
-    RasterLayer();
+    RasterLayer(const QString &name, const QPixmap &pixmap);
+
     ~RasterLayer();
 
     void setLocked(bool lock);
@@ -26,6 +29,8 @@ public:
 
     void write(QDataStream&) const;
     void read(QDataStream&);
+    virtual Layer* clone() const;
+
 
 protected:
     void paint(QPainter *painter,
@@ -33,7 +38,8 @@ protected:
                QWidget *widget);
 
 private:
-    QImage _image;
+    void create(const QPixmap &pixmap);
+
 };
 
 #endif // RASTERLAYER_H

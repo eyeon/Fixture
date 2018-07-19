@@ -60,7 +60,7 @@ HEADERS += \
     src/tools/tooloptions/transform_menu.h \
     src/tools/tooloptions/pan_menu.h \
     src/tools/components/boundingrectitem.h \
-    src/tools/tooloptions/toolmenu.h \
+    src/tools/tooloptions/toolmenu.h
 
 FORMS += \
     src/mainwindow.ui \

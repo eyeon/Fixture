@@ -8,6 +8,8 @@
  * @param x, y
  * @param height, width
  */
+class LayerPointer;
+
 Layer::Layer(QString name, LayerType type):
     _name(name),_type(type)
 {
@@ -41,51 +43,51 @@ QDataStream& operator>>(QDataStream& ds, Layer &layer)
     layer.read(ds);
     return ds;
 }
-QDataStream &operator>>(QDataStream &out,  Layer* layer)
-{
-    QString name;
-    int type;
-    QPixmap pixmap;
 
-    out >> name >> type >> pixmap;
-
-    layer = new RasterLayer(name, pixmap.toImage());
-    layer->read(out);
-    return out;
-}
-
-QDataStream& operator <<(QDataStream& stream, const QList<Layer*>& l){
+QDataStream& operator <<(QDataStream& stream, const QList<Layer::LayerPointer>& l){
     stream << l.size();
     for(auto& a_ptr: l){
         stream << *a_ptr;
     }
     return stream;
 }
-QDataStream& operator >>(QDataStream& stream, QList<Layer*>& l){
-    l.clear();
+
+QDataStream& operator >>(QDataStream& stream, QList<Layer::LayerPointer> &layers){
+    layers.clear();
     int size;
     int type;
-    stream>>size;
-    QString name;
-    QPixmap pixmap;
 
-    Layer* tmp;
+    stream >> size;
+
+    QString name;
+    layers.reserve(size);
+
     for(int i =0; i<size; ++i){
 
         stream >> name >> type;
-        switch (type) {
-        case Layer::RASTER:
-            stream >> pixmap;
-            tmp = new RasterLayer(name, pixmap.toImage());
-            break;
-        default:
-            break;
-        }
-        tmp->read(stream);
+        Layer::LayerType val = static_cast<Layer::LayerType>(type);
+        Layer::LayerPointer layer = Layer::create(name, val);
 
-        qDebug() << tmp->getType() << tmp->getName() << tmp->getPixmap() << tmp->getPos();
-        l.push_back(tmp);
+        stream >> *layer;
+        layers.push_back(layer);
     }
     return stream;
 }
 
+Layer::LayerPointer Layer::create(const QString &name, Layer::LayerType type)
+{
+    switch (type) {
+    case Layer::RASTER:
+        return Layer::LayerPointer(new RasterLayer(name));
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+}
+
+template<>
+Layer *QSharedDataPointer<Layer>::clone()
+{
+    return this->clone();
+}
