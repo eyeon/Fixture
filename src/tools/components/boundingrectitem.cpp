@@ -8,15 +8,6 @@ BoundingRectItem::BoundingRectItem()
     _transformMode = false;
     _width = 0;
     _height = 0;
-
-    _rectList[0] = r0;
-    _rectList[1] = r1;
-    _rectList[2] = r2;
-    _rectList[3] = r3;
-    _rectList[4] = r4;
-    _rectList[5] = r5;
-    _rectList[6] = r6;
-    _rectList[7] = r7;
 }
 
 void BoundingRectItem::setPoints(QPointF min, QPointF max)
@@ -47,30 +38,20 @@ void BoundingRectItem::paint(QPainter *painter,
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
     }
     painter->drawRect(r);
-    r0 = new QRectF(r);
     r.translate(_width/2,0);
     painter->drawRect(r);
-    r1 = new QRectF(r);
     r.translate(_width/2 + 0.75,0);
     painter->drawRect(r);
-    r2 = new QRectF(r);
     r.translate(0,_height/2);
     painter->drawRect(r);
-    r3 = new QRectF(r);
     r.translate(0,_height/2 + 0.75);
     painter->drawRect(r);
-    r4 = new QRectF(r);
     r.translate(-1 * _width/2,0);
     painter->drawRect(r);
-    r5 = new QRectF(r);
     r.translate(-1 * _width/2 - 0.75,0);
     painter->drawRect(r);
-    r6 = new QRectF(r);
     r.translate(0,-1 * _height/2 - 0.75);
     painter->drawRect(r);
-    r7 = new QRectF(r);
-
-    setTriggers();
 }
 
 QRectF BoundingRectItem::boundingRect() const
@@ -82,13 +63,49 @@ QRectF BoundingRectItem::boundingRect() const
 BoundingRectItem::HotSpot BoundingRectItem::checkMouse(QGraphicsSceneMouseEvent *event)
 {
     QPointF pos = event->scenePos();
-    QMapIterator<int,QRectF*> itr(_rectList);
 
-    while(itr.hasNext()){
-        itr.next();
-        if(itr.value()->contains(pos)){
+    //Kind of an ugly hack, should be improved
+    QPointF tl = _boundingRect.topLeft() - QPointF(5,5);
+    QPointF br = tl + QPointF(10,10);
+    QRectF rect(tl,br);
 
-        }
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopLeftCorner;
+    }
+
+    rect.translate(_width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopBoundary;
+    }
+
+    rect.translate(_width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopRightCorner;
+    }
+
+    rect.translate(0,_height/2 );
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleRightBoundary;
+    }
+
+    rect.translate(0,_height/2 );
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomRightCorner;
+    }
+
+    rect.translate(-1 * _width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomBoundary;
+    }
+
+    rect.translate(-1 * _width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomLeftCorner;
+    }
+
+    rect.translate(0,-1 * _height/2);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleLeftBoundary;
     }
 
     return BoundingRectItem::HotSpot::Move;

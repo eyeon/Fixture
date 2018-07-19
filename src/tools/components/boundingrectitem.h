@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QMap>
+#include <QGraphicsScene>
 
 namespace TransformTool {
     class BoundingRectItem;
@@ -50,12 +51,7 @@ protected:
 private:
     QRectF _boundingRect;
     qreal _width, _height;
-    QRectF *r0, *r1, *r2, *r3, *r4, *r5, *r6, *r7;
     bool _transformMode;
-    QMap<int,HotSpot> _mouseTriggers;
-    QMap<int,QRectF*> _rectList;
-
-    void setTriggers();
 };
 
 #endif // BOUNDINGRECTITEM_H
