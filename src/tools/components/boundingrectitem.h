@@ -5,6 +5,10 @@
 #include <QPainter>
 #include <QDebug>
 
+namespace TransformTool {
+    class BoundingRectItem;
+}
+
 class BoundingRectItem : public QGraphicsRectItem
 {
 public:

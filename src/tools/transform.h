@@ -30,10 +30,10 @@ private:
     void drawBoundingRect();
     void connectMenu(TransformMenu *menu);
 
-    BoundingRectItem *_rect;
+    TransformTool::BoundingRectItem *_rect;
     bool _boundsDrawn,_autoSelect;
     QPointF _prevPos, _curPos;
-    int _mouseButton;
+    Qt::MouseButton _mouseButton;
 };
 
 #endif // SELECTTOOL_H
