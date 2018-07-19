@@ -61,7 +61,6 @@ HEADERS += \
     src/tools/tooloptions/pan_menu.h \
     src/tools/components/boundingrectitem.h \
     src/tools/tooloptions/toolmenu.h \
-    src/tools/brush.h
 
 FORMS += \
     src/mainwindow.ui \
