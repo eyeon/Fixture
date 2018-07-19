@@ -4,7 +4,7 @@ A lightweight image editor based on Qt
 
 ### TODOs:
 
-- [ ] **Phase 1 Targets**
+- [X] **Phase 1**
 
 
 - Have a minimal image viewer to open various formats.
@@ -13,8 +13,17 @@ A lightweight image editor based on Qt
 
 
 
+- [ ] **Phase 2**
 
-- [ ] **Phase 2 Targets**
+
+- Community contribution support and basic documentation.
+- Document saving/loading to files.
+- Basic tool option menu to modify tool behavior.
+
+
+
+
+- [ ] **Phase 3**
 
 
 
@@ -25,7 +34,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ] **Phase 3 Targets**
+- [ ] **Phase 4**
 
 
 
@@ -37,7 +46,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ] **Phase 4 Targets**
+- [ ] **Phase 5**
 
 
 
@@ -48,7 +57,7 @@ A lightweight image editor based on Qt
 
 
 
-- [ ] **Phase 5 Targets**
+- [ ] **Phase 6**
 
 
 
