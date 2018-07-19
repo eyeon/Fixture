@@ -1,6 +1,6 @@
 #include "boundingrectitem.h"
 
-BoundingRectItem::BoundingRectItem()
+TransformTool::BoundingRectItem::BoundingRectItem()
 {    
     setFlag(QGraphicsItem::ItemIsMovable);
     _transformMode = false;
@@ -8,7 +8,7 @@ BoundingRectItem::BoundingRectItem()
     _height = 0;
 }
 
-void BoundingRectItem::setPoints(QPointF min, QPointF max)
+void TransformTool::BoundingRectItem::setPoints(QPointF min, QPointF max)
 {
     _boundingRect.setTopLeft(min);
     _boundingRect.setBottomRight(max);
@@ -17,7 +17,7 @@ void BoundingRectItem::setPoints(QPointF min, QPointF max)
     _height = max.y() - min.y();
 }
 
-void BoundingRectItem::paint(QPainter *painter,
+void TransformTool::BoundingRectItem::paint(QPainter *painter,
                              const QStyleOptionGraphicsItem *option,
                              QWidget *widget)
 {
@@ -52,7 +52,7 @@ void BoundingRectItem::paint(QPainter *painter,
     painter->drawRect(r);
 }
 
-QRectF BoundingRectItem::boundingRect() const
+QRectF TransformTool::BoundingRectItem::boundingRect() const
 {
     return QRectF(_boundingRect.topLeft() - QPointF(5,5),
                   _boundingRect.bottomRight() + QPointF(5,5));

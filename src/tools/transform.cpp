@@ -10,7 +10,7 @@ Transform::Transform(QWidget* parent):
          Tool::SELECTION, Tool::TRANSFORM, parent)
 {
     setShortcut(Qt::Key_V);
-    _rect = new BoundingRectItem();
+    _rect = new TransformTool::BoundingRectItem();
     _boundsDrawn = false;
     _mouseButton = Qt::NoButton;
 }

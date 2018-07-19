@@ -9,7 +9,7 @@ namespace TransformTool {
     class BoundingRectItem;
 }
 
-class BoundingRectItem : public QGraphicsRectItem
+class TransformTool::BoundingRectItem : public QGraphicsRectItem
 {
 public:
 
