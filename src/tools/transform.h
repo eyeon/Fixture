@@ -31,9 +31,12 @@ private:
     void connectMenu(TransformMenu *menu);
 
     TransformTool::BoundingRectItem *_rect;
+    TransformTool::BoundingRectItem::HotSpot _handle;
     bool _boundsDrawn,_autoSelect;
     QPointF _prevPos, _curPos;
     Qt::MouseButton _mouseButton;
+    QTransform _curState;
+    qreal _scalex, _scaley;
 };
 
 #endif // SELECTTOOL_H
