@@ -6,6 +6,8 @@ TransformMenu::TransformMenu( QWidget *parent) :
     ui(new Ui::TransformOptions)
 {
     ui->setupUi(this);
+    ui->acceptBtn->setVisible(false);
+    ui->rejectBtn->setVisible(false);
     addStyleSheet();
 }
 
@@ -22,4 +24,22 @@ void TransformMenu::on_showTransfromCheck_stateChanged(int arg1)
 void TransformMenu::on_autoSelectCheck_stateChanged(int arg1)
 {
     emit autoSelect(arg1 == Qt::Checked);
+}
+
+void TransformMenu::enterTransformMode(bool enter)
+{
+    ui->acceptBtn->setVisible(enter);
+    ui->rejectBtn->setVisible(enter);
+    ui->showTransfromCheck->setEnabled(!enter);
+    ui->autoSelectCheck->setEnabled(!enter);
+}
+
+void TransformMenu::on_acceptBtn_clicked()
+{
+    emit accept();
+}
+
+void TransformMenu::on_rejectBtn_clicked()
+{
+    emit reject();
 }

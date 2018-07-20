@@ -16,7 +16,13 @@ QCheckBox::indicator {
     border: 1px solid #1a1a1a;
     border-radius: 3px;
 }
+
 QCheckBox::indicator:checked {
     image: url(:/icons/check-tick.svg);
+}
+
+QPushButton {
+    background-color: #262626;
+    border : none;
 }
 
