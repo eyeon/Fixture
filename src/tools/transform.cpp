@@ -40,7 +40,10 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
 
     if(_handle != TransformTool::BoundingRectItem::HotSpot::Move){
         setTransformMode(true);
-        _curState = _scene->selectedItems().last()->transform();
+        _curItems = _scene->selectedItems();
+        foreach(QGraphicsItem *itm, _curItems){
+            _curState.push_back(itm->transform());
+        }
         return;
     }
 
@@ -73,8 +76,7 @@ void Transform::release(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
     _mouseButton = Qt::NoButton;
-    _scalex = 1;
-    _scaley = 1;
+    _curState.clear();
 }
 
 /**
@@ -87,9 +89,9 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
     qreal dx = _curPos.x() - _prevPos.x();
     qreal dy = _curPos.y() - _prevPos.y();
 
-    switch (_mouseButton){
-    case Qt::LeftButton : {
+    if (_mouseButton == Qt::LeftButton){
         switch(_handle){
+
         case TransformTool::BoundingRectItem::HotSpot::Move:{
             foreach(QGraphicsItem *itm,_scene->selectedItems()) {
                 itm->moveBy(dx,dy);
@@ -100,9 +102,9 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         case TransformTool::BoundingRectItem::HotSpot::ScaleBottomRightCorner:{
             _scalex += dx*0.002;
             _scaley += dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
             }
             break;
         }
@@ -110,10 +112,10 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         case TransformTool::BoundingRectItem::HotSpot::ScaleTopLeftCorner:{
             _scalex -= dx*0.002;
             _scaley -= dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
-                itm->moveBy(dx*0.002,dy*0.002);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,dy);
             }
             break;
         }
@@ -121,10 +123,10 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         case TransformTool::BoundingRectItem::HotSpot::ScaleTopRightCorner:{
             _scalex += dx*0.002;
             _scaley -= dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
-                itm->moveBy(dx,dy);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,dy);
             }
             break;
         }
@@ -132,53 +134,69 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         case TransformTool::BoundingRectItem::HotSpot::ScaleBottomLeftCorner:{
             _scalex += dx*0.002;
             _scaley -= dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
-                itm->moveBy(dx,dy);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,dy);
             }
             break;
         }
         case TransformTool::BoundingRectItem::HotSpot::ScaleTopBoundary:{
             _scaley -= dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
-                itm->moveBy(0,dy);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(0,dy);
             }
             break;
         }
 
         case TransformTool::BoundingRectItem::HotSpot::ScaleBottomBoundary:{
             _scaley += dy*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
             }
             break;
         }
 
         case TransformTool::BoundingRectItem::HotSpot::ScaleLeftBoundary:{
             _scalex -= dx*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
-                itm->moveBy(dx,0);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,0);
             }
             break;
         }
 
         case TransformTool::BoundingRectItem::HotSpot::ScaleRightBoundary:{
             _scalex += dx*0.002;
-            _curState.scale(_scalex,_scaley);
-            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
-                itm->setTransform(_curState,false);
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
             }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateBottomLeftCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateBottomRightCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateTopLeftCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateTopRightCorner:{
             break;
         }
         }
     }
-    }
+
     _scalex = 1;
     _scaley = 1;
     _prevPos = _curPos;
