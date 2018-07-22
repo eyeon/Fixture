@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tools/tooloptions/transform_menu.h"
-#include "model/layerlist.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -287,7 +286,7 @@ void MainWindow::on_actionSaveAs_triggered()
     QDataStream out(&file);
 
    //QList<Layer*> layers = paintWidget->getItems();
-    QList<Layer::LayerPointer> layers;
+    QList<Layer*> layers;
     out >> layers;
 
     qDebug() << layers;

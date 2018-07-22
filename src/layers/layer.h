@@ -8,12 +8,10 @@
 #include <QGraphicsItem>
 #include <QPixmap>
 
-class Layer : public QSharedData, public QListWidgetItem
+class Layer : public QListWidgetItem
 {
 
 public:
-    typedef QSharedDataPointer<Layer> LayerPointer;
-
     enum LayerType{
         RASTER = QListWidgetItem::UserType,
         VECTOR,
@@ -39,9 +37,9 @@ public:
     friend QDataStream& operator>>(QDataStream& ds, Layer &layer);
     friend QDataStream& operator<<(QDataStream& ds, const Layer &layer);
 
-    friend QDataStream& operator <<(QDataStream& stream, const QList<LayerPointer>& l);
-    friend QDataStream& operator >> (QDataStream& stream, QList<LayerPointer>& l);
-    static LayerPointer create(const QString &name, LayerType type);
+    friend QDataStream& operator <<(QDataStream& stream, const QList<Layer*>& l);
+    friend QDataStream& operator >> (QDataStream& stream, QList<Layer*>& l);
+    static Layer *create(const QString &name, LayerType type);
     virtual Layer* clone() const = 0;
 protected:
     QString _name;

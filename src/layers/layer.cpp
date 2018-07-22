@@ -8,7 +8,6 @@
  * @param x, y
  * @param height, width
  */
-class LayerPointer;
 
 Layer::Layer(QString name, LayerType type):
     _name(name),_type(type)
@@ -44,7 +43,7 @@ QDataStream& operator>>(QDataStream& ds, Layer &layer)
     return ds;
 }
 
-QDataStream& operator <<(QDataStream& stream, const QList<Layer::LayerPointer>& l){
+QDataStream& operator <<(QDataStream& stream, const QList<Layer*>& l){
     stream << l.size();
     for(auto& a_ptr: l){
         stream << *a_ptr;
@@ -52,7 +51,7 @@ QDataStream& operator <<(QDataStream& stream, const QList<Layer::LayerPointer>& 
     return stream;
 }
 
-QDataStream& operator >>(QDataStream& stream, QList<Layer::LayerPointer> &layers){
+QDataStream& operator >>(QDataStream& stream, QList<Layer*> &layers){
     layers.clear();
     int size;
     int type;
@@ -66,7 +65,7 @@ QDataStream& operator >>(QDataStream& stream, QList<Layer::LayerPointer> &layers
 
         stream >> name >> type;
         Layer::LayerType val = static_cast<Layer::LayerType>(type);
-        Layer::LayerPointer layer = Layer::create(name, val);
+        Layer* layer = Layer::create(name, val);
 
         stream >> *layer;
         layers.push_back(layer);
@@ -74,20 +73,14 @@ QDataStream& operator >>(QDataStream& stream, QList<Layer::LayerPointer> &layers
     return stream;
 }
 
-Layer::LayerPointer Layer::create(const QString &name, Layer::LayerType type)
+Layer* Layer::create(const QString &name, Layer::LayerType type)
 {
     switch (type) {
     case Layer::RASTER:
-        return Layer::LayerPointer(new RasterLayer(name));
+        return new RasterLayer(name);
         break;
     default:
         Q_UNREACHABLE();
         break;
     }
-}
-
-template<>
-Layer *QSharedDataPointer<Layer>::clone()
-{
-    return this->clone();
 }
