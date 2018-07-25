@@ -38,6 +38,7 @@ private:
     QList<QTransform> _curState;
     QList<QGraphicsItem*> _curItems;
     qreal _scalex, _scaley;
+    qreal width,height;
 };
 
 #endif // SELECTTOOL_H
