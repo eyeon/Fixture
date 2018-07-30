@@ -2,11 +2,12 @@
 #define CANVAS_H
 
 #include <QString>
+#include <QSharedData>
 
-class Canvas
+class Canvas : public QSharedData
 {
 public:
-    enum DimensionUnit{
+    enum DimensionUnit {
         PIXELS, INCHES, CENTIMETERS, MILLIMETERS, POINTS, PICAS
     };
 
@@ -19,7 +20,9 @@ public:
              DimensionUnit dimensionUnit,
              int resolution,
              ResolutionUnit resUnit);
+    Canvas(const Canvas&);
 
+    Canvas * clone() const;
     inline int getHeight() const { return _height; }
     inline int getWidth() const { return _width; }
     inline int getResolution() const { return _resolution; }

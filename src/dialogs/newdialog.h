@@ -23,7 +23,7 @@ public:
     ~NewDialog();
 
 signals:
-    void canvasAvailable(const Canvas *canvas);
+    void canvasAvailable(const QSharedDataPointer<Canvas> canvas);
 
 private slots:
     void on_actionOk_clicked();
@@ -47,7 +47,7 @@ private:
     {
         DEFAULT, INTERNATIONAL, US_PAPER, CUSTOM
     };
-    Canvas *createCanvas(QString docName, double width, double height,
+    QSharedDataPointer<Canvas> createCanvas(QString docName, double width, double height,
                           Canvas::DimensionUnit dimUnit, double resolution,
                           Canvas::ResolutionUnit resUnit) const;
     Ui::NewDialog *ui;

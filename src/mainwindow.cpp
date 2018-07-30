@@ -249,15 +249,15 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     NewDialog *newDialog = new NewDialog();
-    connect(newDialog, SIGNAL(canvasAvailable(const Canvas*)), this, SLOT(createNewDocument(const Canvas*)));
+    connect(newDialog, SIGNAL(canvasAvailable(const QSharedDataPointer<Canvas>)),
+            this, SLOT(createNewDocument(const QSharedDataPointer<Canvas>)));
 
     newDialog->show();
 }
 
-void MainWindow::createNewDocument(const Canvas *canvas)
+void MainWindow::createNewDocument(const QSharedDataPointer<Canvas> canvas)
 {
     addPaintWidget(new PaintWidget(canvas, _currentTool), true);
-    delete canvas;
 }
 
 void MainWindow::on_actionImport_triggered()
@@ -293,11 +293,8 @@ void MainWindow::on_actionSaveAs_triggered()
     out >> layers;
 
     qDebug() << layers;
-
     qDebug() << layers.size();
 
-    //qDebug() << layers.at(1)->getName();
-   // out << *layer;
     file.close();
 }
 

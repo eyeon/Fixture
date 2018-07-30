@@ -7,7 +7,7 @@
 class document
 {
 public:
-    document(QList<Layer*> layers, Canvas *canvas);
+    document(QList<Layer*> layers, QSharedDataPointer<Canvas> canvas);
 };
 
 #endif // DOCUMENT_H

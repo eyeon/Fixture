@@ -22,7 +22,7 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
+PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
     setImagePath(canvas->getName());
@@ -39,7 +39,7 @@ void PaintWidget::createBgLayer(const QImage &image)
     pushLayer(layer);
 }
 
-QImage PaintWidget::drawEmptyImage(const Canvas *canvas)
+QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
 {
     QSize imageSize(canvas->getWidth(), canvas->getHeight());
 

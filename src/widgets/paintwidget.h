@@ -30,7 +30,7 @@ class PaintWidget : public QGraphicsView
     Q_OBJECT
 public:
     PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent=0);
-    PaintWidget(const Canvas *document, Tool *tool, QWidget *parent=0);
+    PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent=0);
     void pushLayer(Layer *layer);
 
     inline void setImagePath(QString path) { _imagePath = path; }
@@ -63,7 +63,7 @@ private:
 
     QImage getImageFromPath(const QString &imagePath);
     void createBgLayer(const QImage &image);
-    QImage drawEmptyImage(const Canvas *canvas);
+    QImage drawEmptyImage(const QSharedDataPointer<Canvas> canvas);
     void prepareDocument(Tool *tool, QRect rect);
     void setupCanvas(QRect rect);
     bool isRaw(const QString &imagePath);
@@ -71,6 +71,7 @@ private:
 
     static bool isImageSupported(const QString& fileName);
     Tool  *_currentTool;
+    QSharedDataPointer<Canvas> _canvas;
 };
 
 #endif // PAINTWIDGET_H

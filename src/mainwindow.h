@@ -28,7 +28,7 @@ public:
 
 
 public slots:
-    void createNewDocument(const Canvas *canvas);
+    void createNewDocument(const QSharedDataPointer<Canvas> canvas);
 
 private slots:
     void updateWindow(QMdiSubWindow *window);

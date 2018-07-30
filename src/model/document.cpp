@@ -1,6 +1,6 @@
 #include "document.h"
 
-document::document()
+document::document(QList<Layer *> layers, QSharedDataPointer<Canvas> canvas)
 {
 
 }

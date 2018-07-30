@@ -16,3 +16,17 @@ Canvas::Canvas(QString docName,
 }
 
 
+Canvas::Canvas(const Canvas &other)
+{
+    _docName = other.getName();
+    _width = other.getWidth();
+    _height = other.getHeight();
+    _dimensionUnit = other.getDimensionUnit();
+    _resolution = other.getResolution();
+    _resolutionUnit = other.getResolutionUnit();
+}
+
+Canvas* Canvas::clone() const
+{
+    return new Canvas(*this);
+}
