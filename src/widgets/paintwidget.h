@@ -33,6 +33,7 @@ public:
     PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent=0);
     void pushLayer(Layer *layer);
 
+    inline QSharedDataPointer<Canvas> getCanvas() { return _canvas; }
     inline void setImagePath(QString path) { _imagePath = path; }
     inline QString getImagePath() const { return _imagePath; }
     inline QList<Layer*> getItems() const { return _items; }

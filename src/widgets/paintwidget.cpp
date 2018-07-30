@@ -14,6 +14,11 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
     prepareDocument(tool, image.rect());
 
     createBgLayer(image);
+
+    int dpi = image.dotsPerMeterX() * 2.54/100;
+    _canvas = QSharedDataPointer<Canvas>(new Canvas(imagePath, image.width(), image.height(),
+                                                    Canvas::PIXELS,
+                                                    dpi , Canvas::PPI));
 }
 
 /**
@@ -25,6 +30,8 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
+    _canvas = canvas;
+
     setImagePath(canvas->getName());
     QImage image = drawEmptyImage(canvas);
     prepareDocument(tool, image.rect());
