@@ -46,8 +46,6 @@ private:
     QString _lastFileLoc;
     QActionGroup *_toolsGroup;
     QList<QAction*> _toolsList;
-    Transform *_transform;
-    Pan *_pan;
     Tool *_currentTool;
     QAction *_menu;
     QMap<QWidget*, QAction*> _toolMenuCache;
@@ -55,6 +53,7 @@ private:
     void updateActions(bool val);
     void initTools();
     void initSignalsAndSlots();
+    void addTool(Tool *tool);
     void setDefaultTool(Tool *tool);
     void setCurrentTool(Tool *tool);
     void updateMenuFromCache(QWidget *widget);

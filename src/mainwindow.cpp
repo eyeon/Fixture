@@ -22,7 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTools();
     initSignalsAndSlots();
-    setDefaultTool(_transform);
+
+    Transform *transform = dynamic_cast<Transform*>(_toolsList.value(0));
+    setDefaultTool(transform);
 }
 
 
@@ -47,17 +49,17 @@ void MainWindow::initTools()
 {
     _toolsGroup = new QActionGroup(ui->mainToolBar);
 
-    _transform = new Transform();
-    _toolsGroup->addAction(_transform);
-    _toolsList.push_back(_transform);
-
-    _pan = new Pan();
-    _toolsGroup->addAction(_pan);
-    _toolsList.push_back(_pan);
+    addTool(new Transform());
+    addTool(new Pan());
 
     ui->mainToolBar->addActions(_toolsList);
 }
 
+void MainWindow::addTool(Tool *tool)
+{
+    _toolsGroup->addAction(tool);
+    _toolsList.push_back(tool);
+}
 void MainWindow::setDefaultTool(Tool *tool)
 {
     tool->toggle();
