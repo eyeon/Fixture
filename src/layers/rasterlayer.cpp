@@ -75,7 +75,6 @@ void RasterLayer::paint(QPainter *painter,
 
 void RasterLayer::write(QDataStream &ds) const
 {
-
     Layer::write(ds);
     ds << getPixmap() << getPos();
 }
@@ -87,7 +86,6 @@ void RasterLayer::read(QDataStream &ds)
     ds >> pixmap >> pos;
     create(pixmap);
     setPos(pos);
-
 // To test if deserialization is working properly
 // Uncomment the following line
 //  qDebug() << getName() << getPixmap() << getPos();

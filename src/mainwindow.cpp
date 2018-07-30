@@ -288,12 +288,10 @@ void MainWindow::on_actionSaveAs_triggered()
     file.open(QIODevice::ReadWrite);
     QDataStream out(&file);
 
-   //QList<Layer*> layers = paintWidget->getItems();
-    QList<Layer*> layers;
-    out >> layers;
-
-    qDebug() << layers;
-    qDebug() << layers.size();
+    QList<Layer*> layers = paintWidget->getItems();
+    QSharedDataPointer<Canvas> canvas = paintWidget->getCanvas();
+    out << canvas;
+    out << layers;
 
     file.close();
 }
