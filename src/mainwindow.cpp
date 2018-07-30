@@ -60,6 +60,7 @@ void MainWindow::addTool(Tool *tool)
     _toolsGroup->addAction(tool);
     _toolsList.push_back(tool);
 }
+
 void MainWindow::setDefaultTool(Tool *tool)
 {
     tool->toggle();

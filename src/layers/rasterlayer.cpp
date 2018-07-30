@@ -88,7 +88,9 @@ void RasterLayer::read(QDataStream &ds)
     create(pixmap);
     setPos(pos);
 
-    qDebug() << getName() << getPixmap() << getPos();
+// To test if deserialization is working properly
+// Uncomment the following line
+//  qDebug() << getName() << getPixmap() << getPos();
 }
 
 Layer* RasterLayer::clone() const

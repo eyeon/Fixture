@@ -31,6 +31,7 @@ public:
     virtual void press(QMouseEvent *event) = 0;
     virtual void release(QMouseEvent *event) = 0;
     virtual QWidget* getToolMenu() = 0;
+    virtual Tool* clone() const = 0;
 
 private:
     QCursor _cursor;
@@ -43,6 +44,11 @@ private:
 protected:
     QWidget *_menu;
     bool _menuExists = false;
-};
 
+};
+template<>
+inline Tool* QSharedDataPointer<Tool>::clone()
+{
+    return d->clone();
+}
 #endif // TOOL_H

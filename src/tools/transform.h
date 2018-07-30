@@ -11,13 +11,15 @@ class Transform : public AbstractSelection
 
 public:
     Transform(QWidget *parent=0);
+    Transform(const Transform &other);
     ~Transform();
     void move(QMouseEvent *event);
     void press(QMouseEvent *event);
     void release(QMouseEvent *event);
-
+    void init();
     void setTransformMode(bool set);
     QWidget *getToolMenu();
+    Tool* clone() const;
 
 public slots:
     void drawBounds(bool draw);
