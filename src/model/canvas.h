@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QSharedData>
+#include <QDataStream>
 
 class Canvas : public QSharedData
 {
@@ -21,6 +22,7 @@ public:
              int resolution,
              ResolutionUnit resUnit);
     Canvas(const Canvas&);
+    Canvas();
 
     Canvas * clone() const;
     inline int getHeight() const { return _height; }
@@ -30,8 +32,8 @@ public:
     inline DimensionUnit getDimensionUnit() const { return _dimensionUnit; }
     inline ResolutionUnit getResolutionUnit() const { return _resolutionUnit; }
 
-    virtual void write(QDataStream&) const = 0;
-    virtual void read(QDataStream&) = 0;
+    void write(QDataStream&) const;
+    void read(QDataStream&);
     friend QDataStream& operator>>(QDataStream& ds, Canvas &canvas);
     friend QDataStream& operator<<(QDataStream& ds, const Canvas &canvas);
 

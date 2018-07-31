@@ -6,19 +6,21 @@ Document::Document(const QList<Layer *> layers, const QSharedDataPointer<Canvas>
 {
 }
 
-Document::write(QDataStream &out) const
+void Document::write(QDataStream &out) const
 {
-    out << _layers << _canvas;
+    out << *_canvas.constData() << _layers;
 }
 
-Document::read(QDataStream &in)
+void Document::read(QDataStream &in)
 {
     QList<Layer*> layers;
-    QSharedDataPointer<Canvas> canvas;
-    in >> layers >> canvas;
+    Canvas *canvas = new Canvas();
+    in  >> *canvas >> layers;
 
     _layers = layers;
-    _canvas = canvas;
+    _canvas = QSharedDataPointer<Canvas>(canvas);
+    // To check if canvas is working properly
+    //qDebug() << _canvas->getResolution() << _canvas->getWidth();
 }
 
 QDataStream &operator <<(QDataStream &out, const Document &document)

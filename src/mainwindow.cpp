@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tools/tooloptions/transform_menu.h"
+#include "model/document.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -283,6 +284,11 @@ void MainWindow::on_actionSaveAs_triggered()
                                        _lastFileLoc,
                                        tr("Fixture Document (*.fxd *.fxt)"));
 
+    if (!fileName.endsWith(".fxt") && !fileName.endsWith(".fxd"))
+    {
+        fileName = fileName + ".fxd";
+    }
+
     QFile file(fileName);
 
     file.open(QIODevice::ReadWrite);
@@ -290,8 +296,9 @@ void MainWindow::on_actionSaveAs_triggered()
 
     QList<Layer*> layers = paintWidget->getItems();
     QSharedDataPointer<Canvas> canvas = paintWidget->getCanvas();
-    out << canvas;
-    out << layers;
+
+    Document document(layers, canvas);
+    out << document;
 
     file.close();
 }
