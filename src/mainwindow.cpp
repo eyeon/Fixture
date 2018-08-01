@@ -1,37 +1,43 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "tools/tooloptions/transform_menu.h"
-#include "model/document.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    ui->mdiArea->setViewMode(QMdiArea::TabbedView);
-    ui->mdiArea->setTabsClosable(true);
-    ui->mdiArea->setTabsMovable(true);
-    QTabBar *bar=ui->mdiArea->findChild<QTabBar*>();
-    bar->setExpanding(false);
-    bar->setDrawBase(false);
-    bar->setElideMode(Qt::ElideLeft);
-
-    setAcceptDrops(true);
-
-    _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-
+    setupMdiArea();
     initTools();
     initSignalsAndSlots();
 
     Transform *transform = dynamic_cast<Transform*>(_toolsList.value(0));
     setDefaultTool(transform);
+    _lastFileLoc = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+
+    setAcceptDrops(true);
 }
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setupMdiArea()
+{
+    ui->mdiArea->setViewMode(QMdiArea::TabbedView);
+    ui->mdiArea->setTabsClosable(true);
+    ui->mdiArea->setTabsMovable(true);
+
+    QTabBar *bar=ui->mdiArea->findChild<QTabBar*>();
+    setupTabBar(bar);
+}
+
+void MainWindow::setupTabBar(QTabBar *bar)
+{
+    bar->setExpanding(false);
+    bar->setDrawBase(false);
+    bar->setElideMode(Qt::ElideLeft);
 }
 
 void MainWindow::initSignalsAndSlots()
@@ -284,23 +290,49 @@ void MainWindow::on_actionSaveAs_triggered()
                                        _lastFileLoc,
                                        tr("Fixture Document (*.fxd *.fxt)"));
 
-    if (!fileName.endsWith(".fxt") && !fileName.endsWith(".fxd"))
-    {
-        fileName = fileName + ".fxd";
-    }
-
-    QFile file(fileName);
-
-    file.open(QIODevice::ReadWrite);
-    QDataStream out(&file);
+    fileName = getFileName(fileName);
 
     QList<Layer*> layers = paintWidget->getItems();
     QSharedDataPointer<Canvas> canvas = paintWidget->getCanvas();
-
     Document document(layers, canvas);
-    out << document;
 
+    storeDocument(fileName, document);
+    updateStateChange(SAVED, fileName);
+}
+
+QString MainWindow::getFileName(QString &fileName)
+{
+    if (!fileName.endsWith(".fxt") && !fileName.endsWith(".fxd")) {
+        fileName = fileName + ".fxd";
+    }
+
+    return fileName;
+}
+
+void MainWindow::storeDocument(const QString &fileName, Document document)
+{
+    QFile file(fileName);
+
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+
+    out << document;
     file.close();
 }
 
+void MainWindow::updateStateChange(State state, const QString &fileName)
+{
+    switch (state) {
+    case SAVED:
+        _lastFileLoc = fileName;
+        setAsteriskOnTab(false);
+        break;
+    default:
+        break;
+    }
+}
 
+void MainWindow::setAsteriskOnTab(bool set)
+{
+
+}

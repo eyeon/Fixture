@@ -13,6 +13,8 @@
 #include "tools/pan.h"
 #include "tools/transform.h"
 #include "tools/tool.h"
+#include "model/document.h"
+#include "tools/tooloptions/transform_menu.h"
 
 namespace Ui {
 class MainWindow;
@@ -49,7 +51,12 @@ private:
     Tool *_currentTool;
     QAction *_menu;
     QMap<QWidget*, QAction*> _toolMenuCache;
+    enum State {
+        SAVED, MODIFIED
+    };
 
+    void setupMdiArea();
+    void setupTabBar(QTabBar* bar);
     void updateActions(bool val);
     void initTools();
     void initSignalsAndSlots();
@@ -62,6 +69,10 @@ private:
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     void rememberLastPath(const QString& fileName);
+    QString getFileName(QString &name);
+    void storeDocument(const QString &fileName, Document document);
+    void updateStateChange(State state, const QString &fileName);
+    void setAsteriskOnTab(bool);
 
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
