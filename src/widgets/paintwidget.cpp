@@ -21,6 +21,20 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
                                                     dpi , Canvas::PPI));
 }
 
+PaintWidget::PaintWidget(Document &document, Tool *tool, QWidget *parent):
+    QGraphicsView(parent)
+{
+    _canvas = document.getCanvas();
+    setImagePath(_canvas->getName());
+
+    QImage image = drawEmptyImage(_canvas);
+    prepareDocument(tool, image.rect());
+
+    for (auto &i : document.getLayerList())
+    {
+        pushLayer(i);
+    }
+}
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
@@ -34,6 +48,7 @@ PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QW
 
     setImagePath(canvas->getName());
     QImage image = drawEmptyImage(canvas);
+    image.fill(Qt::white);
     prepareDocument(tool, image.rect());
 
     createBgLayer(image);
@@ -51,7 +66,6 @@ QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
     QSize imageSize(canvas->getWidth(), canvas->getHeight());
 
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
-    image.fill(Qt::white);
 
     return image;
 }

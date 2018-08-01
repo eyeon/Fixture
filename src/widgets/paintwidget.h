@@ -24,6 +24,7 @@
 #include "../tools/tool.h"
 #include "../layers/rasterlayer.h"
 #include "../tools/transform.h"
+#include "../model/document.h"
 
 class PaintWidget : public QGraphicsView
 {
@@ -31,6 +32,8 @@ class PaintWidget : public QGraphicsView
 public:
     PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent=0);
     PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent=0);
+    PaintWidget(Document &document, Tool *tool, QWidget *parent=0);
+
     void pushLayer(Layer *layer);
 
     inline QSharedDataPointer<Canvas> getCanvas() { return _canvas; }

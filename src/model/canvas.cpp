@@ -1,6 +1,7 @@
 #include "canvas.h"
 
-Canvas::Canvas()
+Canvas::Canvas(const QString &name):
+    _docName(name)
 {
 }
 Canvas::Canvas(QString docName,

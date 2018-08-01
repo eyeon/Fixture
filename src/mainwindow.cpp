@@ -49,7 +49,7 @@ void MainWindow::initSignalsAndSlots()
             this,SLOT(changeTool(QAction*)));
 
     connect(ui->layerView,SIGNAL(itemSelectionChanged()),
-             this,SLOT(onSelectionChange()));
+             this,SLOT(onSelectionChange()));    
 }
 
 void MainWindow::initTools()
@@ -226,7 +226,30 @@ void MainWindow::on_actionOpen_triggered()
     if (PaintWidget::isFileValid(fileName)) {
         rememberLastPath(fileName);
         addPaintWidget(new PaintWidget(fileName, _currentTool));
+        return;
     }
+
+    if (Document::isDocumentValid(fileName)) {
+        Document document = readDocument(fileName);
+        qDebug() << document.getCanvas()->getName();
+        addPaintWidget(new PaintWidget(document, _currentTool));
+
+        return;
+    }
+}
+
+Document& MainWindow::readDocument(const QString &fileName)
+{
+    QFile file(fileName);
+
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+
+    Document document(fileName);
+    in >> document;
+    file.close();
+
+    return document;
 }
 
 void MainWindow::rememberLastPath(const QString &fileName)
@@ -237,9 +260,9 @@ void MainWindow::rememberLastPath(const QString &fileName)
 
 const QString MainWindow::chooseFile()
 {
-
     return QFileDialog::getOpenFileName(this, tr("Open File"),
                 _lastFileLoc,tr("Image Files (*.png *.jpg *.jpeg *.gif);;"
+                                "Fixture document (*.fxd *.fxt);;"
                                 "PNG(*.png);;"
                                 "JPEG(*.jpg *.jpeg);;"
                                 "GIF(*.gif);;"
@@ -316,6 +339,7 @@ void MainWindow::storeDocument(const QString &fileName, Document document)
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
 
+    out.setVersion(QDataStream::Qt_5_1);
     out << document;
     file.close();
 }
@@ -334,5 +358,4 @@ void MainWindow::updateStateChange(State state, const QString &fileName)
 
 void MainWindow::setAsteriskOnTab(bool set)
 {
-
 }

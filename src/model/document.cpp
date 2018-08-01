@@ -6,15 +6,34 @@ Document::Document(const QList<Layer *> layers, const QSharedDataPointer<Canvas>
 {
 }
 
+
+Document::Document(const QString &name)
+{
+    _name = name;
+}
+bool Document::isDocumentValid(const QString &fileName)
+{
+    return !fileName.endsWith(".fxt") && !fileName.endsWith(".fxd");
+}
+
 void Document::write(QDataStream &out) const
 {
-    out << *_canvas.constData() << _layers;
+    out << _magicNum << _version << *_canvas.constData() << _layers;
 }
 
 void Document::read(QDataStream &in)
 {
     QList<Layer*> layers;
-    Canvas *canvas = new Canvas();
+    Canvas *canvas = new Canvas(_name);
+    qint32 magicNum, version;
+
+    in >> magicNum >> version;
+
+    if (magicNum != _magicNum) {
+        //emit badFileFormat("The file selected is either corrupted or not selected");
+        return;
+    }
+
     in  >> *canvas >> layers;
 
     _layers = layers;
@@ -34,4 +53,3 @@ QDataStream &operator >>(QDataStream &in, Document &document)
     document.read(in);
     return in;
 }
-
