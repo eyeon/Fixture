@@ -6,14 +6,13 @@ Document::Document(const QList<Layer *> layers, const QSharedDataPointer<Canvas>
 {
 }
 
-
 Document::Document(const QString &name)
 {
     _name = name;
 }
 bool Document::isDocumentValid(const QString &fileName)
 {
-    return !fileName.endsWith(".fxt") && !fileName.endsWith(".fxd");
+    return fileName.endsWith(".fxt") || fileName.endsWith(".fxd");
 }
 
 void Document::write(QDataStream &out) const
@@ -25,7 +24,9 @@ void Document::read(QDataStream &in)
 {
     QList<Layer*> layers;
     Canvas *canvas = new Canvas(_name);
-    qint32 magicNum, version;
+
+    qint64 magicNum;
+    qint32 version;
 
     in >> magicNum >> version;
 
@@ -38,6 +39,7 @@ void Document::read(QDataStream &in)
 
     _layers = layers;
     _canvas = QSharedDataPointer<Canvas>(canvas);
+
     // To check if canvas is working properly
     //qDebug() << _canvas->getResolution() << _canvas->getWidth();
 }

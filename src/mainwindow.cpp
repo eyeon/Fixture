@@ -231,14 +231,13 @@ void MainWindow::on_actionOpen_triggered()
 
     if (Document::isDocumentValid(fileName)) {
         Document document = readDocument(fileName);
-        qDebug() << document.getCanvas()->getName();
         addPaintWidget(new PaintWidget(document, _currentTool));
 
         return;
     }
 }
 
-Document& MainWindow::readDocument(const QString &fileName)
+Document MainWindow::readDocument(const QString &fileName)
 {
     QFile file(fileName);
 

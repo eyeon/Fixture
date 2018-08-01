@@ -29,7 +29,7 @@ public:
     inline int getHeight() const { return _height; }
     inline int getWidth() const { return _width; }
     inline int getResolution() const { return _resolution; }
-    inline QString getName() const {return _docName; }
+    inline QString getName() const { return _docName; }
     inline DimensionUnit getDimensionUnit() const { return _dimensionUnit; }
     inline ResolutionUnit getResolutionUnit() const { return _resolutionUnit; }
 

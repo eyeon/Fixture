@@ -71,7 +71,7 @@ private:
     void rememberLastPath(const QString& fileName);
     QString getFileName(QString &name);
     void storeDocument(const QString &fileName, Document document);
-    Document &readDocument(const QString&);
+    Document readDocument(const QString&);
     void updateStateChange(State state, const QString &fileName);
     void setAsteriskOnTab(bool);
 
