@@ -56,6 +56,7 @@ private:
         SAVED, MODIFIED
     };
 
+    void openNewImage(const QString &);
     void setupMdiArea();
     void setupTabBar(QTabBar* bar);
     void updateActions(bool val);
@@ -68,17 +69,23 @@ private:
     void updateMenuFromCache(QWidget *widget);
     const QString chooseFile();
     void addChildWindow(PaintWidget *widget, bool isNew);
+    void setupSubWindowTitle(QMdiSubWindow*, const QString&, bool isNew);
     void addPaintWidget(PaintWidget *widget, bool isNew = false);
+    void updateLayerSelection();
+    void updateToolForCurrentWindow(QMdiSubWindow*);
+    void updateDragMode(PaintWidget*);
+    void openNewFile(const QString&);
     PaintWidget *createPaintWidget(const QString &imagePath) const;
     void rememberLastPath(const QString& fileName);
     QString getFileName(QString &name);
     void storeDocument(const QString &fileName, Document document);
     Document readDocument(const QString&);
     void updateStateChange(State state, const QString &fileName, QMdiSubWindow *subWindow);
-    void setAsteriskOnTab(bool, QMdiSubWindow *window);
+    void updateTitleOnSave(const QString&, QMdiSubWindow *window);
 
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
+    bool eventFilter(QObject *watched, QEvent *event);
 };
 
 #endif // MAINWINDOW_H
