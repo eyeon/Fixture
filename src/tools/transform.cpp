@@ -15,6 +15,7 @@ Transform::Transform(QWidget* parent):
     _mouseButton = Qt::NoButton;
     _scalex = 1;
     _scaley = 1;
+    _autoSelect = false;
 }
 
 /**
@@ -89,7 +90,12 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
     qreal dx = _curPos.x() - _prevPos.x();
     qreal dy = _curPos.y() - _prevPos.y();
 
+
     if (_mouseButton == Qt::LeftButton){
+        if(_handle != TransformTool::BoundingRectItem::HotSpot::Move){
+            emit switchedToTransformMode(true);
+        }
+
         switch(_handle){
 
         case TransformTool::BoundingRectItem::HotSpot::Move:{
@@ -291,6 +297,17 @@ void Transform::drawBoundingRect()
 }
 
 /**
+ * @brief Transform::actionTaken
+ * @param accept
+ */
+void Transform::actionTaken(bool accept)
+{
+    setTransformMode(false);
+    _scene->update();
+    emit switchedToTransformMode(false);
+}
+
+/**
  * @brief Transform::getToolMenu
  * @return
  */
@@ -314,7 +331,9 @@ QWidget* Transform::getToolMenu()
  */
 void Transform::connectMenu(TransformMenu *menu)
 {
-    connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
     connect(menu, SIGNAL(autoSelect(bool)),this,SLOT(setAutoSelect(bool)));
+    connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
+    connect(this,SIGNAL(switchedToTransformMode(bool)),menu,SLOT(enterTransformMode(bool)));
+    connect(menu,SIGNAL(changesAccepted(bool)),this,SLOT(actionTaken(bool)));
 }
 

@@ -25,6 +25,7 @@ public:
 public slots:
     void drawBounds(bool draw);
     inline void setAutoSelect(bool set){ _autoSelect = set;}
+    void actionTaken(bool accept);
 
 private:
     void drawBoundingRect();
@@ -39,6 +40,9 @@ private:
     QList<QGraphicsItem*> _curItems;
     qreal _scalex, _scaley;
     qreal width,height;
+
+signals:
+    void switchedToTransformMode(bool enable);
 };
 
 #endif // SELECTTOOL_H

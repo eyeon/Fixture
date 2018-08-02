@@ -12,21 +12,22 @@ class TransformMenu : public ToolMenu
     Q_OBJECT
 
 public:
-    explicit TransformMenu(QWidget *parent = 0);
+    explicit TransformMenu(QWidget *parent = nullptr);
     ~TransformMenu();
+
+public slots:
+    void enterTransformMode(bool enter);
 
 private slots:
     void on_showTransfromCheck_stateChanged(int arg1);
     void on_autoSelectCheck_stateChanged(int arg1);
     void on_acceptBtn_clicked();
     void on_rejectBtn_clicked();
-    void enterTransformMode(bool enter);
 
 signals:
     void autoSelect(bool check);
     void showTransform(bool show);
-    void accept();
-    void reject();
+    void changesAccepted(bool accept);
 
 private:
     Ui::TransformOptions *ui;

@@ -36,10 +36,10 @@ void TransformMenu::enterTransformMode(bool enter)
 
 void TransformMenu::on_acceptBtn_clicked()
 {
-    emit accept();
+    emit changesAccepted(true);
 }
 
 void TransformMenu::on_rejectBtn_clicked()
 {
-    emit reject();
+    emit changesAccepted(false);
 }
