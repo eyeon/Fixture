@@ -26,6 +26,8 @@ void BoundingRectItem::paint(QPainter *painter,
     painter->setPen(QPen(Qt::gray, 1, Qt::DashLine));
     if(_transformMode){
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
+        painter->drawLine(_boundingRect.topLeft(),_boundingRect.bottomRight());
+        painter->drawLine(_boundingRect.bottomLeft(),_boundingRect.topRight());
     }
     painter->drawRect(_boundingRect);
     QPointF topleft = _boundingRect.topLeft();

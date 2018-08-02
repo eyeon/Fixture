@@ -18,10 +18,9 @@ public:
 private slots:
     void on_showTransfromCheck_stateChanged(int arg1);
     void on_autoSelectCheck_stateChanged(int arg1);
-
     void on_acceptBtn_clicked();
-
     void on_rejectBtn_clicked();
+    void enterTransformMode(bool enter);
 
 signals:
     void autoSelect(bool check);
@@ -31,8 +30,6 @@ signals:
 
 private:
     Ui::TransformOptions *ui;
-
-    void enterTransformMode(bool enter);
 };
 
 #endif // TRANSFORMOPTIONS_H
