@@ -31,7 +31,7 @@ void Document::read(QDataStream &in)
     in >> magicNum >> version;
 
     if (magicNum != _magicNum) {
-        //emit badFileFormat("The file selected is either corrupted or not selected");
+        // TODO: Add an exception for failure due to file incompatibility
         return;
     }
 
@@ -39,9 +39,6 @@ void Document::read(QDataStream &in)
 
     _layers = layers;
     _canvas = QSharedDataPointer<Canvas>(canvas);
-
-    // To check if canvas is working properly
-    //qDebug() << _canvas->getResolution() << _canvas->getWidth();
 }
 
 QDataStream &operator <<(QDataStream &out, const Document &document)
