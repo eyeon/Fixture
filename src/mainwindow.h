@@ -50,6 +50,7 @@ private:
     QList<QAction*> _toolsList;
     Tool *_currentTool;
     QAction *_menu;
+    QMap<QString, QMdiSubWindow*> _windowCache;
     QMap<QWidget*, QAction*> _toolMenuCache;
     enum State {
         SAVED, MODIFIED
@@ -63,6 +64,7 @@ private:
     void addTool(Tool *tool);
     void setDefaultTool(Tool *tool);
     void setCurrentTool(Tool *tool);
+    void activateMenu(QWidget *menuWidget);
     void updateMenuFromCache(QWidget *widget);
     const QString chooseFile();
     void addChildWindow(PaintWidget *widget, bool isNew);
@@ -72,8 +74,8 @@ private:
     QString getFileName(QString &name);
     void storeDocument(const QString &fileName, Document document);
     Document readDocument(const QString&);
-    void updateStateChange(State state, const QString &fileName);
-    void setAsteriskOnTab(bool);
+    void updateStateChange(State state, const QString &fileName, QMdiSubWindow *subWindow);
+    void setAsteriskOnTab(bool, QMdiSubWindow *window);
 
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);

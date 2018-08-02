@@ -71,21 +71,25 @@ void MainWindow::addTool(Tool *tool)
 void MainWindow::setDefaultTool(Tool *tool)
 {
     tool->toggle();
-    setCurrentTool(tool);
+
+    QWidget *menuWidget = tool->getToolMenu();
+    activateMenu(menuWidget);
+    _currentTool = tool;
 }
 
 void MainWindow::setCurrentTool(Tool *tool)
 {
+    _currentTool = tool;
+
     QWidget *menuWidget = tool->getToolMenu();
 
     if (_menu != NULL) {
         _menu->setVisible(false);
     }
-
     updateMenuFromCache(menuWidget);
+
     // TODO: Remember preferences
     _menu->setVisible(true);
-    _currentTool = tool;
 }
 
 void MainWindow::updateMenuFromCache(QWidget *menuWidget)
@@ -94,9 +98,14 @@ void MainWindow::updateMenuFromCache(QWidget *menuWidget)
         _menu = _toolMenuCache.value(menuWidget);
     }
     else {
-        _menu = ui->toolMenuBar->addWidget(menuWidget);
-        _toolMenuCache.insert(menuWidget, _menu);
+        activateMenu(menuWidget);
     }
+}
+
+void MainWindow::activateMenu(QWidget *menuWidget)
+{
+    _menu = ui->toolMenuBar->addWidget(menuWidget);
+    _toolMenuCache.insert(menuWidget, _menu);
 }
 void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 {
@@ -128,6 +137,7 @@ void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
     if (widget->getImagePath() != "") {
         QFileInfo info(widget->getImagePath());
         title = info.fileName() + "[*]";
+        _windowCache.insert(widget->getImagePath(), mdiSubWindow);
     } else {
         title = "Untitled[*]";
     }
@@ -223,6 +233,10 @@ void MainWindow::on_actionOpen_triggered()
 {
     const QString fileName = chooseFile();
 
+    if (_windowCache.contains(fileName)) {
+        ui->mdiArea->setActiveSubWindow(_windowCache.value(fileName));
+        return;
+    }
     if (PaintWidget::isFileValid(fileName)) {
         rememberLastPath(fileName);
         addPaintWidget(new PaintWidget(fileName, _currentTool));
@@ -319,7 +333,7 @@ void MainWindow::on_actionSaveAs_triggered()
     Document document(layers, canvas);
 
     storeDocument(fileName, document);
-    updateStateChange(SAVED, fileName);
+    updateStateChange(SAVED, fileName, currentWindow);
 }
 
 QString MainWindow::getFileName(QString &fileName)
@@ -343,18 +357,22 @@ void MainWindow::storeDocument(const QString &fileName, Document document)
     file.close();
 }
 
-void MainWindow::updateStateChange(State state, const QString &fileName)
+void MainWindow::updateStateChange(State state, const QString &fileName, QMdiSubWindow* subWindow)
 {
     switch (state) {
     case SAVED:
         _lastFileLoc = fileName;
-        setAsteriskOnTab(false);
+        if (!_windowCache.contains(fileName)) {
+            _windowCache.insert(fileName, subWindow);
+        }
+        setAsteriskOnTab(false, subWindow);
         break;
     default:
         break;
     }
 }
 
-void MainWindow::setAsteriskOnTab(bool set)
+void MainWindow::setAsteriskOnTab(bool set, QMdiSubWindow *window)
 {
+    window->setWindowModified(set);
 }
