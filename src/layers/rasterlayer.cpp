@@ -1,17 +1,38 @@
 #include "rasterlayer.h"
-#include <QDebug>
 
-RasterLayer::RasterLayer(QString name, QImage image,
-                         QGraphicsItem *parentItem):
-    Layer(name,Layer::RasterLayer), _image(image)
+
+RasterLayer::RasterLayer(const QString &name):
+    Layer(name, Layer::RASTER)
 {
-    QIcon ico(QPixmap::fromImage(image));
-    setIcon(ico);
-    setPixmap(QPixmap::fromImage(image));
+}
+
+RasterLayer::RasterLayer(const RasterLayer &other):
+    Layer(other.getName(), Layer::RASTER)
+{
+    create(other.getPixmap());
+}
+
+RasterLayer::RasterLayer(const QString &name, const QImage &image):
+    Layer(name, Layer::RASTER)
+{
+    create(QPixmap::fromImage(image));;
+}
+
+RasterLayer::RasterLayer(const QString &name, const QPixmap &pixmap) :
+    Layer(name, Layer::RASTER)
+
+{
+    create(pixmap);
+}
+
+void RasterLayer::create(const QPixmap &pixmap)
+{
+    QIcon icon(pixmap);
+    setIcon(icon);
+    setPixmap(pixmap);
+
     QGraphicsPixmapItem::setFlags(QGraphicsItem::ItemIsMovable |
                                   QGraphicsItem::ItemIsSelectable);
-    setParentItem(parentItem);
-
 }
 
 RasterLayer::~RasterLayer()
@@ -37,6 +58,11 @@ void RasterLayer::setZvalue(int z)
 {
     QGraphicsPixmapItem::setZValue(z);
 }
+void RasterLayer::setParent(QGraphicsItem *parent)
+{
+    QGraphicsPixmapItem::setParentItem(parent);
+}
+
 
 void RasterLayer::paint(QPainter *painter,
                         const QStyleOptionGraphicsItem *option,
@@ -46,3 +72,27 @@ void RasterLayer::paint(QPainter *painter,
     tampered.state &= ~QStyle::State_Selected;
     QGraphicsPixmapItem::paint(painter,&tampered,widget);
 }
+
+void RasterLayer::write(QDataStream &ds) const
+{
+    Layer::write(ds);
+    ds << getPixmap() << getPos();
+}
+
+void RasterLayer::read(QDataStream &ds)
+{
+    QPixmap pixmap;
+    QPointF pos;
+    ds >> pixmap >> pos;
+    create(pixmap);
+    setPos(pos);
+// To test if deserialization is working properly
+// Uncomment the following line
+//  qDebug() << getName() << getPixmap() << getPos();
+}
+
+Layer* RasterLayer::clone() const
+{
+    return new RasterLayer(*this);
+}
+

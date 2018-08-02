@@ -173,7 +173,7 @@ void NewDialog::on_actionOk_clicked()
 
         QString docName = ui->docNameVal->text();
 
-        Canvas *canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
+        QSharedDataPointer<Canvas> canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
         emit canvasAvailable(canvas);
         this->close();
 
@@ -195,13 +195,13 @@ void NewDialog::on_actionOk_clicked()
  * @param resUnit
  * @return
  */
-Canvas* NewDialog::createCanvas(QString docName, double width, double height,
+QSharedDataPointer<Canvas> NewDialog::createCanvas(QString docName, double width, double height,
                                  Canvas::DimensionUnit dimUnit, double resolution,
                                  Canvas::ResolutionUnit resUnit) const
 {
 
-    return new Canvas(docName,width,height,
-                        dimUnit,resolution,resUnit);
+    return QSharedDataPointer<Canvas>(new Canvas(docName,width,height,
+                        dimUnit,resolution,resUnit));
 }
 
 void NewDialog::on_actionCancel_clicked()

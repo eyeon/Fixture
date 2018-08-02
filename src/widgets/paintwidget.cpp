@@ -1,5 +1,5 @@
 #include "paintwidget.h"
-#include <QDebug>
+
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on image path
@@ -9,47 +9,79 @@
 PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
-    _imagePath = imagePath;
+    setImagePath(imagePath);
     QImage image = getImageFromPath(imagePath);
-    setTool(tool);
-    addStyleSheet();
-    setupCanvas(image);
-    pushLayer(image, "Background");
+    prepareDocument(tool, image.rect());
 
-    connect(d, SIGNAL(importAvailable(QString)),
-            this, SLOT(addNewLayer(QString)));
+    createBgLayer(image);
 
-    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
-
-    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
-                   | QPainter::SmoothPixmapTransform);
-
-    count = 0;
+    int dpi = image.dotsPerMeterX() * 2.54/100;
+    _canvas = QSharedDataPointer<Canvas>(new Canvas(imagePath, image.width(), image.height(),
+                                                    Canvas::PIXELS,
+                                                    dpi , Canvas::PPI));
 }
 
+PaintWidget::PaintWidget(Document &document, Tool *tool, QWidget *parent):
+    QGraphicsView(parent)
+{
+    _canvas = document.getCanvas();
+    setImagePath(_canvas->getName());
+
+    QImage image = drawEmptyImage(_canvas);
+    prepareDocument(tool, image.rect());
+
+    for (auto &i : document.getLayerList())
+    {
+        pushLayer(i);
+    }
+}
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
+PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent):
  QGraphicsView(parent)
 {
+    _canvas = canvas;
+
     setImagePath(canvas->getName());
-    setTool(tool);
+    QImage image = drawEmptyImage(canvas);
+    image.fill(Qt::white);
+    prepareDocument(tool, image.rect());
+
+    createBgLayer(image);
+}
+
+void PaintWidget::createBgLayer(const QImage &image)
+{
+    RasterLayer *layer = getLayerFromImage(image, "Background");
+    layer->setLocked(true);
+    pushLayer(layer);
+}
+
+QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
+{
     QSize imageSize(canvas->getWidth(), canvas->getHeight());
 
     QImage image(imageSize, QImage::Format_ARGB32_Premultiplied);
-    image.fill(Qt::white);
 
+    return image;
+}
+void PaintWidget::prepareDocument(Tool *tool, QRect rect)
+{
     addStyleSheet();
-    setupCanvas(image);
-
-    pushLayer(image, "Background");
+    setTool(tool);
+    setupCanvas(rect);
 
     connect(d, SIGNAL(importAvailable(QString)),
-            this, SLOT(addNewLayer(QString)));
+            this, SLOT(importPathToLayer(QString)));
+
+    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
+
+    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
+                   | QPainter::SmoothPixmapTransform);
 }
 
 /**
@@ -57,13 +89,16 @@ PaintWidget::PaintWidget(const Canvas *canvas, Tool *tool, QWidget *parent):
  * TODO: Support adding documents as layer
  * @param imagePath
  */
-void PaintWidget::addNewLayer(const QString &imagePath)
+void PaintWidget::importPathToLayer(const QString &fileName)
 {
-    if (isFileValid(imagePath)) {
-        QImage image = getImageFromPath(imagePath);
-        QFileInfo info(imagePath);
-        pushLayer(image, info.fileName());
-     }
+    if (isFileValid(fileName)) {
+
+        QImage image = getImageFromPath(fileName);
+        QFileInfo info(fileName);
+
+        RasterLayer *layer = getLayerFromImage(image, info.fileName());
+        pushLayer(layer);
+    }
 }
 
 QImage PaintWidget::getImageFromPath(const QString &imagePath)
@@ -126,13 +161,19 @@ void PaintWidget::addStyleSheet()
  * Sets up the canvas and the drawing environment to place layers
  * @param image The target QImage layer to be placed.
  */
-void PaintWidget::setupCanvas(QImage image)
+void PaintWidget::setupCanvas(QRect rect)
 {
-    setSceneRect(image.rect());
-    d = new Drawing(this, image);
+    setSceneRect(rect);
+
+    d = new Drawing(this, rect.width(), rect.height());
 
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
+
+    if(_currentTool->getToolGroup() == Tool::SELECTION) {
+        AbstractSelection *tool = dynamic_cast<AbstractSelection*>(_currentTool);
+        tool->setScene(d);
+    }
 }
 
 /**
@@ -140,17 +181,18 @@ void PaintWidget::setupCanvas(QImage image)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(QImage image, const QString& name)
+void PaintWidget::pushLayer(Layer *layer)
 {
     // Needs smarter naming based on positions on the stack
-    RasterLayer* l = new RasterLayer(name,image,d->getParentItem());
-    if(name == "Background"){
-        l->setLocked(false);
-    }
-
-    _items.push_back(l);
+    layer->setParent(d->getParentItem());
+    _items.push_back(layer);
     d->clearSelection();
-    l->setLayerSelected(true);
+    layer->setLayerSelected(true);
+}
+
+RasterLayer* PaintWidget::getLayerFromImage(const QImage &image, const QString &name)
+{
+    return new RasterLayer(name, image);
 }
 
 /**
@@ -186,6 +228,7 @@ void PaintWidget::setSelectedLayers()
         }
     }
 }
+
 /**
  * @brief PaintWidget::setTool Sets up the tool and passes on layers/selection areas if necessary
  * @param tool
@@ -197,18 +240,15 @@ void PaintWidget::setTool(Tool *tool)
 
     switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
-        // Selection tools require layers
-        Transform *curTool = dynamic_cast<Transform*>(tool);
-        curTool->setScene(d);
-        if(count > 2){
-            curTool->drawBounds(true);
+        AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
+        if(d != NULL){
+            curTool->setScene(d);
         }
         break;
     }
     default:
         break;
     }
-    count++;
 }
 
 /**

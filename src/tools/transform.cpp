@@ -5,16 +5,27 @@ Transform::Transform(QWidget* parent):
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
          Tool::SELECTION, Tool::TRANSFORM, parent)
 {
-    setShortcut(Qt::Key_V);
-    _rect = new BoundingRectItem();
-    _boundsDrawn = false;
+    init();
+}
+
+Transform::Transform(const Transform &other):
+    AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
+         QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
+         Tool::SELECTION, Tool::TRANSFORM)
+{
+    init();
 }
 
 Transform::~Transform()
 {
 }
 
-
+void Transform::init()
+{
+    setShortcut(Qt::Key_V);
+    _rect = new BoundingRectItem();
+    _boundsDrawn = false;
+}
 void Transform::press(QMouseEvent *event)
 {
 }
@@ -49,6 +60,10 @@ void Transform::setTransformMode(bool set)
 
 void Transform::drawBoundingRect()
 {
+    if(_scene == NULL){
+        return;
+    }
+
     QList<QGraphicsItem*> selected = _scene->selectedItems();
     QList<QGraphicsItem*>::iterator itr = selected.begin();
     QPointF max(INT_MIN,INT_MIN),min(INT_MAX,INT_MAX);
@@ -109,3 +124,7 @@ void Transform::connectMenu(TransformMenu *menu)
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
 }
 
+Tool* Transform::clone() const
+{
+    return new Transform(*this);
+}
