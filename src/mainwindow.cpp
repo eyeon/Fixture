@@ -29,10 +29,6 @@ void MainWindow::initSupportedFileMap()
     _supportedTypeMap.insert(TIFF, "TIFF (*.tif *.tiff)");
     _supportedTypeMap.insert(ICO, "ICO (*.ico)");
     _supportedTypeMap.insert(ICO, "BMP (*.bmp)");
-
-    initTools();
-    initSignalsAndSlots();
-    setDefaultTool(_transform);
 }
 
 void MainWindow::initFilterListString()

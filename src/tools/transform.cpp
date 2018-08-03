@@ -9,6 +9,30 @@ Transform::Transform(QWidget* parent):
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
          Tool::SELECTION, Tool::TRANSFORM, parent)
 {
+    init();
+}
+
+/**
+ * @brief Transform::Transform
+ * @param other
+ */
+Transform::Transform(const Transform &other):
+    AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
+         QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
+         Tool::SELECTION, Tool::TRANSFORM)
+{
+    init();
+}
+
+/**
+ * @brief Transform::~Transform
+ */
+Transform::~Transform()
+{
+}
+
+void Transform::init()
+{
     setShortcut(Qt::Key_V);
     _rect = new TransformTool::BoundingRectItem();
     _boundsDrawn = false;
@@ -18,13 +42,6 @@ Transform::Transform(QWidget* parent):
     _autoSelect = false;
     _totaldx = 0;
     _totaldy = 0;
-}
-
-/**
- * @brief Transform::~Transform
- */
-Transform::~Transform()
-{
 }
 
 /**

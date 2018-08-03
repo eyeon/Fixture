@@ -31,6 +31,7 @@ public slots:
 private:
     void drawBoundingRect();
     void connectMenu(TransformMenu *menu);
+    void init();
 
     TransformTool::BoundingRectItem *_rect;
     TransformTool::BoundingRectItem::HotSpot _handle;
