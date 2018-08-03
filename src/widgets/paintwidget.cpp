@@ -57,7 +57,7 @@ PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QW
 void PaintWidget::createBgLayer(const QImage &image)
 {
     RasterLayer *layer = getLayerFromImage(image, "Background");
-    layer->setLocked(true);
+    layer->setLocked(false);
     pushLayer(layer);
 }
 
