@@ -41,10 +41,12 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
 
     if(_handle != TransformTool::BoundingRectItem::HotSpot::Move){
         setTransformMode(true);
+        _autoSelect = false;
         _curItems = _scene->selectedItems();
         foreach(QGraphicsItem *itm, _curItems){
             _curState.push_back(itm->transform());
         }
+        _prevState = _curState;
         return;
     }
 
@@ -302,6 +304,11 @@ void Transform::drawBoundingRect()
  */
 void Transform::actionTaken(bool accept)
 {
+    if(!accept){
+        for(int i=0;i<_curItems.length();i++){
+            _curItems[i]->setTransform(_prevState[i],false);
+        }
+    }
     setTransformMode(false);
     _scene->update();
     emit switchedToTransformMode(false);

@@ -36,7 +36,7 @@ private:
     bool _boundsDrawn,_autoSelect;
     QPointF _prevPos, _curPos;
     Qt::MouseButton _mouseButton;
-    QList<QTransform> _curState;
+    QList<QTransform> _curState,_prevState;
     QList<QGraphicsItem*> _curItems;
     qreal _scalex, _scaley;
     qreal width,height;

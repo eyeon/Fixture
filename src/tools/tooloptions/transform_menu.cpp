@@ -37,9 +37,11 @@ void TransformMenu::enterTransformMode(bool enter)
 void TransformMenu::on_acceptBtn_clicked()
 {
     emit changesAccepted(true);
+    emit autoSelect(ui->autoSelectCheck->checkState() == Qt::Checked);
 }
 
 void TransformMenu::on_rejectBtn_clicked()
 {
     emit changesAccepted(false);
+    emit autoSelect(ui->autoSelectCheck->checkState() == Qt::Checked);
 }
