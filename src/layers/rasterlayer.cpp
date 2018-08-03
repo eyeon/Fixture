@@ -42,6 +42,7 @@ RasterLayer::~RasterLayer()
 void RasterLayer::setLocked(bool lock)
 {
     QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable,!lock);
+    QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable,!lock);
 }
 
 void RasterLayer::setSceneSelected(bool select)

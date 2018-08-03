@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tools/tooloptions/transform_menu.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,6 +30,9 @@ void MainWindow::initSupportedFileMap()
     _supportedTypeMap.insert(ICO, "ICO (*.ico)");
     _supportedTypeMap.insert(ICO, "BMP (*.bmp)");
 
+    initTools();
+    initSignalsAndSlots();
+    setDefaultTool(_transform);
 }
 
 void MainWindow::initFilterListString()
@@ -103,6 +107,7 @@ void MainWindow::setCurrentTool(Tool *tool)
     _currentTool = tool;
 
     QWidget *menuWidget = tool->getToolMenu();
+
     if (_menu != NULL) {
         _menu->setVisible(false);
     }
@@ -149,6 +154,7 @@ void MainWindow::openNewImage(const QString &fileName)
         addPaintWidget(new PaintWidget(fileName, _currentTool));
     }
 }
+
 void MainWindow::addChildWindow(PaintWidget *widget,bool isNew)
 {
     ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -173,6 +179,7 @@ void MainWindow::setupSubWindowTitle(QMdiSubWindow *mdiSubWindow, const QString&
         QFileInfo info(filePath);
         title = info.fileName() + "[*]";
     }
+
     mdiSubWindow->setWindowTitle(title);
     mdiSubWindow->setWindowModified(isNew);
 }
@@ -192,6 +199,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
     }
     return QObject::eventFilter(watched, event);
 }
+
 /**
  * @brief MainWindow::updateWindow
  * @param window

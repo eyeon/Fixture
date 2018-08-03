@@ -4,8 +4,15 @@
 #include <QGraphicsRectItem>
 #include <QPainter>
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
+#include <QMap>
+#include <QGraphicsScene>
 
-class BoundingRectItem : public QGraphicsRectItem
+namespace TransformTool {
+    class BoundingRectItem;
+}
+
+class TransformTool::BoundingRectItem : public QGraphicsRectItem
 {
 public:
 
@@ -29,7 +36,9 @@ public:
 
     inline void transformMode(bool set){ _transformMode = set; }
     void setPoints(QPointF min,QPointF max);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    HotSpot checkMouse(QGraphicsSceneMouseEvent *event);
+    inline qreal width(){return _boundingRect.width();}
+    inline qreal height(){return _boundingRect.height();}
 
 signals:
     void mouseIsHovering(HotSpot);
@@ -39,16 +48,11 @@ protected:
                const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-
     QRectF boundingRect() const;
 
 private:
     QRectF _boundingRect;
     qreal _width, _height;
-
     bool _transformMode;
 };
 

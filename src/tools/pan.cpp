@@ -7,26 +7,21 @@ Pan::Pan(QWidget *parent):
     setShortcut(Qt::Key_H);
 }
 
-Pan::Pan(const Pan &other):
-    Tool(QIcon(":/tools/pan.svg"),"Pan Tool (H)",
-         Qt::OpenHandCursor, Tool::PERCEPTION, Tool::PAN)
-{
-
-}
 Pan::~Pan()
 {
-}
-void Pan::move(QMouseEvent *event)
-{
 
 }
-void Pan::press(QMouseEvent *event)
+void Pan::move(QGraphicsSceneMouseEvent *event)
 {
-
+    event->accept();
 }
-void Pan::release(QMouseEvent *event)
+void Pan::press(QGraphicsSceneMouseEvent *event)
 {
-
+    event->accept();
+}
+void Pan::release(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
 }
 
 QWidget* Pan::getToolMenu()

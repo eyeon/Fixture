@@ -1,6 +1,4 @@
 QFrame {
-    border: 1px solid #333333;
-    border-radius: 2px;
     padding: 7px;
     padding-left: 10px;
     font-size: 10px;
@@ -11,6 +9,10 @@ QCheckBox {
     font-size: 11px;
 }
 
+QCheckBox:disabled {
+    color:  #aaaaaa;
+}
+
 QCheckBox::indicator {
     width: 11px;
     height: 11px;
@@ -18,7 +20,13 @@ QCheckBox::indicator {
     border: 1px solid #1a1a1a;
     border-radius: 3px;
 }
+
 QCheckBox::indicator:checked {
     image: url(:/icons/check-tick.svg);
+}
+
+QPushButton {
+    background-color: #262626;
+    border : none;
 }
 

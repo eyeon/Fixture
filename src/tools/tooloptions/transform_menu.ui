@@ -31,6 +31,9 @@
    </property>
    <item>
     <widget class="QCheckBox" name="autoSelectCheck">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Auto Select</string>
      </property>
@@ -38,6 +41,9 @@
    </item>
    <item>
     <widget class="QCheckBox" name="showTransfromCheck">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Show Transform Controls</string>
      </property>
@@ -46,8 +52,62 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="acceptBtn">
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../resources/resources.qrc">
+       <normaloff>:/icons/check-tick.svg</normaloff>:/icons/check-tick.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="rejectBtn">
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../resources/resources.qrc">
+       <normaloff>:/icons/close-white-lighter.svg</normaloff>:/icons/close-white-lighter.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
