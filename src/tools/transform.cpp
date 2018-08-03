@@ -16,6 +16,8 @@ Transform::Transform(QWidget* parent):
     _scalex = 1;
     _scaley = 1;
     _autoSelect = false;
+    _totaldx = 0;
+    _totaldy = 0;
 }
 
 /**
@@ -103,6 +105,8 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
         case TransformTool::BoundingRectItem::HotSpot::Move:{
             foreach(QGraphicsItem *itm,_scene->selectedItems()) {
                 itm->moveBy(dx,dy);
+                _totaldx += dx;
+                _totaldy += dy;
             }
             break;
         }
@@ -124,6 +128,8 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
                 _curState[i].scale(_scalex,_scaley);
                 _curItems[i]->setTransform(_curState[i],false);
                 _curItems[i]->moveBy(dx,dy);
+                _totaldx += dx;
+                _totaldy += dy;
             }
             break;
         }
@@ -135,6 +141,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
                 _curState[i].scale(_scalex,_scaley);
                 _curItems[i]->setTransform(_curState[i],false);
                 _curItems[i]->moveBy(0,dy);
+                _totaldy += dy;
             }
             break;
         }
@@ -146,6 +153,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
                 _curState[i].scale(_scalex,_scaley);
                 _curItems[i]->setTransform(_curState[i],false);
                 _curItems[i]->moveBy(dx,0);
+                _totaldx += dx;
             }
             break;
         }
@@ -155,6 +163,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
                 _curState[i].scale(_scalex,_scaley);
                 _curItems[i]->setTransform(_curState[i],false);
                 _curItems[i]->moveBy(0,dy);
+                _totaldy += dy;
             }
             break;
         }
@@ -174,6 +183,7 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
                 _curState[i].scale(_scalex,_scaley);
                 _curItems[i]->setTransform(_curState[i],false);
                 _curItems[i]->moveBy(dx,0);
+                _totaldx += dx;
             }
             break;
         }
@@ -307,11 +317,15 @@ void Transform::actionTaken(bool accept)
     if(!accept){
         for(int i=0;i<_curItems.length();i++){
             _curItems[i]->setTransform(_prevState[i],false);
+            _curItems[i]->moveBy(-1 * _totaldx,-1 * _totaldy);
         }
     }
     setTransformMode(false);
     _scene->update();
+    drawBoundingRect();
     emit switchedToTransformMode(false);
+    _totaldx = 0;
+    _totaldy = 0;
 }
 
 /**

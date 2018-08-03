@@ -40,6 +40,7 @@ private:
     QList<QGraphicsItem*> _curItems;
     qreal _scalex, _scaley;
     qreal width,height;
+    qreal _totaldx, _totaldy;
 
 signals:
     void switchedToTransformMode(bool enable);
