@@ -1,6 +1,6 @@
-# Fixture
+# Fixture Roadmap
 
-A lightweight image editor based on Qt
+This is the series of phases that we are on track to go about. Work in progress.
 
 ### TODOs:
 
