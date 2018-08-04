@@ -8,7 +8,6 @@
 
 **Example window [WIP]**
 ![Fixture screenshot(WIP)](https://image.ibb.co/mL8Hdz/screenshot_20180727_153726.png)
-Change the Installation part:
 
 ## Installation
 
@@ -17,19 +16,19 @@ Fixture, as of now is a work in progress. The master branch has the latest compi
 `git clone https://github.com/eyeon/Fixture.git `
 
 Install the latest version of Qt Creator from [here](https://www.qt.io/download).
-You can then open the `Fixture.pro` file with Qt Creator and compile the program to an executable. You can find more info [here](https://doc.qt.io/qtcreator/creator-building-running.html)
+You can then open the `Fixture.pro` file with Qt Creator and compile the program to an executable. You can find more info [here](https://doc.qt.io/qtcreator/creator-building-running.html).
 
-If you'd like to use `qmake`, make sure you are running it on or above Qt 5.10
+If you'd like to use `qmake`, make sure you are running it on or above Qt 5.10.
 
 We also plan to provide `appimages` and builds for Windows & Mac in the future.
 
 ## Support
 If you are having troubles figuring out how to make Fixture work, or have any queries/suggestions, join our telegram group:
-https://t.me/eyeon_social. You can mail us at: mailto:eyeon@disroot.org
+https://t.me/eyeon_social. You can mailto:eyeon@disroot.org.
 
 ## Roadmap
 
-The [ROADMAP file](https://github.com/eyeon/Fixture/blob/master/ROADMAP.md) contains a high level description of our TODO list in terms of feature addition. You can help us extend it by adding features we might have missed.
+The [Roadmap file](https://github.com/eyeon/Fixture/blob/master/ROADMAP.md) contains a high level description of our TODO list in terms of feature addition. You can help us extend it by adding features we might have missed.
 
 ## Contributors
 
