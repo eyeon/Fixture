@@ -57,7 +57,7 @@ PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QW
 void PaintWidget::createBgLayer(const QImage &image)
 {
     RasterLayer *layer = getLayerFromImage(image, "Background");
-    layer->setLocked(true);
+    layer->setLocked(false);
     pushLayer(layer);
 }
 
@@ -69,11 +69,12 @@ QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
 
     return image;
 }
+
 void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 {
     addStyleSheet();
-    setTool(tool);
     setupCanvas(rect);
+    setTool(tool);
 
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(importPathToLayer(QString)));
@@ -82,6 +83,8 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
+
+    setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 }
 
 /**
@@ -166,14 +169,8 @@ void PaintWidget::setupCanvas(QRect rect)
     setSceneRect(rect);
 
     d = new Drawing(this, rect.width(), rect.height());
-
     setScene(d);
     fitInView(d->sceneRect(), Qt::KeepAspectRatio);
-
-    if(_currentTool->getToolGroup() == Tool::SELECTION) {
-        AbstractSelection *tool = dynamic_cast<AbstractSelection*>(_currentTool);
-        tool->setScene(d);
-    }
 }
 
 /**
@@ -227,6 +224,11 @@ void PaintWidget::setSelectedLayers()
             l->setLayerSelected(false);
         }
     }
+
+    if(_currentTool->getToolType() == Tool::TRANSFORM) {
+        Transform *t = dynamic_cast<Transform*>(_currentTool);
+        t->updateBounds();
+    }
 }
 
 /**
@@ -237,7 +239,7 @@ void PaintWidget::setTool(Tool *tool)
 {
     setCursor(tool->getToolCursor());
     _currentTool = tool;
-
+    d->setTool(tool);
     switch (_currentTool->getToolGroup()) {
     case Tool::SELECTION: {
         AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
@@ -249,26 +251,4 @@ void PaintWidget::setTool(Tool *tool)
     default:
         break;
     }
-}
-
-/**
- * @brief PaintWidget::mousePressEvent Delegating to the current tool
- * @param event
- */
-void PaintWidget::mousePressEvent(QMouseEvent *event)
-{
-   _currentTool->press(event);
-    QGraphicsView::mousePressEvent(event);
-}
-
-void PaintWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    _currentTool->release(event);
-    QGraphicsView::mouseReleaseEvent(event);
-}
-
-void PaintWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    _currentTool->move(event);
-    QGraphicsView::mouseMoveEvent(event);
 }

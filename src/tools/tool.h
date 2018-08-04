@@ -2,7 +2,10 @@
 #define TOOL_H
 
 #include <QAction>
+#include <QGraphicsSceneMouseEvent>
+
 #include "../layers/layer.h"
+
 class Tool : public QAction
 {
 public:
@@ -27,9 +30,9 @@ public:
     inline ToolType getToolType() { return _type; }
 
 public:
-    virtual void move(QMouseEvent *event) = 0;
-    virtual void press(QMouseEvent *event) = 0;
-    virtual void release(QMouseEvent *event) = 0;
+    virtual void move(QGraphicsSceneMouseEvent *event) = 0;
+    virtual void press(QGraphicsSceneMouseEvent *event) = 0;
+    virtual void release(QGraphicsSceneMouseEvent *event) = 0;
     virtual QWidget* getToolMenu() = 0;
     virtual Tool* clone() const = 0;
 

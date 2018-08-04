@@ -1,5 +1,9 @@
 #include "transform.h"
 
+/**
+ * @brief Transform::Transform
+ * @param parent
+ */
 Transform::Transform(QWidget* parent):
     AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
@@ -8,6 +12,10 @@ Transform::Transform(QWidget* parent):
     init();
 }
 
+/**
+ * @brief Transform::Transform
+ * @param other
+ */
 Transform::Transform(const Transform &other):
     AbstractSelection(QIcon(":/tools/select.svg"),"Transform Tool (V)",
          QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15,15)),0,0),
@@ -16,6 +24,9 @@ Transform::Transform(const Transform &other):
     init();
 }
 
+/**
+ * @brief Transform::~Transform
+ */
 Transform::~Transform()
 {
 }
@@ -23,25 +34,214 @@ Transform::~Transform()
 void Transform::init()
 {
     setShortcut(Qt::Key_V);
-    _rect = new BoundingRectItem();
+    _rect = new TransformTool::BoundingRectItem();
     _boundsDrawn = false;
-}
-void Transform::press(QMouseEvent *event)
-{
+    _mouseButton = Qt::NoButton;
+    _scalex = 1;
+    _scaley = 1;
+    _autoSelect = false;
+    _totaldx = 0;
+    _totaldy = 0;
 }
 
-void Transform::release(QMouseEvent *event)
+/**
+ * @brief Transform::press
+ * @param event
+ */
+void Transform::press(QGraphicsSceneMouseEvent *event)
 {
-}
+    _prevPos = event->scenePos();
+    QGraphicsItem* itm = _scene->itemAt(_prevPos,QTransform());
+    _mouseButton = event->button();
 
-void Transform::move(QMouseEvent *event)
-{
-    if(_boundsDrawn){
-        drawBoundingRect();
-        _scene->update(_scene->sceneRect());
+    if(_boundsDrawn) {
+        _handle = _rect->checkMouse(event);
+    }
+
+    if(_handle != TransformTool::BoundingRectItem::HotSpot::Move){
+        setTransformMode(true);
+        _autoSelect = false;
+        _curItems = _scene->selectedItems();
+        foreach(QGraphicsItem *itm, _curItems){
+            _curState.push_back(itm->transform());
+        }
+        _prevState = _curState;
+        return;
+    }
+
+    if(_autoSelect){
+        if(itm != 0 && itm->flags() & QGraphicsItem::ItemIsSelectable){
+            if(event->modifiers() & Qt::ControlModifier){
+                itm->setSelected(true);
+            }else{
+                if(_scene->selectedItems().length() < 2) _scene->clearSelection();
+                itm->setSelected(true);
+            }
+        }else{
+            _scene->clearSelection();
+        }
+        emit _scene->selectionChanged();
+        drawBounds(_boundsDrawn);
+        return;
+    }
+
+    if(!(_scene->selectedItems().contains(itm))){
+        _mouseButton = Qt::NoButton;
     }
 }
 
+/**
+ * @brief Transform::release
+ * @param event
+ */
+void Transform::release(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
+    _mouseButton = Qt::NoButton;
+    _curState.clear();
+}
+
+/**
+ * @brief Transform::move
+ * @param event
+ */
+void Transform::move(QGraphicsSceneMouseEvent *event)
+{
+    _curPos = event->scenePos();
+    qreal dx = _curPos.x() - _prevPos.x();
+    qreal dy = _curPos.y() - _prevPos.y();
+
+
+    if (_mouseButton == Qt::LeftButton){
+        if(_handle != TransformTool::BoundingRectItem::HotSpot::Move){
+            emit switchedToTransformMode(true);
+        }
+
+        switch(_handle){
+
+        case TransformTool::BoundingRectItem::HotSpot::Move:{
+            foreach(QGraphicsItem *itm,_scene->selectedItems()) {
+                itm->moveBy(dx,dy);
+                _totaldx += dx;
+                _totaldy += dy;
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleBottomRightCorner:{
+            _scalex = (width+dx)/width;
+            _scaley = (height+dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleTopLeftCorner:{
+            _scalex = (width-dx)/width;
+            _scaley = (height-dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,dy);
+                _totaldx += dx;
+                _totaldy += dy;
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleTopRightCorner:{
+            _scalex = (width+dx)/width;
+            _scaley = (height-dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(0,dy);
+                _totaldy += dy;
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleBottomLeftCorner:{
+            _scalex = (width-dx)/width;
+            _scaley = (height+dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,0);
+                _totaldx += dx;
+            }
+            break;
+        }
+        case TransformTool::BoundingRectItem::HotSpot::ScaleTopBoundary:{
+            _scaley = (height-dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(0,dy);
+                _totaldy += dy;
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleBottomBoundary:{
+            _scaley = (height+dy)/height;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleLeftBoundary:{
+            _scalex = (width-dx)/width;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+                _curItems[i]->moveBy(dx,0);
+                _totaldx += dx;
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::ScaleRightBoundary:{
+            _scalex = (width+dx)/width;
+            for(int i=0;i<_curItems.length();i++){
+                _curState[i].scale(_scalex,_scaley);
+                _curItems[i]->setTransform(_curState[i],false);
+            }
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateBottomLeftCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateBottomRightCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateTopLeftCorner:{
+            break;
+        }
+
+        case TransformTool::BoundingRectItem::HotSpot::RotateTopRightCorner:{
+            break;
+        }
+        }
+    }
+
+    _scalex = 1;
+    _scaley = 1;
+    _prevPos = _curPos;
+    updateBounds();
+}
+
+/**
+ * @brief Transform::drawBounds
+ * @param draw
+ */
 void Transform::drawBounds(bool draw)
 {
     if(draw){
@@ -53,11 +253,26 @@ void Transform::drawBounds(bool draw)
     _boundsDrawn = draw;
 }
 
+/**
+ * @brief Transform::setTransformMode
+ * @param set
+ */
 void Transform::setTransformMode(bool set)
 {
     _rect->transformMode(set);
 }
 
+void Transform::updateBounds()
+{
+    if(_boundsDrawn){
+        drawBoundingRect();
+        _scene->update(_scene->sceneRect());
+    }
+}
+
+/**
+ * @brief Transform::drawBoundingRect
+ */
 void Transform::drawBoundingRect()
 {
     if(_scene == NULL){
@@ -91,20 +306,49 @@ void Transform::drawBoundingRect()
         }
     }
 
+    if(max == QPointF(INT_MIN,INT_MIN) || min == QPointF(INT_MAX,INT_MAX)) {
+        if(_scene->items().contains(_rect)){
+            _rect->setVisible(false);
+        }
+        return;
+    }
+
     _rect->setPoints(min,max);
+    width = max.x() - min.x();
+    height = max.y() - min.y();
 
     if(_scene->items().contains(_rect)){
         _rect->setVisible(true);
     }else{
         _scene->addItem(_rect);
     }
+
 }
 
-void Transform::removeBoundingRect()
+/**
+ * @brief Transform::actionTaken
+ * @param accept
+ */
+void Transform::actionTaken(bool accept)
 {
-    delete _rect;
+    if(!accept){
+        for(int i=0;i<_curItems.length();i++){
+            _curItems[i]->setTransform(_prevState[i],false);
+            _curItems[i]->moveBy(-1 * _totaldx,-1 * _totaldy);
+        }
+    }
+    setTransformMode(false);
+    _scene->update();
+    drawBoundingRect();
+    emit switchedToTransformMode(false);
+    _totaldx = 0;
+    _totaldy = 0;
 }
 
+/**
+ * @brief Transform::getToolMenu
+ * @return
+ */
 QWidget* Transform::getToolMenu()
 {
     if (_menuExists) {
@@ -119,9 +363,16 @@ QWidget* Transform::getToolMenu()
     return _menu;
 }
 
+/**
+ * @brief Transform::connectMenu
+ * @param menu
+ */
 void Transform::connectMenu(TransformMenu *menu)
 {
+    connect(menu, SIGNAL(autoSelect(bool)),this,SLOT(setAutoSelect(bool)));
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
+    connect(this,SIGNAL(switchedToTransformMode(bool)),menu,SLOT(enterTransformMode(bool)));
+    connect(menu,SIGNAL(changesAccepted(bool)),this,SLOT(actionTaken(bool)));
 }
 
 Tool* Transform::clone() const

@@ -1,13 +1,13 @@
 #include "boundingrectitem.h"
 
+using namespace TransformTool;
+
 BoundingRectItem::BoundingRectItem()
 {    
     setFlag(QGraphicsItem::ItemIsMovable);
     _transformMode = false;
     _width = 0;
     _height = 0;
-    setAcceptHoverEvents(true);
-
 }
 
 void BoundingRectItem::setPoints(QPointF min, QPointF max)
@@ -26,6 +26,8 @@ void BoundingRectItem::paint(QPainter *painter,
     painter->setPen(QPen(Qt::gray, 1, Qt::DashLine));
     if(_transformMode){
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine));
+        painter->drawLine(_boundingRect.topLeft(),_boundingRect.bottomRight());
+        painter->drawLine(_boundingRect.bottomLeft(),_boundingRect.topRight());
     }
     painter->drawRect(_boundingRect);
     QPointF topleft = _boundingRect.topLeft();
@@ -60,22 +62,53 @@ QRectF BoundingRectItem::boundingRect() const
                   _boundingRect.bottomRight() + QPointF(5,5));
 }
 
-void BoundingRectItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+BoundingRectItem::HotSpot BoundingRectItem::checkMouse(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "hover entered";
-}
+    QPointF pos = event->scenePos();
 
-void BoundingRectItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    qDebug() << "hover leaved";
-}
+    //Kind of an ugly hack, should be improved
+    QPointF tl = _boundingRect.topLeft() - QPointF(5,5);
+    QPointF br = tl + QPointF(10,10);
+    QRectF rect(tl,br);
 
-void BoundingRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
-{
-    qDebug() << "hover moved";
-}
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopLeftCorner;
+    }
 
-void BoundingRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << "pressed";
+    rect.translate(_width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopBoundary;
+    }
+
+    rect.translate(_width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleTopRightCorner;
+    }
+
+    rect.translate(0,_height/2 );
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleRightBoundary;
+    }
+
+    rect.translate(0,_height/2 );
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomRightCorner;
+    }
+
+    rect.translate(-1 * _width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomBoundary;
+    }
+
+    rect.translate(-1 * _width/2,0);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleBottomLeftCorner;
+    }
+
+    rect.translate(0,-1 * _height/2);
+    if(rect.contains(pos)){
+        return BoundingRectItem::HotSpot::ScaleLeftBoundary;
+    }
+
+    return BoundingRectItem::HotSpot::Move;
 }
