@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
@@ -9,10 +9,10 @@ int main(int argc, char *argv[])
     w.showMaximized();
     w.show();
 
-    QFile styleFile( ":/styles/basic.qss" );
-    styleFile.open( QFile::ReadOnly );
+    QFile styleFile(":/styles/basic.qss");
+    styleFile.open(QFile::ReadOnly);
 
-    QString style( styleFile.readAll() );
+    QString style(styleFile.readAll() );
     w.setStyleSheet(style);
 
     return a.exec();

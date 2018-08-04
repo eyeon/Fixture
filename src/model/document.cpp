@@ -1,15 +1,16 @@
 #include "document.h"
 
-Document::Document(const QList<Layer *> layers, const QSharedDataPointer<Canvas> canvas) :
+Document::Document(const QList<Layer *>             layers,
+                   const QSharedDataPointer<Canvas> canvas) :
     _layers(layers),
     _canvas(canvas)
-{
-}
+{ }
 
 Document::Document(const QString &name)
 {
     _name = name;
 }
+
 bool Document::isDocumentValid(const QString &fileName)
 {
     return fileName.endsWith(".fxt") || fileName.endsWith(".fxd");
@@ -22,8 +23,8 @@ void Document::write(QDataStream &out) const
 
 void Document::read(QDataStream &in)
 {
-    QList<Layer*> layers;
-    Canvas *canvas = new Canvas(_name);
+    QList<Layer *> layers;
+    Canvas * canvas = new Canvas(_name);
 
     qint64 magicNum;
     qint32 version;
@@ -35,19 +36,19 @@ void Document::read(QDataStream &in)
         return;
     }
 
-    in  >> *canvas >> layers;
+    in >> *canvas >> layers;
 
     _layers = layers;
     _canvas = QSharedDataPointer<Canvas>(canvas);
 }
 
-QDataStream &operator <<(QDataStream &out, const Document &document)
+QDataStream &operator << (QDataStream &out, const Document &document)
 {
     document.write(out);
     return out;
 }
 
-QDataStream &operator >>(QDataStream &in, Document &document)
+QDataStream &operator >> (QDataStream &in, Document &document)
 {
     document.read(in);
     return in;

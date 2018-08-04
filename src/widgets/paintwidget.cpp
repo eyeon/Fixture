@@ -6,8 +6,9 @@
  * @param imagePath
  * @param parent
  */
-PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
- QGraphicsView(parent)
+PaintWidget::PaintWidget(const QString &imagePath, Tool * tool,
+                         QWidget * parent) :
+    QGraphicsView(parent)
 {
     setImagePath(imagePath);
     QImage image = getImageFromPath(imagePath);
@@ -15,13 +16,15 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent):
 
     createBgLayer(image);
 
-    int dpi = image.dotsPerMeterX() * 2.54/100;
-    _canvas = QSharedDataPointer<Canvas>(new Canvas(imagePath, image.width(), image.height(),
-                                                    Canvas::PIXELS,
-                                                    dpi , Canvas::PPI));
+    int dpi = image.dotsPerMeterX() * 2.54 / 100;
+    _canvas =
+        QSharedDataPointer<Canvas>(new Canvas(imagePath, image.width(),
+                                              image.height(),
+                                              Canvas::PIXELS,
+                                              dpi, Canvas::PPI));
 }
 
-PaintWidget::PaintWidget(Document &document, Tool *tool, QWidget *parent):
+PaintWidget::PaintWidget(Document &document, Tool * tool, QWidget * parent) :
     QGraphicsView(parent)
 {
     _canvas = document.getCanvas();
@@ -30,19 +33,20 @@ PaintWidget::PaintWidget(Document &document, Tool *tool, QWidget *parent):
     QImage image = drawEmptyImage(_canvas);
     prepareDocument(tool, image.rect());
 
-    for (auto &i : document.getLayerList())
-    {
+    for (auto &i : document.getLayerList()) {
         pushLayer(i);
     }
 }
+
 /**
  * @brief PaintWidget::PaintWidget Constructs a new PaintWidget for a new document
  * Creates a new canvas based on Document
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QWidget *parent):
- QGraphicsView(parent)
+PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool * tool,
+                         QWidget * parent) :
+    QGraphicsView(parent)
 {
     _canvas = canvas;
 
@@ -56,7 +60,7 @@ PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool, QW
 
 void PaintWidget::createBgLayer(const QImage &image)
 {
-    RasterLayer *layer = getLayerFromImage(image, "Background");
+    RasterLayer * layer = getLayerFromImage(image, "Background");
     layer->setLocked(false);
     pushLayer(layer);
 }
@@ -70,7 +74,7 @@ QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
     return image;
 }
 
-void PaintWidget::prepareDocument(Tool *tool, QRect rect)
+void PaintWidget::prepareDocument(Tool * tool, QRect rect)
 {
     addStyleSheet();
     setupCanvas(rect);
@@ -79,7 +83,7 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
     connect(d, SIGNAL(importAvailable(QString)),
             this, SLOT(importPathToLayer(QString)));
 
-    connect(d,SIGNAL(selectionChanged()),this,SLOT(setSelectedLayers()));
+    connect(d, SIGNAL(selectionChanged()), this, SLOT(setSelectedLayers()));
 
     setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing
                    | QPainter::SmoothPixmapTransform);
@@ -95,48 +99,47 @@ void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 void PaintWidget::importPathToLayer(const QString &fileName)
 {
     if (isFileValid(fileName)) {
-
         QImage image = getImageFromPath(fileName);
         QFileInfo info(fileName);
 
-        RasterLayer *layer = getLayerFromImage(image, info.fileName());
+        RasterLayer * layer = getLayerFromImage(image, info.fileName());
         pushLayer(layer);
     }
 }
 
 QImage PaintWidget::getImageFromPath(const QString &imagePath)
 {
-    if(isRaw(imagePath)){
+    if (isRaw(imagePath)) {
         QImageReader reader(imagePath);
         QSize size = reader.size();
 
-        int w = size.width() -1;
-        int h = size.height() -1;
+        int w = size.width() - 1;
+        int h = size.height() - 1;
 
-        QSize newSize = QSize(w,h);
+        QSize newSize = QSize(w, h);
         reader.setScaledSize(newSize);
         return reader.read();
     }
-        return QImage(imagePath);
+    return QImage(imagePath);
 }
 
 bool PaintWidget::isRaw(const QString &imagePath)
 {
-    QStringList list = imagePath.split(".");
+    QStringList list      = imagePath.split(".");
     QString fileNameNoExt = list[1];
 
-     QString rawExtensions[] = {
-         "ARW",
-         "BAY",
-         "CR2",
-         "DCS",
-         "MOS",
-         "NEF",
-         "RAW"
+    QString rawExtensions[] = {
+        "ARW",
+        "BAY",
+        "CR2",
+        "DCS",
+        "MOS",
+        "NEF",
+        "RAW"
     };
 
     return std::find(std::begin(rawExtensions), std::end(rawExtensions),
-                            fileNameNoExt.toUpper()) != std::end(rawExtensions);
+                     fileNameNoExt.toUpper()) != std::end(rawExtensions);
 }
 
 bool PaintWidget::isFileValid(const QString& fileName)
@@ -152,10 +155,10 @@ bool PaintWidget::isImageSupported(const QString &fileName)
 
 void PaintWidget::addStyleSheet()
 {
-    QFile styleFile( ":/styles/paintwidget.qss" );
-    styleFile.open( QFile::ReadOnly );
+    QFile styleFile(":/styles/paintwidget.qss");
+    styleFile.open(QFile::ReadOnly);
 
-    QString style( styleFile.readAll() );
+    QString style(styleFile.readAll() );
     setStyleSheet(style);
 }
 
@@ -178,7 +181,7 @@ void PaintWidget::setupCanvas(QRect rect)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(Layer *layer)
+void PaintWidget::pushLayer(Layer * layer)
 {
     // Needs smarter naming based on positions on the stack
     layer->setParent(d->getParentItem());
@@ -187,7 +190,8 @@ void PaintWidget::pushLayer(Layer *layer)
     layer->setLayerSelected(true);
 }
 
-RasterLayer* PaintWidget::getLayerFromImage(const QImage &image, const QString &name)
+RasterLayer * PaintWidget::getLayerFromImage(const QImage &image,
+     const QString                                        &name)
 {
     return new RasterLayer(name, image);
 }
@@ -198,7 +202,7 @@ RasterLayer* PaintWidget::getLayerFromImage(const QImage &image, const QString &
  * @param document
  * @param parent
  */
-void PaintWidget::wheelEvent(QWheelEvent *event)
+void PaintWidget::wheelEvent(QWheelEvent * event)
 {
     const QPointF p0scene = mapToScene(event->pos());
 
@@ -206,27 +210,27 @@ void PaintWidget::wheelEvent(QWheelEvent *event)
     scale(factor, factor);
 
     const QPointF p1mouse = mapFromScene(p0scene);
-    const QPointF move = p1mouse - event->pos(); // The move
+    const QPointF move    = p1mouse - event->pos(); // The move
     horizontalScrollBar()->setValue(move.x() + horizontalScrollBar()->value());
     verticalScrollBar()->setValue(move.y() + verticalScrollBar()->value());
 }
 
 void PaintWidget::setSelectedLayers()
 {
-    QList<QGraphicsItem*> selectedItems = d->selectedItems();
-    QList<QGraphicsItem*> allItems = d->getParentItem()->childItems();
-    QList<QGraphicsItem*>::iterator itr = allItems.begin();
-    for(;itr != allItems.end();++itr){
-        Layer *l = dynamic_cast<Layer*>(*itr);
-        if(selectedItems.contains(*itr)) {
+    QList<QGraphicsItem *> selectedItems = d->selectedItems();
+    QList<QGraphicsItem *> allItems      = d->getParentItem()->childItems();
+    QList<QGraphicsItem *>::iterator itr = allItems.begin();
+    for (; itr != allItems.end(); ++itr) {
+        Layer * l = dynamic_cast<Layer *>(*itr);
+        if (selectedItems.contains(*itr)) {
             l->setLayerSelected(true);
-        }else{
+        } else {
             l->setLayerSelected(false);
         }
     }
 
-    if(_currentTool->getToolType() == Tool::TRANSFORM) {
-        Transform *t = dynamic_cast<Transform*>(_currentTool);
+    if (_currentTool->getToolType() == Tool::TRANSFORM) {
+        Transform * t = dynamic_cast<Transform *>(_currentTool);
         t->updateBounds();
     }
 }
@@ -235,20 +239,21 @@ void PaintWidget::setSelectedLayers()
  * @brief PaintWidget::setTool Sets up the tool and passes on layers/selection areas if necessary
  * @param tool
  */
-void PaintWidget::setTool(Tool *tool)
+void PaintWidget::setTool(Tool * tool)
 {
     setCursor(tool->getToolCursor());
     _currentTool = tool;
     d->setTool(tool);
     switch (_currentTool->getToolGroup()) {
-    case Tool::SELECTION: {
-        AbstractSelection *curTool = dynamic_cast<AbstractSelection*>(tool);
-        if(d != NULL){
-            curTool->setScene(d);
+        case Tool::SELECTION: {
+            AbstractSelection * curTool =
+                dynamic_cast<AbstractSelection *>(tool);
+            if (d != NULL) {
+                curTool->setScene(d);
+            }
+            break;
         }
-        break;
-    }
-    default:
-        break;
+        default:
+            break;
     }
 }

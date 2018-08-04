@@ -12,20 +12,20 @@ public:
         PIXELS, INCHES, CENTIMETERS, MILLIMETERS, POINTS, PICAS
     };
 
-    enum ResolutionUnit{
+    enum ResolutionUnit {
         PPI, PPC
     };
 
     Canvas(QString docName,
-             int width, int height,
-             DimensionUnit dimensionUnit,
-             int resolution,
-             ResolutionUnit resUnit);
+         int width, int height,
+         DimensionUnit dimensionUnit,
+         int resolution,
+         ResolutionUnit resUnit);
     Canvas(const Canvas&);
     Canvas(const QString &name);
 
     Canvas * clone() const;
-    inline void setName(const QString &name) { _docName = name; }
+    inline void setName(const QString &name){ _docName = name; }
     inline int getHeight() const { return _height; }
     inline int getWidth() const { return _width; }
     inline int getResolution() const { return _resolution; }
@@ -35,8 +35,8 @@ public:
 
     void write(QDataStream&) const;
     void read(QDataStream&);
-    friend QDataStream& operator>>(QDataStream& ds, Canvas &canvas);
-    friend QDataStream& operator<<(QDataStream& ds, const Canvas &canvas);
+    friend QDataStream& operator >> (QDataStream& ds, Canvas &canvas);
+    friend QDataStream& operator << (QDataStream& ds, const Canvas &canvas);
 
 private:
     QString _docName;

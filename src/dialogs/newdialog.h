@@ -19,7 +19,7 @@ class NewDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewDialog(QWidget *parent = 0);
+    explicit NewDialog(QWidget * parent = 0);
     ~NewDialog();
 
 signals:
@@ -35,26 +35,25 @@ private slots:
     void switchPreset(int index);
     void displaySize(QString presetKey);
 private:
-    struct PageSize
-    {
-        double width;
-        double height;
+    struct PageSize {
+        double                width;
+        double                height;
         Canvas::DimensionUnit unit;
     }
-    Default { 600, 600, Canvas::DimensionUnit::PIXELS};
+    Default { 600, 600, Canvas::DimensionUnit::PIXELS };
 
-    enum Preset
-    {
+    enum Preset {
         DEFAULT, INTERNATIONAL, US_PAPER, CUSTOM
     };
-    QSharedDataPointer<Canvas> createCanvas(QString docName, double width, double height,
-                          Canvas::DimensionUnit dimUnit, double resolution,
-                          Canvas::ResolutionUnit resUnit) const;
-    Ui::NewDialog *ui;
+    QSharedDataPointer<Canvas> createCanvas(QString docName, double width,
+         double height,
+         Canvas::DimensionUnit dimUnit, double resolution,
+         Canvas::ResolutionUnit resUnit) const;
+    Ui::NewDialog * ui;
     int _resolution;
     Canvas::DimensionUnit _dimensionUnit;
-    double getDoubleValue(QLineEdit *fieldVal);
-    int getPixelValue(QLineEdit *field);
+    double getDoubleValue(QLineEdit * fieldVal);
+    int getPixelValue(QLineEdit * field);
     void showZeroErrorMessage(QString fieldName);
     void checkDimensionValidity(double fieldVal);
     void displaySizeContents(NewDialog::PageSize size);
@@ -69,7 +68,6 @@ private:
     QMap<QString, PageSize> getUSPaperList();
     QMap<Canvas::DimensionUnit, QString> getDimensionUnitList();
     QMap<Preset, QString> getPresetList();
-
 };
 
 #endif // NEWDIALOG_H

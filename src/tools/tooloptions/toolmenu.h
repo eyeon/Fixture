@@ -9,7 +9,7 @@ class ToolMenu : public QFrame
     Q_OBJECT
 
 public:
-    ToolMenu(QWidget *parent);
+    ToolMenu(QWidget * parent);
 
 protected:
     void addStyleSheet();

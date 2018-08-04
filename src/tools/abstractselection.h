@@ -12,14 +12,14 @@ class AbstractSelection : public Tool
     Q_OBJECT
 
 public:
-    AbstractSelection(QIcon ico, const QString &name, QCursor cur, ToolGroup group, ToolType type, QWidget* parent = 0);
+    AbstractSelection(QIcon ico, const QString &name, QCursor cur,
+         ToolGroup group, ToolType type, QWidget * parent = 0);
 
 public:
-    inline void setScene(QGraphicsScene* scene) { _scene = scene;}
+    inline void setScene(QGraphicsScene * scene){ _scene = scene; }
 
 protected:
-    QGraphicsScene *_scene;
-
+    QGraphicsScene * _scene;
 };
 
 #endif // ABSTRACTSELECTION_H

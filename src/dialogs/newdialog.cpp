@@ -1,7 +1,7 @@
 #include "newdialog.h"
 #include "ui_newdialog.h"
 
-NewDialog::NewDialog(QWidget *parent) :
+NewDialog::NewDialog(QWidget * parent) :
     QDialog(parent), ui(new Ui::NewDialog)
 {
     ui->setupUi(this);
@@ -91,11 +91,11 @@ QMap<QString, NewDialog::PageSize> NewDialog::getInternationalList()
 {
     QMap<QString, PageSize> stdSizes;
 
-    stdSizes.insert("A1", {23.39, 33.11, Canvas::INCHES});
-    stdSizes.insert("A2", {16.54, 23.39, Canvas::INCHES});
-    stdSizes.insert("A3", {11.69, 16.54, Canvas::INCHES});
-    stdSizes.insert("A4", {8.27, 11.69, Canvas::INCHES});
-    stdSizes.insert("A5", {5.83, 8.27, Canvas::INCHES});
+    stdSizes.insert("A1", { 23.39, 33.11, Canvas::INCHES });
+    stdSizes.insert("A2", { 16.54, 23.39, Canvas::INCHES });
+    stdSizes.insert("A3", { 11.69, 16.54, Canvas::INCHES });
+    stdSizes.insert("A4", { 8.27, 11.69, Canvas::INCHES });
+    stdSizes.insert("A5", { 5.83, 8.27, Canvas::INCHES });
 
     return stdSizes;
 }
@@ -104,11 +104,11 @@ QMap<QString, NewDialog::PageSize> NewDialog::getUSPaperList()
 {
     QMap<QString, PageSize> stdSizes;
 
-    stdSizes.insert("Letter", {8.5, 11, Canvas::INCHES});
-    stdSizes.insert("Legal", {8.5, 14, Canvas::INCHES});
-    stdSizes.insert("Ledger", {11, 17, Canvas::INCHES});
-    stdSizes.insert("Tabloid", {17, 11, Canvas::INCHES});
-    stdSizes.insert("Executive", {7.25, 10.55, Canvas::INCHES});
+    stdSizes.insert("Letter", { 8.5, 11, Canvas::INCHES });
+    stdSizes.insert("Legal", { 8.5, 14, Canvas::INCHES });
+    stdSizes.insert("Ledger", { 11, 17, Canvas::INCHES });
+    stdSizes.insert("Tabloid", { 17, 11, Canvas::INCHES });
+    stdSizes.insert("Executive", { 7.25, 10.55, Canvas::INCHES });
 
     return stdSizes;
 }
@@ -118,30 +118,27 @@ void NewDialog::switchPreset(int index)
     ui->sizeCombo->setDisabled(false);
 
     switch (index) {
+        case Preset::INTERNATIONAL:
+            ui->sizeCombo->clear();
+            _currSize = getInternationalList();
+            ui->sizeCombo->addItems(QStringList(_currSize.keys()));
+            break;
 
-    case Preset::INTERNATIONAL:
-        ui->sizeCombo->clear();
-        _currSize = getInternationalList();
-        ui->sizeCombo->addItems(QStringList(_currSize.keys()));
-        break;
+        case Preset::US_PAPER:
+            ui->sizeCombo->clear();
+            _currSize = getUSPaperList();
+            ui->sizeCombo->addItems(QStringList(_currSize.keys()));
+            break;
 
-    case Preset::US_PAPER:
-        ui->sizeCombo->clear();
-        _currSize = getUSPaperList();
-        ui->sizeCombo->addItems(QStringList(_currSize.keys()));
-        break;
+        case Preset::DEFAULT:
+            ui->sizeCombo->clear();
+            ui->sizeCombo->setDisabled(true);
+            displaySizeContents(NewDialog::Default);
+            break;
 
-    case Preset::DEFAULT:
-        ui->sizeCombo->clear();
-        ui->sizeCombo->setDisabled(true);
-        displaySizeContents(NewDialog::Default);
-        break;
-
-    default:
-        ui->sizeCombo->setDisabled(true);
-
-     }
-
+        default:
+            ui->sizeCombo->setDisabled(true);
+    }
 }
 
 void NewDialog::displaySize(QString presetKey)
@@ -162,7 +159,8 @@ void NewDialog::on_actionOk_clicked()
 {
     // Needs a validation layer
     try {
-        _dimensionUnit = (Canvas::DimensionUnit) ui->widthUnitCombo->currentIndex();
+        _dimensionUnit =
+            (Canvas::DimensionUnit) ui->widthUnitCombo->currentIndex();
         _resolution = (int) getDoubleValue(ui->resTxt);
 
         ui->heightTxt->setFocus();
@@ -173,10 +171,12 @@ void NewDialog::on_actionOk_clicked()
 
         QString docName = ui->docNameVal->text();
 
-        QSharedDataPointer<Canvas> canvas = createCanvas(docName, width, height, _dimensionUnit, _resolution, Canvas::PPI);
+        QSharedDataPointer<Canvas> canvas = createCanvas(docName, width, height,
+                                                         _dimensionUnit,
+                                                         _resolution,
+                                                         Canvas::PPI);
         emit canvasAvailable(canvas);
         this->close();
-
     } catch (const QString msg) {
         showZeroErrorMessage(msg);
         return;
@@ -195,13 +195,13 @@ void NewDialog::on_actionOk_clicked()
  * @param resUnit
  * @return
  */
-QSharedDataPointer<Canvas> NewDialog::createCanvas(QString docName, double width, double height,
-                                 Canvas::DimensionUnit dimUnit, double resolution,
-                                 Canvas::ResolutionUnit resUnit) const
+QSharedDataPointer<Canvas> NewDialog::createCanvas(QString docName,
+     double width, double height,
+     Canvas::DimensionUnit dimUnit, double resolution,
+     Canvas::ResolutionUnit resUnit) const
 {
-
-    return QSharedDataPointer<Canvas>(new Canvas(docName,width,height,
-                        dimUnit,resolution,resUnit));
+    return QSharedDataPointer<Canvas>(new Canvas(docName, width, height,
+                                                 dimUnit, resolution, resUnit));
 }
 
 void NewDialog::on_actionCancel_clicked()
@@ -229,10 +229,10 @@ void NewDialog::showZeroErrorMessage(QString errMsg)
 
 void NewDialog::on_heightTxt_editingFinished()
 {
-    try {       
+    try {
         checkDimensionValidity(getDoubleValue(ui->heightTxt));
     }
-    catch (const QString msg) {        
+    catch (const QString msg) {
         ui->heightTxt->setFocus();
         showZeroErrorMessage(msg);
     }
@@ -247,35 +247,33 @@ void NewDialog::checkDimensionValidity(double fieldVal)
     }
 }
 
-double NewDialog::getDoubleValue(QLineEdit *fieldVal)
+double NewDialog::getDoubleValue(QLineEdit * fieldVal)
 {
     QString fieldStr = fieldVal->text();
     return fieldStr.toDouble();
 }
 
-int NewDialog::getPixelValue(QLineEdit *field)
+int NewDialog::getPixelValue(QLineEdit * field)
 {
     double val = getDoubleValue(field);
 
-    switch(_dimensionUnit) {
+    switch (_dimensionUnit) {
+        case Canvas::DimensionUnit::INCHES:
+            return val * _resolution;
 
-    case Canvas::DimensionUnit::INCHES:
-        return val * _resolution;
+        case Canvas::DimensionUnit::CENTIMETERS:
+            return val * _resolution / 2.54;
 
-    case Canvas::DimensionUnit::CENTIMETERS:
-        return val * _resolution / 2.54;
+        case Canvas::DimensionUnit::MILLIMETERS:
+            return val * _resolution / 25.4;
 
-    case Canvas::DimensionUnit::MILLIMETERS:
-        return val * _resolution / 25.4;
+        case Canvas::DimensionUnit::POINTS:
+            return val * _resolution / 72;
 
-    case Canvas::DimensionUnit::POINTS:
-        return val * _resolution / 72;
+        case Canvas::DimensionUnit::PICAS:
+            return val * _resolution / 16;
 
-    case Canvas::DimensionUnit::PICAS:
-        return val * _resolution / 16;
-
-    default:
-        return val;
-
+        default:
+            return val;
     }
 }

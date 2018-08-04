@@ -12,11 +12,11 @@ class LayerManager : public QListWidget
 {
     Q_OBJECT
 public:
-    LayerManager(QWidget *parent=0);
+    LayerManager(QWidget * parent = 0);
     ~LayerManager();
 
-    void updateItems(QList<Layer*> items);
-    QList<QListWidgetItem*> getitems();
+    void updateItems(QList<Layer *> items);
+    QList<QListWidgetItem *> getitems();
 
 signals:
     void itemschanged();
@@ -25,7 +25,7 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 private:
-    QList<Layer*> _curItems;
+    QList<Layer *> _curItems;
 };
 
 #endif // LAYERMANAGER_H
