@@ -12,25 +12,20 @@ Join the telegram channel at: https://t.me/eyeon_social if you have any queries,
 
 ## General rules
 
-1. Commits must be atomic. They should reflect a set of distinct changes as a single operation
-   that solve one problem at a time.
-2. Commit messages must be meaningful, clear and concise. Stress on your grammar, it's fine to 
-   google the correct way to say something, English isn't everyone's first language.
-3. Commits should do exactly what their message says. If a commit affects quite a few files, and 
-   does a few related things, mention them in the commit description. Refrain from using `git commit -m` in such cases.
-4. IDE config files/temp files are not meant to be a part of the repository and they should remain so.
-5. Variable names like `a`, `x`, `foo` are unacceptable.
+ -  Commits must be atomic. They should reflect a set of distinct changes as a single operation that solve one problem at a time.
+ -  Commit messages must be meaningful, clear and concise. Stress on your grammar, it's fine to google the correct way to say something, English isn't everyone's first language.
+ - Commits should do exactly what their message says. If a commit affects quite a few files, and does a few related things, mention them in the commit description. Refrain from using `git commit -m` in such cases.
+ -  IDE configuration files/temp files are not meant to be a part of the repository and they should remain so.
+ -  Variable names like `a`, `x`, `foo` are unacceptable, always use variable names that describes its purpose.
+ -  Always the format the file with `uncrustify` using the `uscrustify.cfg` provided with the project before submitting any patch.
    
 ## Pull Request Process
 
-1. Check if there's already a PR assigned to someone that solves a similar problem to yours.
-2. Ensure that the pull request is being sent from a hotfix/feature branch and not from `master`.
-3. Check the issue page if the feature you are trying to add/bug you are trying to fix is already in
-   the list. If it does, mention the issue number in parentheses with the pull request.
-4. Provide a clear, concise description of why this pull request is necessary and what value it adds.
-   Make sure that your PR doesn't contain any more or less than what the PR description says.
-5. One PR should do only one thing only. No more, no less. If you want to implement two new features,
-   open two PRs.
+ -  Check if there's already a PR assigned to someone that solves a similar problem to yours.
+ - Ensure that the pull request is being sent from a hotfix/feature branch and not from `master`.
+ - Check the issue page if the feature you are trying to add/bug you are trying to fix is already in the list. If it does, mention the issue number in parentheses with the pull request.
+ - Provide a clear, concise description of why this pull request is necessary and what value it adds. Make sure that your PR doesn't contain any more or less than what the PR description says.
+ - One PR should do only one thing only. No more, no less. If you want to implement two new features, open two PRs.
 
 ## Code of Conduct
 
