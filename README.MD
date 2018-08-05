@@ -36,4 +36,4 @@ To contribute to Fixture, fork the repo, create a new branch and send us a pull 
 
 ## License
 
-Fixture is licensed under [zLib license](https://www.zlib.net/zlib_license.html). Refer to the LICENSE file for more information.
+Fixture is licensed under Eyeon General License which is adapted from [zLib license](https://www.zlib.net/zlib_license.html). Refer to the LICENSE file for more information.
