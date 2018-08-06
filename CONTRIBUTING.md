@@ -16,8 +16,8 @@ Join the telegram channel at: https://t.me/eyeon_social if you have any queries,
  -  Commit messages must be meaningful, clear and concise. Stress on your grammar, it's fine to google the correct way to say something, English isn't everyone's first language.
  - Commits should do exactly what their message says. If a commit affects quite a few files, and does a few related things, mention them in the commit description. Refrain from using `git commit -m` in such cases.
  -  IDE configuration files/temp files are not meant to be a part of the repository and they should remain so.
- -  Variable names like `a`, `x`, `foo` are unacceptable, always use variable names that describes its purpose.
- -  Always the format the file with `uncrustify` using the `uncrustify.cfg` provided with the project before submitting any patch.
+ -  Variable names like `a`, `x`, `foo` are unacceptable, use variable names that describes its purpose.
+ -  Format the file with `uncrustify` using the `uncrustify.cfg` provided with the project before submitting any patch.
    
 ## Pull Request Process
 
