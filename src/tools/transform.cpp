@@ -1,7 +1,7 @@
 #include "transform.h"
 
 /**
- * @brief Transform::Transform
+ * @brief Transform::Transform Constructs a transform tool
  * @param parent
  */
 Transform::Transform(QWidget * parent) :
@@ -32,6 +32,9 @@ Transform::Transform(const Transform &other) :
 Transform::~Transform()
 { }
 
+/**
+ * @brief Transform::init initializes the variables with required values
+ */
 void Transform::init()
 {
     setShortcut(Qt::Key_V);
@@ -46,7 +49,8 @@ void Transform::init()
 }
 
 /**
- * @brief Transform::press
+ * @brief Transform::press handles the mouse press event passed to it from the
+ * QGraphicsScene
  * @param event
  */
 void Transform::press(QGraphicsSceneMouseEvent * event)
@@ -93,7 +97,8 @@ void Transform::press(QGraphicsSceneMouseEvent * event)
 } // Transform::press
 
 /**
- * @brief Transform::release
+ * @brief Transform::release handles the mouse release event passed to it from the
+ * QGraphicsScene
  * @param event
  */
 void Transform::release(QGraphicsSceneMouseEvent * event)
@@ -104,7 +109,8 @@ void Transform::release(QGraphicsSceneMouseEvent * event)
 }
 
 /**
- * @brief Transform::move
+ * @brief Transform::move handles the mouse move event passed to it from the
+ * QGraphicsScene
  * @param event
  */
 void Transform::move(QGraphicsSceneMouseEvent * event)
@@ -248,7 +254,8 @@ void Transform::move(QGraphicsSceneMouseEvent * event)
 } // Transform::move
 
 /**
- * @brief Transform::drawBounds
+ * @brief Transform::drawBounds determines whether to draw the bounding rectangle
+ * of the selection
  * @param draw
  */
 void Transform::drawBounds(bool draw)
@@ -263,7 +270,8 @@ void Transform::drawBounds(bool draw)
 }
 
 /**
- * @brief Transform::setTransformMode
+ * @brief Transform::setTransformMode sets the transform mode whenever there is
+ * a change in scale or rotate with the selection.
  * @param set
  */
 void Transform::setTransformMode(bool set)
@@ -271,6 +279,10 @@ void Transform::setTransformMode(bool set)
     _rect->transformMode(set);
 }
 
+/**
+ * @brief Transform::updateBounds redraw the boundaries whenever there is a change
+ * in the scene.
+ */
 void Transform::updateBounds()
 {
     if (_boundsDrawn) {
@@ -280,7 +292,8 @@ void Transform::updateBounds()
 }
 
 /**
- * @brief Transform::drawBoundingRect
+ * @brief Transform::drawBoundingRect calculated the bounding rect of the given
+ * selection
  */
 void Transform::drawBoundingRect()
 {
@@ -334,7 +347,8 @@ void Transform::drawBoundingRect()
 } // Transform::drawBoundingRect
 
 /**
- * @brief Transform::actionTaken
+ * @brief Transform::actionTaken decides whether to keep the current transforms
+ * made after enter the transform mode or not
  * @param accept
  */
 void Transform::actionTaken(bool accept)
@@ -354,7 +368,7 @@ void Transform::actionTaken(bool accept)
 }
 
 /**
- * @brief Transform::getToolMenu
+ * @brief Transform::getToolMenu returns the tool menu of the current tool
  * @return
  */
 QWidget * Transform::getToolMenu()
@@ -372,7 +386,8 @@ QWidget * Transform::getToolMenu()
 }
 
 /**
- * @brief Transform::connectMenu
+ * @brief Transform::connectMenu connects the signals of the menu to the respective
+ * slots
  * @param menu
  */
 void Transform::connectMenu(TransformMenu * menu)
@@ -384,6 +399,10 @@ void Transform::connectMenu(TransformMenu * menu)
     connect(menu, SIGNAL(changesAccepted(bool)), this, SLOT(actionTaken(bool)));
 }
 
+/**
+ * @brief Transform::clone
+ * @return
+ */
 Tool * Transform::clone() const
 {
     return new Transform(*this);

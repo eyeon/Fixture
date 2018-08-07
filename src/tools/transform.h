@@ -5,6 +5,10 @@
 #include "components/boundingrectitem.h"
 #include "tooloptions/transform_menu.h"
 
+/**
+ * @brief class Transform responsible for different properties and functions of
+ * the transform tool, which is being used for moving, scaling and rotating items
+ */
 class Transform : public AbstractSelection
 {
     Q_OBJECT
