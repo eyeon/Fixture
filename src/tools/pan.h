@@ -4,6 +4,10 @@
 #include "abstractperception.h"
 #include "tooloptions/pan_menu.h"
 
+/**
+ * @brief class Pan responsible for different properties and functions of
+ * the hand tool, like panning across a zoomed scene
+ */
 class Pan : public AbstractPerception
 {
 public:
