@@ -297,7 +297,7 @@ void Transform::updateBounds()
  */
 void Transform::drawBoundingRect()
 {
-    if (_scene == NULL) {
+    if (_scene == nullptr) {
         return;
     }
 

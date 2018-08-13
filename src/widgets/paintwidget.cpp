@@ -248,7 +248,7 @@ void PaintWidget::setTool(Tool * tool)
         case Tool::SELECTION: {
             AbstractSelection * curTool =
                 dynamic_cast<AbstractSelection *>(tool);
-            if (d != NULL) {
+            if (d != nullptr) {
                 curTool->setScene(d);
             }
             break;

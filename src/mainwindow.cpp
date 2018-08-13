@@ -106,7 +106,7 @@ void MainWindow::setCurrentTool(Tool * tool)
 
     QWidget * menuWidget = tool->getToolMenu();
 
-    if (_menu != NULL) {
+    if (_menu != nullptr) {
         _menu->setVisible(false);
     }
     updateMenuFromCache(menuWidget);
@@ -207,7 +207,7 @@ void MainWindow::updateWindow(QMdiSubWindow * window)
 {
     QString title = "Fixture";
 
-    if (window != NULL) {
+    if (window != nullptr) {
         title = window->windowTitle() + " - " + title;
         PaintWidget * wid = qobject_cast<PaintWidget *>(window->widget());
         ui->layerView->updateItems(wid->getItems());
@@ -215,7 +215,7 @@ void MainWindow::updateWindow(QMdiSubWindow * window)
         ui->layerView->clear();
     }
 
-    updateActions(window != NULL);
+    updateActions(window != nullptr);
     setWindowTitle(title);
 }
 
@@ -231,7 +231,7 @@ void MainWindow::changeTool(QAction * action)
     setCurrentTool(dynamic_cast<Tool *>(action));
 
     QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
-    if (currentWindow != NULL) {
+    if (currentWindow != nullptr) {
         updateToolForCurrentWindow(currentWindow);
     }
 }
@@ -258,7 +258,7 @@ void MainWindow::onSelectionChange()
 {
     QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
 
-    if (currentWindow != NULL) {
+    if (currentWindow != nullptr) {
         updateLayerSelection();
     }
 }
@@ -341,7 +341,7 @@ const QString MainWindow::chooseFileForOpening(const QString& prompt)
         return fileDialog.selectedFiles()[0];
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void MainWindow::setFilters(QFileDialog& fileDialog)
