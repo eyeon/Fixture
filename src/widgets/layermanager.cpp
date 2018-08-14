@@ -1,6 +1,6 @@
 #include "layermanager.h"
 
-LayerManager::LayerManager(QWidget * parent) :
+LayerManager::LayerManager(QWidget *parent) :
     QListWidget(parent)
 {
     QFile styleFile(":/styles/layermanager.qss");
@@ -15,14 +15,14 @@ LayerManager::LayerManager(QWidget * parent) :
 LayerManager::~LayerManager()
 { }
 
-bool LayerManager::eventFilter(QObject * obj, QEvent * event)
+bool LayerManager::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::ChildRemoved) {
         int n = count();
 
         for (int i = 0; i < n; i++) {
-            QListWidgetItem * w = item(i);
-            Layer * l = dynamic_cast<Layer *>(w);
+            QListWidgetItem *w = item(i);
+            Layer *l = dynamic_cast<Layer *>(w);
             l->setZvalue(n - i);
         }
         return true;

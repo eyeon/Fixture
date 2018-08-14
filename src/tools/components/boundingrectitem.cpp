@@ -19,9 +19,9 @@ void BoundingRectItem::setPoints(QPointF min, QPointF max)
     _height = max.y() - min.y();
 }
 
-void BoundingRectItem::paint(QPainter * painter,
-     const QStyleOptionGraphicsItem *   option,
-     QWidget *                          widget)
+void BoundingRectItem::paint(QPainter *painter,
+     const QStyleOptionGraphicsItem *  option,
+     QWidget *                         widget)
 {
     painter->setPen(QPen(Qt::gray, 1, Qt::DashLine));
     if (_transformMode) {
@@ -63,7 +63,7 @@ QRectF BoundingRectItem::boundingRect() const
 }
 
 BoundingRectItem::HotSpot BoundingRectItem::checkMouse(
-     QGraphicsSceneMouseEvent * event)
+     QGraphicsSceneMouseEvent *event)
 {
     QPointF pos = event->scenePos();
 

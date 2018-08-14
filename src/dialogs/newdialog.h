@@ -19,7 +19,7 @@ class NewDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewDialog(QWidget * parent = 0);
+    explicit NewDialog(QWidget *parent = 0);
     ~NewDialog();
 
 signals:
@@ -49,11 +49,11 @@ private:
          double height,
          Canvas::DimensionUnit dimUnit, double resolution,
          Canvas::ResolutionUnit resUnit) const;
-    Ui::NewDialog * ui;
+    Ui::NewDialog *ui;
     int _resolution;
     Canvas::DimensionUnit _dimensionUnit;
-    double getDoubleValue(QLineEdit * fieldVal);
-    int getPixelValue(QLineEdit * field);
+    double getDoubleValue(QLineEdit *fieldVal);
+    int getPixelValue(QLineEdit *field);
     void showZeroErrorMessage(QString fieldName);
     void checkDimensionValidity(double fieldVal);
     void displaySizeContents(NewDialog::PageSize size);

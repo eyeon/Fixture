@@ -12,7 +12,7 @@ class LayerManager : public QListWidget
 {
     Q_OBJECT
 public:
-    LayerManager(QWidget * parent = 0);
+    LayerManager(QWidget *parent = 0);
     ~LayerManager();
 
     void updateItems(QList<Layer *> items);

@@ -1,7 +1,7 @@
 #include "newdialog.h"
 #include "ui_newdialog.h"
 
-NewDialog::NewDialog(QWidget * parent) :
+NewDialog::NewDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::NewDialog)
 {
     ui->setupUi(this);
@@ -247,13 +247,13 @@ void NewDialog::checkDimensionValidity(double fieldVal)
     }
 }
 
-double NewDialog::getDoubleValue(QLineEdit * fieldVal)
+double NewDialog::getDoubleValue(QLineEdit *fieldVal)
 {
     QString fieldStr = fieldVal->text();
     return fieldStr.toDouble();
 }
 
-int NewDialog::getPixelValue(QLineEdit * field)
+int NewDialog::getPixelValue(QLineEdit *field)
 {
     double val = getDoubleValue(field);
 

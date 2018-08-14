@@ -4,7 +4,7 @@
  * @brief Transform::Transform Constructs a transform tool
  * @param parent
  */
-Transform::Transform(QWidget * parent) :
+Transform::Transform(QWidget *parent) :
     AbstractSelection(QIcon(":/tools/select.svg"), "Transform Tool (V)",
                       QCursor(QIcon(":/tools/select.svg").pixmap(QSize(15, 15)),
                               0, 0),
@@ -53,10 +53,10 @@ void Transform::init()
  * QGraphicsScene
  * @param event
  */
-void Transform::press(QGraphicsSceneMouseEvent * event)
+void Transform::press(QGraphicsSceneMouseEvent *event)
 {
     _prevPos = event->scenePos();
-    QGraphicsItem * itm = _scene->itemAt(_prevPos, QTransform());
+    QGraphicsItem *itm = _scene->itemAt(_prevPos, QTransform());
     _mouseButton = event->button();
 
     if (_boundsDrawn) {
@@ -101,7 +101,7 @@ void Transform::press(QGraphicsSceneMouseEvent * event)
  * QGraphicsScene
  * @param event
  */
-void Transform::release(QGraphicsSceneMouseEvent * event)
+void Transform::release(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
     _mouseButton = Qt::NoButton;
@@ -113,7 +113,7 @@ void Transform::release(QGraphicsSceneMouseEvent * event)
  * QGraphicsScene
  * @param event
  */
-void Transform::move(QGraphicsSceneMouseEvent * event)
+void Transform::move(QGraphicsSceneMouseEvent *event)
 {
     _curPos = event->scenePos();
     qreal dx = _curPos.x() - _prevPos.x();
@@ -306,7 +306,7 @@ void Transform::drawBoundingRect()
     QPointF max(INT_MIN, INT_MIN), min(INT_MAX, INT_MAX);
 
     for (; itr != selected.end(); ++itr) {
-        QGraphicsItem * temp   = *itr;
+        QGraphicsItem *temp    = *itr;
         QPointF itmTopLeft     = temp->boundingRect().topLeft();
         QPointF itmBottomRight = temp->boundingRect().bottomRight();
         itmTopLeft     = temp->mapToScene(itmTopLeft);
@@ -378,7 +378,7 @@ QWidget * Transform::getToolMenu()
     }
     _menuExists = true;
 
-    TransformMenu * transformMenu = new TransformMenu();
+    TransformMenu *transformMenu = new TransformMenu();
     _menu = transformMenu;
     connectMenu(transformMenu);
 
@@ -390,7 +390,7 @@ QWidget * Transform::getToolMenu()
  * slots
  * @param menu
  */
-void Transform::connectMenu(TransformMenu * menu)
+void Transform::connectMenu(TransformMenu *menu)
 {
     connect(menu, SIGNAL(autoSelect(bool)), this, SLOT(setAutoSelect(bool)));
     connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));

@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "tools/tooloptions/transform_menu.h"
 
-MainWindow::MainWindow(QWidget * parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget * parent) :
     initSignalsAndSlots();
     initSupportedFileMap();
     initFilterListString();
-    Transform * transform = dynamic_cast<Transform *>(_toolsList.value(0));
+    Transform *transform = dynamic_cast<Transform *>(_toolsList.value(0));
     setDefaultTool(transform);
     _lastFileLoc =
         QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
@@ -52,11 +52,11 @@ void MainWindow::setupMdiArea()
     ui->mdiArea->setTabsClosable(true);
     ui->mdiArea->setTabsMovable(true);
 
-    QTabBar * bar = ui->mdiArea->findChild<QTabBar *>();
+    QTabBar *bar = ui->mdiArea->findChild<QTabBar *>();
     setupTabBar(bar);
 }
 
-void MainWindow::setupTabBar(QTabBar * bar)
+void MainWindow::setupTabBar(QTabBar *bar)
 {
     bar->setExpanding(false);
     bar->setDrawBase(false);
@@ -85,26 +85,26 @@ void MainWindow::initTools()
     ui->mainToolBar->addActions(_toolsList);
 }
 
-void MainWindow::addTool(Tool * tool)
+void MainWindow::addTool(Tool *tool)
 {
     _toolsGroup->addAction(tool);
     _toolsList.push_back(tool);
 }
 
-void MainWindow::setDefaultTool(Tool * tool)
+void MainWindow::setDefaultTool(Tool *tool)
 {
     tool->toggle();
 
-    QWidget * menuWidget = tool->getToolMenu();
+    QWidget *menuWidget = tool->getToolMenu();
     activateMenu(menuWidget);
     _currentTool = tool;
 }
 
-void MainWindow::setCurrentTool(Tool * tool)
+void MainWindow::setCurrentTool(Tool *tool)
 {
     _currentTool = tool;
 
-    QWidget * menuWidget = tool->getToolMenu();
+    QWidget *menuWidget = tool->getToolMenu();
 
     if (_menu != nullptr) {
         _menu->setVisible(false);
@@ -115,7 +115,7 @@ void MainWindow::setCurrentTool(Tool * tool)
     _menu->setVisible(true);
 }
 
-void MainWindow::updateMenuFromCache(QWidget * menuWidget)
+void MainWindow::updateMenuFromCache(QWidget *menuWidget)
 {
     if (_toolMenuCache.contains(menuWidget)) {
         _menu = _toolMenuCache.value(menuWidget);
@@ -124,20 +124,20 @@ void MainWindow::updateMenuFromCache(QWidget * menuWidget)
     }
 }
 
-void MainWindow::activateMenu(QWidget * menuWidget)
+void MainWindow::activateMenu(QWidget *menuWidget)
 {
     _menu = ui->toolMenuBar->addWidget(menuWidget);
     _toolMenuCache.insert(menuWidget, _menu);
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent * e)
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 {
     if (e->mimeData()->hasUrls()) {
         e->acceptProposedAction();
     }
 }
 
-void MainWindow::dropEvent(QDropEvent * e)
+void MainWindow::dropEvent(QDropEvent *e)
 {
     foreach(const QUrl &url, e->mimeData()->urls()){
         QString fileName = url.toLocalFile();
@@ -153,12 +153,12 @@ void MainWindow::openNewImage(const QString &fileName)
     }
 }
 
-void MainWindow::addChildWindow(PaintWidget * widget, bool isNew)
+void MainWindow::addChildWindow(PaintWidget *widget, bool isNew)
 {
     ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-    QMdiSubWindow * mdiSubWindow = ui->mdiArea->addSubWindow(widget);
+    QMdiSubWindow *mdiSubWindow = ui->mdiArea->addSubWindow(widget);
 
     setupSubWindowTitle(mdiSubWindow, widget->getImagePath(), isNew);
     if (widget->getImagePath() != "") {
@@ -169,7 +169,7 @@ void MainWindow::addChildWindow(PaintWidget * widget, bool isNew)
     mdiSubWindow->show();
 }
 
-void MainWindow::setupSubWindowTitle(QMdiSubWindow * mdiSubWindow,
+void MainWindow::setupSubWindowTitle(QMdiSubWindow *mdiSubWindow,
      const QString& filePath, bool isNew)
 {
     QString title = "Untitled[*]";
@@ -183,11 +183,11 @@ void MainWindow::setupSubWindowTitle(QMdiSubWindow * mdiSubWindow,
     mdiSubWindow->setWindowModified(isNew);
 }
 
-bool MainWindow::eventFilter(QObject * watched, QEvent * event)
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
     switch (event->type()) {
         case QEvent::Close: {
-            QMdiSubWindow * subWindow = dynamic_cast<QMdiSubWindow *>(watched);
+            QMdiSubWindow *subWindow = dynamic_cast<QMdiSubWindow *>(watched);
             Q_ASSERT(subWindow != NULL);
 
             _windowCache.remove(_windowCache.key(subWindow));
@@ -203,13 +203,13 @@ bool MainWindow::eventFilter(QObject * watched, QEvent * event)
  * @brief MainWindow::updateWindow
  * @param window
  */
-void MainWindow::updateWindow(QMdiSubWindow * window)
+void MainWindow::updateWindow(QMdiSubWindow *window)
 {
     QString title = "Fixture";
 
     if (window != nullptr) {
         title = window->windowTitle() + " - " + title;
-        PaintWidget * wid = qobject_cast<PaintWidget *>(window->widget());
+        PaintWidget *wid = qobject_cast<PaintWidget *>(window->widget());
         ui->layerView->updateItems(wid->getItems());
     } else {
         ui->layerView->clear();
@@ -226,25 +226,25 @@ void MainWindow::updateActions(bool val)
     ui->actionSaveAs->setEnabled(val);
 }
 
-void MainWindow::changeTool(QAction * action)
+void MainWindow::changeTool(QAction *action)
 {
     setCurrentTool(dynamic_cast<Tool *>(action));
 
-    QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
     if (currentWindow != nullptr) {
         updateToolForCurrentWindow(currentWindow);
     }
 }
 
-void MainWindow::updateToolForCurrentWindow(QMdiSubWindow * currentWindow)
+void MainWindow::updateToolForCurrentWindow(QMdiSubWindow *currentWindow)
 {
-    PaintWidget * paintWidget = qobject_cast<PaintWidget *>(
+    PaintWidget *paintWidget = qobject_cast<PaintWidget *>(
         currentWindow->widget());
     paintWidget->setTool(_currentTool);
     updateDragMode(paintWidget);
 }
 
-void MainWindow::updateDragMode(PaintWidget * paintWidget)
+void MainWindow::updateDragMode(PaintWidget *paintWidget)
 {
     if (_currentTool->getToolGroup() == Tool::PERCEPTION) {
         // The cursor needs to be fixed for zoom here.
@@ -256,7 +256,7 @@ void MainWindow::updateDragMode(PaintWidget * paintWidget)
 
 void MainWindow::onSelectionChange()
 {
-    QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
 
     if (currentWindow != nullptr) {
         updateLayerSelection();
@@ -271,12 +271,12 @@ void MainWindow::updateLayerSelection()
     QList<QListWidgetItem *>::iterator itr = widgetItems.begin();
 
     for (; itr != widgetItems.end(); ++itr) {
-        Layer * l = dynamic_cast<Layer *>(*itr);
+        Layer *l = dynamic_cast<Layer *>(*itr);
         l->setSceneSelected(widgetSelectedItems.contains(*itr));
     }
 }
 
-void MainWindow::addPaintWidget(PaintWidget * widget, bool isNew)
+void MainWindow::addPaintWidget(PaintWidget *widget, bool isNew)
 {
     addChildWindow(widget, isNew);
     ui->mdiArea->setCursor(_currentTool->getToolCursor());
@@ -350,7 +350,7 @@ void MainWindow::setFilters(QFileDialog& fileDialog)
     fileDialog.setNameFilters(filters);
 }
 
-bool MainWindow::saveFileWithDialog(PaintWidget * paintWidget)
+bool MainWindow::saveFileWithDialog(PaintWidget *paintWidget)
 { }
 
 void MainWindow::on_actionExit_triggered()
@@ -360,7 +360,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    NewDialog * newDialog = new NewDialog();
+    NewDialog *newDialog = new NewDialog();
     connect(newDialog, SIGNAL(canvasAvailable(
                                   const QSharedDataPointer<Canvas> )),
             this, SLOT(createNewDocument(const QSharedDataPointer<Canvas> )));
@@ -375,9 +375,9 @@ void MainWindow::createNewDocument(const QSharedDataPointer<Canvas> canvas)
 
 void MainWindow::on_actionImport_triggered()
 {
-    const QString fileName        = chooseFileForOpening("Import File");
-    QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
-    PaintWidget * paintWidget     = qobject_cast<PaintWidget *>(
+    const QString fileName       = chooseFileForOpening("Import File");
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+    PaintWidget *paintWidget     = qobject_cast<PaintWidget *>(
         currentWindow->widget());
 
     paintWidget->importPathToLayer(fileName);
@@ -389,8 +389,8 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionSaveAs_triggered()
 {
-    QMdiSubWindow * currentWindow = ui->mdiArea->activeSubWindow();
-    PaintWidget * paintWidget     = qobject_cast<PaintWidget *>(
+    QMdiSubWindow *currentWindow = ui->mdiArea->activeSubWindow();
+    PaintWidget *paintWidget     = qobject_cast<PaintWidget *>(
         currentWindow->widget());
 
     QFileDialog fileDialog(this, tr(qPrintable("Save as")),
@@ -414,7 +414,7 @@ void MainWindow::persistFromDialog(QFileDialog &fileDialog,
 }
 
 void MainWindow::serialize(QString fileName, SupportedTypes type,
-     PaintWidget * paintWidget)
+     PaintWidget *paintWidget)
 {
     switch (type) {
         case PNG:
@@ -428,7 +428,7 @@ void MainWindow::serialize(QString fileName, SupportedTypes type,
     }
 }
 
-void MainWindow::saveToPNG(const QString &fileName, PaintWidget * paintWidget)
+void MainWindow::saveToPNG(const QString &fileName, PaintWidget *paintWidget)
 {
     QImage image(paintWidget->sceneRect().size().toSize(),
                  QImage::Format_ARGB32);
@@ -437,7 +437,7 @@ void MainWindow::saveToPNG(const QString &fileName, PaintWidget * paintWidget)
     image.save(fileName);
 }
 
-void MainWindow::saveToFXD(const QString &fileName, PaintWidget * paintWidget)
+void MainWindow::saveToFXD(const QString &fileName, PaintWidget *paintWidget)
 {
     QList<Layer *> layers = paintWidget->getItems();
     QSharedDataPointer<Canvas> canvas = paintWidget->getCanvas();
@@ -468,7 +468,7 @@ void MainWindow::storeDocument(const QString &fileName, Document document)
 }
 
 void MainWindow::updateStateChange(State state, const QString &fileName,
-     QMdiSubWindow * subWindow)
+     QMdiSubWindow *subWindow)
 {
     switch (state) {
         case SAVED:
@@ -483,7 +483,7 @@ void MainWindow::updateStateChange(State state, const QString &fileName,
     }
 }
 
-void MainWindow::updateTitleOnSave(const QString& title, QMdiSubWindow * window)
+void MainWindow::updateTitleOnSave(const QString& title, QMdiSubWindow *window)
 {
     QFileInfo info(title);
     window->setWindowTitle(info.fileName());

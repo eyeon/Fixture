@@ -28,7 +28,7 @@ public:
     virtual void setSceneSelected(bool select) = 0;
     virtual void setLayerSelected(bool select) = 0;
     virtual void setZvalue(int z) = 0;
-    virtual void setParent(QGraphicsItem * parent) = 0;
+    virtual void setParent(QGraphicsItem *parent) = 0;
     virtual QPixmap getPixmap() const      = 0;
     virtual QPointF getPos() const         = 0;
     virtual void write(QDataStream&) const = 0;

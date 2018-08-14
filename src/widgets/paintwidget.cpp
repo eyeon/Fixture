@@ -6,8 +6,8 @@
  * @param imagePath
  * @param parent
  */
-PaintWidget::PaintWidget(const QString &imagePath, Tool * tool,
-                         QWidget * parent) :
+PaintWidget::PaintWidget(const QString &imagePath, Tool *tool,
+                         QWidget *parent) :
     QGraphicsView(parent)
 {
     setImagePath(imagePath);
@@ -24,7 +24,7 @@ PaintWidget::PaintWidget(const QString &imagePath, Tool * tool,
                                               dpi, Canvas::PPI));
 }
 
-PaintWidget::PaintWidget(Document &document, Tool * tool, QWidget * parent) :
+PaintWidget::PaintWidget(Document &document, Tool *tool, QWidget *parent) :
     QGraphicsView(parent)
 {
     _canvas = document.getCanvas();
@@ -44,8 +44,8 @@ PaintWidget::PaintWidget(Document &document, Tool * tool, QWidget * parent) :
  * @param document
  * @param parent
  */
-PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool * tool,
-                         QWidget * parent) :
+PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool,
+                         QWidget *parent) :
     QGraphicsView(parent)
 {
     _canvas = canvas;
@@ -60,7 +60,7 @@ PaintWidget::PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool * tool,
 
 void PaintWidget::createBgLayer(const QImage &image)
 {
-    RasterLayer * layer = getLayerFromImage(image, "Background");
+    RasterLayer *layer = getLayerFromImage(image, "Background");
     layer->setLocked(false);
     pushLayer(layer);
 }
@@ -74,7 +74,7 @@ QImage PaintWidget::drawEmptyImage(const QSharedDataPointer<Canvas> canvas)
     return image;
 }
 
-void PaintWidget::prepareDocument(Tool * tool, QRect rect)
+void PaintWidget::prepareDocument(Tool *tool, QRect rect)
 {
     addStyleSheet();
     setupCanvas(rect);
@@ -102,7 +102,7 @@ void PaintWidget::importPathToLayer(const QString &fileName)
         QImage image = getImageFromPath(fileName);
         QFileInfo info(fileName);
 
-        RasterLayer * layer = getLayerFromImage(image, info.fileName());
+        RasterLayer *layer = getLayerFromImage(image, info.fileName());
         pushLayer(layer);
     }
 }
@@ -181,7 +181,7 @@ void PaintWidget::setupCanvas(QRect rect)
  * @param image
  * @param name
  */
-void PaintWidget::pushLayer(Layer * layer)
+void PaintWidget::pushLayer(Layer *layer)
 {
     // Needs smarter naming based on positions on the stack
     layer->setParent(d->getParentItem());
@@ -202,7 +202,7 @@ RasterLayer * PaintWidget::getLayerFromImage(const QImage &image,
  * @param document
  * @param parent
  */
-void PaintWidget::wheelEvent(QWheelEvent * event)
+void PaintWidget::wheelEvent(QWheelEvent *event)
 {
     const QPointF p0scene = mapToScene(event->pos());
 
@@ -221,7 +221,7 @@ void PaintWidget::setSelectedLayers()
     QList<QGraphicsItem *> allItems      = d->getParentItem()->childItems();
     QList<QGraphicsItem *>::iterator itr = allItems.begin();
     for (; itr != allItems.end(); ++itr) {
-        Layer * l = dynamic_cast<Layer *>(*itr);
+        Layer *l = dynamic_cast<Layer *>(*itr);
         if (selectedItems.contains(*itr)) {
             l->setLayerSelected(true);
         } else {
@@ -230,7 +230,7 @@ void PaintWidget::setSelectedLayers()
     }
 
     if (_currentTool->getToolType() == Tool::TRANSFORM) {
-        Transform * t = dynamic_cast<Transform *>(_currentTool);
+        Transform *t = dynamic_cast<Transform *>(_currentTool);
         t->updateBounds();
     }
 }
@@ -239,14 +239,14 @@ void PaintWidget::setSelectedLayers()
  * @brief PaintWidget::setTool Sets up the tool and passes on layers/selection areas if necessary
  * @param tool
  */
-void PaintWidget::setTool(Tool * tool)
+void PaintWidget::setTool(Tool *tool)
 {
     setCursor(tool->getToolCursor());
     _currentTool = tool;
     d->setTool(tool);
     switch (_currentTool->getToolGroup()) {
         case Tool::SELECTION: {
-            AbstractSelection * curTool =
+            AbstractSelection *curTool =
                 dynamic_cast<AbstractSelection *>(tool);
             if (d != nullptr) {
                 curTool->setScene(d);

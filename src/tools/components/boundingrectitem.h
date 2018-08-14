@@ -36,7 +36,7 @@ public:
 
     inline void transformMode(bool set){ _transformMode = set; }
     void setPoints(QPointF min, QPointF max);
-    HotSpot checkMouse(QGraphicsSceneMouseEvent * event);
+    HotSpot checkMouse(QGraphicsSceneMouseEvent *event);
     inline qreal width(){ return _boundingRect.width(); }
     inline qreal height(){ return _boundingRect.height(); }
 
@@ -44,9 +44,9 @@ signals:
     void mouseIsHovering(HotSpot);
 
 protected:
-    void paint(QPainter *                 painter,
-         const QStyleOptionGraphicsItem * option,
-         QWidget *                        widget);
+    void paint(QPainter *                painter,
+         const QStyleOptionGraphicsItem *option,
+         QWidget *                       widget);
 
     QRectF boundingRect() const;
 

@@ -21,7 +21,7 @@ public:
     void setSceneSelected(bool select);
     void setLayerSelected(bool select);
     void setZvalue(int z);
-    void setParent(QGraphicsItem * parent);
+    void setParent(QGraphicsItem *parent);
     inline QPixmap getPixmap() const { return pixmap(); }
     inline QPointF getPos() const { return QGraphicsPixmapItem::pos(); }
     inline void setLayerPos(QPointF pos){ setPos(pos); }
@@ -33,9 +33,9 @@ public:
 
 
 protected:
-    void paint(QPainter *                 painter,
-         const QStyleOptionGraphicsItem * option,
-         QWidget *                        widget);
+    void paint(QPainter *                painter,
+         const QStyleOptionGraphicsItem *option,
+         QWidget *                       widget);
 
 private:
     void create(const QPixmap &pixmap);

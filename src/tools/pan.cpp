@@ -4,7 +4,7 @@
  * @brief Pan::Pan Constructs a Pan Tool
  * @param parent
  */
-Pan::Pan(QWidget * parent) :
+Pan::Pan(QWidget *parent) :
     Tool(QIcon(":/tools/pan.svg"), "Pan Tool (H)",
          Qt::OpenHandCursor, Tool::PERCEPTION, Tool::PAN, parent)
 {
@@ -30,7 +30,7 @@ Pan::~Pan()
  * @brief Pan::move dummy function for now, functionality handled by paintwidget itself
  * @param event
  */
-void Pan::move(QGraphicsSceneMouseEvent * event)
+void Pan::move(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
 }
@@ -39,7 +39,7 @@ void Pan::move(QGraphicsSceneMouseEvent * event)
  * @brief Pan::press dummy function for now, functionality handled by paintwidget itself
  * @param event
  */
-void Pan::press(QGraphicsSceneMouseEvent * event)
+void Pan::press(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
 }
@@ -48,7 +48,7 @@ void Pan::press(QGraphicsSceneMouseEvent * event)
  * @brief Pan::release dummy function for now, functionality handled by paintwidget itself
  * @param event
  */
-void Pan::release(QGraphicsSceneMouseEvent * event)
+void Pan::release(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
 }
@@ -59,7 +59,7 @@ void Pan::release(QGraphicsSceneMouseEvent * event)
  */
 QWidget * Pan::getToolMenu()
 {
-    PanMenu * menu = new PanMenu();
+    PanMenu *menu = new PanMenu();
     return menu;
 }
 

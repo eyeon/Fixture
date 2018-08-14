@@ -1,6 +1,6 @@
 #include "drawing.h"
 
-Drawing::Drawing(QWidget * widget, int width, int height) :
+Drawing::Drawing(QWidget *widget, int width, int height) :
     _height(height), _width(width),
     QGraphicsScene(widget)
 
@@ -22,21 +22,21 @@ Drawing::Drawing(QWidget * widget, int width, int height) :
 Drawing::~Drawing()
 { }
 
-void Drawing::dragEnterEvent(QGraphicsSceneDragDropEvent * e)
+void Drawing::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     if (e->mimeData()->hasUrls()) {
         e->acceptProposedAction();
     }
 }
 
-void Drawing::dragMoveEvent(QGraphicsSceneDragDropEvent * e)
+void Drawing::dragMoveEvent(QGraphicsSceneDragDropEvent *e)
 {
     if (e->mimeData()->hasUrls()) {
         e->acceptProposedAction();
     }
 }
 
-void Drawing::dropEvent(QGraphicsSceneDragDropEvent * e)
+void Drawing::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     foreach(const QUrl &url, e->mimeData()->urls()){
         QString fileName = url.toLocalFile();
@@ -44,22 +44,22 @@ void Drawing::dropEvent(QGraphicsSceneDragDropEvent * e)
     }
 }
 
-void Drawing::mousePressEvent(QGraphicsSceneMouseEvent * event)
+void Drawing::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     _tool->press(event);
 }
 
-void Drawing::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+void Drawing::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     _tool->move(event);
 }
 
-void Drawing::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+void Drawing::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     _tool->release(event);
 }
 
-void Drawing::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
+void Drawing::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
 }

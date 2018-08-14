@@ -12,11 +12,11 @@ class PanMenu : public QFrame
     Q_OBJECT
 
 public:
-    explicit PanMenu(QWidget * parent = 0);
+    explicit PanMenu(QWidget *parent = 0);
     ~PanMenu();
 
 private:
-    Ui::PanMenu * ui;
+    Ui::PanMenu *ui;
 };
 
 #endif // PAN_MENU_H

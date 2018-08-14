@@ -12,7 +12,7 @@ class TransformMenu : public ToolMenu
     Q_OBJECT
 
 public:
-    explicit TransformMenu(QWidget * parent = nullptr);
+    explicit TransformMenu(QWidget *parent = nullptr);
     ~TransformMenu();
 
 public slots:
@@ -30,7 +30,7 @@ signals:
     void changesAccepted(bool accept);
 
 private:
-    Ui::TransformOptions * ui;
+    Ui::TransformOptions *ui;
 };
 
 #endif // TRANSFORMOPTIONS_H

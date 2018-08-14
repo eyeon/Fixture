@@ -1,7 +1,7 @@
 #include "pan_menu.h"
 #include "ui_pan_menu.h"
 
-PanMenu::PanMenu(QWidget * parent) :
+PanMenu::PanMenu(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::PanMenu)
 {

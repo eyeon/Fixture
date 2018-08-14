@@ -24,7 +24,7 @@ void Document::write(QDataStream &out) const
 void Document::read(QDataStream &in)
 {
     QList<Layer *> layers;
-    Canvas * canvas = new Canvas(_name);
+    Canvas *canvas = new Canvas(_name);
 
     qint64 magicNum;
     qint32 version;

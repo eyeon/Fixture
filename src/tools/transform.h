@@ -14,13 +14,13 @@ class Transform : public AbstractSelection
     Q_OBJECT
 
 public:
-    Transform(QWidget * parent = 0);
+    Transform(QWidget *parent = 0);
     Transform(const Transform &other);
     ~Transform();
 
-    void move(QGraphicsSceneMouseEvent * event);
-    void press(QGraphicsSceneMouseEvent * event);
-    void release(QGraphicsSceneMouseEvent * event);
+    void move(QGraphicsSceneMouseEvent *event);
+    void press(QGraphicsSceneMouseEvent *event);
+    void release(QGraphicsSceneMouseEvent *event);
 
     void setTransformMode(bool set);
     QWidget * getToolMenu();
@@ -34,10 +34,10 @@ public slots:
 
 private:
     void drawBoundingRect();
-    void connectMenu(TransformMenu * menu);
+    void connectMenu(TransformMenu *menu);
     void init();
 
-    TransformTool::BoundingRectItem * _rect;
+    TransformTool::BoundingRectItem *_rect;
     TransformTool::BoundingRectItem::HotSpot _handle;
     bool _boundsDrawn, _autoSelect;
     QPointF _prevPos, _curPos;

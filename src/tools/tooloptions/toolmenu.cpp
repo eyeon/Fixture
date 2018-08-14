@@ -1,6 +1,6 @@
 #include "toolmenu.h"
 
-ToolMenu::ToolMenu(QWidget * parent) :
+ToolMenu::ToolMenu(QWidget *parent) :
     QFrame(parent)
 { }
 

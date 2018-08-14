@@ -25,7 +25,7 @@ void Layer::write(QDataStream &ds) const
     ds << getName() << getType();
 }
 
-QDataStream &operator << (QDataStream &out, const Layer * layer)
+QDataStream &operator << (QDataStream &out, const Layer *layer)
 {
     layer->write(out);
     return out;
@@ -66,7 +66,7 @@ QDataStream& operator >> (QDataStream& stream, QList<Layer *> &layers)
     for (int i = 0; i < size; ++i) {
         stream >> name >> type;
         Layer::LayerType val = static_cast<Layer::LayerType>(type);
-        Layer * layer        = Layer::create(name, val);
+        Layer *layer         = Layer::create(name, val);
 
         stream >> *layer;
         layers.push_back(layer);
