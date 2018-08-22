@@ -1,5 +1,5 @@
 # Fixture
-
+![Fixture Logo](https://ibb.co/dYvwtK)
 **Fixture** is a no-bullshit, free and open source raster graphics editor.
 
 ## Motivation
