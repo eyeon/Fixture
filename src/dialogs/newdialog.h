@@ -19,7 +19,7 @@ class NewDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewDialog(QWidget *parent = 0);
+    explicit NewDialog(QWidget *parent = nullptr);
     ~NewDialog();
 
 signals:

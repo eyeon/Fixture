@@ -7,6 +7,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMap>
 #include <QGraphicsScene>
+#include <QGraphicsSceneHoverEvent>
 
 namespace TransformTool {
 class BoundingRectItem;

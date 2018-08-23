@@ -11,7 +11,7 @@
 class Pan : public AbstractPerception
 {
 public:
-    Pan(QWidget *parent = 0);
+    Pan(QWidget *parent = nullptr);
     Pan(const Pan &other);
     ~Pan();
     void move(QGraphicsSceneMouseEvent *event);

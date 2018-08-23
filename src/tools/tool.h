@@ -22,7 +22,7 @@ public:
     };
 
     Tool(QIcon ico, const QString &name, QCursor cur, ToolGroup group,
-         ToolType type, QWidget *parent = 0);
+         ToolType type, QWidget *parent = nullptr);
     ~Tool();
 
     inline const QCursor getToolCursor(){ return _cursor; }

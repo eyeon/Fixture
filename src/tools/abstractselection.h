@@ -13,7 +13,7 @@ class AbstractSelection : public Tool
 
 public:
     AbstractSelection(QIcon ico, const QString &name, QCursor cur,
-         ToolGroup group, ToolType type, QWidget *parent = 0);
+         ToolGroup group, ToolType type, QWidget *parent = nullptr);
 
 public:
     inline void setScene(QGraphicsScene *scene){ _scene = scene; }

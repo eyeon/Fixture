@@ -31,10 +31,11 @@ class PaintWidget : public QGraphicsView
     Q_OBJECT
 public:
 
-    PaintWidget(const QString &imagePath, Tool *tool, QWidget *parent = 0);
+    PaintWidget(const QString &imagePath, Tool *tool,
+         QWidget *parent = nullptr);
     PaintWidget(const QSharedDataPointer<Canvas> canvas, Tool *tool,
-         QWidget *parent = 0);
-    PaintWidget(Document &document, Tool *tool, QWidget *parent = 0);
+         QWidget *parent = nullptr);
+    PaintWidget(Document &document, Tool *tool, QWidget *parent = nullptr);
 
     void pushLayer(Layer *layer);
 
@@ -58,11 +59,6 @@ signals:
 
 protected:
     void wheelEvent(QWheelEvent *event);
-
-    /*
-     * void mouseMoveEvent(QMouseEvent *event);
-     * void mousePressEvent(QMouseEvent *event);
-     * void mouseReleaseEvent(QMouseEvent *event);*/
 
 private:
     Drawing *d;

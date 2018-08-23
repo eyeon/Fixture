@@ -14,7 +14,7 @@ class Transform : public AbstractSelection
     Q_OBJECT
 
 public:
-    Transform(QWidget *parent = 0);
+    Transform(QWidget *parent = nullptr);
     Transform(const Transform &other);
     ~Transform();
 
