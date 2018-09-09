@@ -14,10 +14,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-list (APPEND RESOURCES resources/resources.qrc)
-qt5_add_resources (RCC_SOURCES ${RESOURCES})
-
 set(SOURCES
+    resources/resources.qrc
     src/dialogs/newdialog.cpp 
     src/widgets/paintwidget.cpp 
     src/main.cpp 
@@ -43,7 +41,7 @@ set(SOURCES
     src/tools/tooloptions/pan_menu.ui
 )
 
-add_executable(Fixture ${RESOURCES} ${SOURCES})
+add_executable(Fixture  ${SOURCES})
 target_link_libraries(Fixture 
     Qt5::Widgets
     Qt5::Gui
