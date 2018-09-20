@@ -1,6 +1,11 @@
 #ifndef TRANSFORMOPTIONS_H
 #define TRANSFORMOPTIONS_H
 
+#include <QCheckBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QHBoxLayout>
+
 #include "toolmenu.h"
 
 namespace Ui {
@@ -30,7 +35,10 @@ signals:
     void changesAccepted(bool accept);
 
 private:
-    Ui::TransformOptions *ui;
+    QCheckBox *showTransformCheck, *autoSelectCheck;
+    QPushButton *acceptBtn, *rejectBtn;
+    QLabel *selectlbl, *transformlbl;
+    QHBoxLayout *_box;
 };
 
 #endif // TRANSFORMOPTIONS_H

@@ -68,7 +68,6 @@ HEADERS += \
 FORMS += \
     src/mainwindow.ui \
     src/dialogs/newdialog.ui \
-    src/tools/tooloptions/transform_menu.ui \
     src/tools/tooloptions/pan_menu.ui
 
 RESOURCES += \

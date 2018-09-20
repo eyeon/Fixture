@@ -79,8 +79,8 @@ void MainWindow::initTools()
 {
     _toolsGroup = new QActionGroup(ui->mainToolBar);
 
-    addTool(new Transform());
-    addTool(new Pan());
+    addTool(new Transform(ui->toolMenuBar));
+    addTool(new Pan(ui->toolMenuBar));
 
     ui->mainToolBar->addActions(_toolsList);
 }

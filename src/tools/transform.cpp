@@ -19,6 +19,9 @@ Transform::Transform(QWidget *parent) :
     _autoSelect  = false;
     _totaldx     = 0;
     _totaldy     = 0;
+
+    _menu = new TransformMenu(parent);
+    connectMenu();
 }
 
 /**
@@ -76,7 +79,7 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
     }
 
     if (_autoSelect) {
-        if (itm != 0 && itm->flags() & QGraphicsItem::ItemIsSelectable) {
+        if (itm != nullptr && itm->flags() & QGraphicsItem::ItemIsSelectable) {
             if (event->modifiers() & Qt::ControlModifier) {
                 itm->setSelected(true);
             } else {
@@ -374,15 +377,6 @@ void Transform::actionTaken(bool accept)
  */
 QWidget * Transform::getToolMenu()
 {
-    if (_menuExists) {
-        return _menu;
-    }
-    _menuExists = true;
-
-    TransformMenu *transformMenu = new TransformMenu();
-    _menu = transformMenu;
-    connectMenu(transformMenu);
-
     return _menu;
 }
 
@@ -391,13 +385,14 @@ QWidget * Transform::getToolMenu()
  * slots
  * @param menu
  */
-void Transform::connectMenu(TransformMenu *menu)
+void Transform::connectMenu()
 {
-    connect(menu, SIGNAL(autoSelect(bool)), this, SLOT(setAutoSelect(bool)));
-    connect(menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
-    connect(this, SIGNAL(switchedToTransformMode(bool)), menu,
+    connect(_menu, SIGNAL(autoSelect(bool)), this, SLOT(setAutoSelect(bool)));
+    connect(_menu, SIGNAL(showTransform(bool)), this, SLOT(drawBounds(bool)));
+    connect(this, SIGNAL(switchedToTransformMode(bool)), _menu,
             SLOT(enterTransformMode(bool)));
-    connect(menu, SIGNAL(changesAccepted(bool)), this, SLOT(actionTaken(bool)));
+    connect(_menu, SIGNAL(changesAccepted(bool)), this,
+            SLOT(actionTaken(bool)));
 }
 
 /**
