@@ -39,6 +39,9 @@ private:
     QPushButton *acceptBtn, *rejectBtn;
     QLabel *selectlbl, *transformlbl;
     QHBoxLayout *_box;
+
+    void connectSignals();
+    void generateUI(QWidget *parent);
 };
 
 #endif // TRANSFORMOPTIONS_H

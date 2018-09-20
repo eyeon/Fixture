@@ -3,21 +3,37 @@
 TransformMenu::TransformMenu(QWidget *parent) :
     ToolMenu(parent)
 {
+    generateUI(parent);
+    setLayout(_box);
+    addStyleSheet();
+    connectSignals();
+}
+
+TransformMenu::~TransformMenu()
+{ }
+
+void TransformMenu::generateUI(QWidget *parent)
+{
     showTransformCheck = new QCheckBox(parent);
     autoSelectCheck    = new QCheckBox(parent);
-    showTransformCheck->setText("Show Bounds");
+    showTransformCheck->setText("Show Transform Controls");
     autoSelectCheck->setText("Auto Select");
+
     acceptBtn = new QPushButton(parent);
+    acceptBtn->setIcon(QIcon(":/icons/check-tick.svg"));
     rejectBtn = new QPushButton(parent);
-    _box      = new QHBoxLayout(parent);
+    rejectBtn->setIcon(QIcon(":/icons/close-white.svg"));
+    _box = new QHBoxLayout(parent);
     acceptBtn->setVisible(false);
     rejectBtn->setVisible(false);
     _box->addWidget(autoSelectCheck);
     _box->addWidget(showTransformCheck);
     _box->addWidget(acceptBtn);
     _box->addWidget(rejectBtn);
-    setLayout(_box);
-    addStyleSheet();
+}
+
+void TransformMenu::connectSignals()
+{
     connect(acceptBtn, SIGNAL(clicked()), this, SLOT(on_acceptBtn_clicked()));
     connect(rejectBtn, SIGNAL(clicked()), this, SLOT(on_rejectBtn_clicked()));
     connect(showTransformCheck, SIGNAL(stateChanged(int)), this,
@@ -25,9 +41,6 @@ TransformMenu::TransformMenu(QWidget *parent) :
     connect(autoSelectCheck, SIGNAL(stateChanged(int)), this,
             SLOT(on_autoSelectCheck_stateChanged(int)));
 }
-
-TransformMenu::~TransformMenu()
-{ }
 
 void TransformMenu::on_showTransfromCheck_stateChanged(int arg1)
 {
