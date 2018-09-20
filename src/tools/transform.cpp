@@ -10,7 +10,15 @@ Transform::Transform(QWidget *parent) :
                               0, 0),
                       Tool::SELECTION, Tool::TRANSFORM, parent)
 {
-    init();
+    setShortcut(Qt::Key_V);
+    _rect        = new TransformTool::BoundingRectItem();
+    _boundsDrawn = false;
+    _mouseButton = Qt::NoButton;
+    _scalex      = 1;
+    _scaley      = 1;
+    _autoSelect  = false;
+    _totaldx     = 0;
+    _totaldy     = 0;
 }
 
 /**
@@ -23,7 +31,16 @@ Transform::Transform(const Transform &other) :
                               0, 0),
                       Tool::SELECTION, Tool::TRANSFORM)
 {
-    init();
+    _rect        = other._rect;
+    _boundsDrawn = other._boundsDrawn;
+    _mouseButton = other._mouseButton;
+    _scalex      = other._scalex;
+    _scaley      = other._scaley;
+    _autoSelect  = other._autoSelect;
+    _totaldx     = other._totaldx;
+    _totaldy     = other._totaldy;
+
+    setShortcut(Qt::Key_V);
 }
 
 /**
@@ -31,22 +48,6 @@ Transform::Transform(const Transform &other) :
  */
 Transform::~Transform()
 { }
-
-/**
- * @brief Transform::init initializes the variables with required values
- */
-void Transform::init()
-{
-    setShortcut(Qt::Key_V);
-    _rect        = new TransformTool::BoundingRectItem();
-    _boundsDrawn = false;
-    _mouseButton = Qt::NoButton;
-    _scalex      = 1;
-    _scaley      = 1;
-    _autoSelect  = false;
-    _totaldx     = 0;
-    _totaldy     = 0;
-}
 
 /**
  * @brief Transform::press handles the mouse press event passed to it from the
