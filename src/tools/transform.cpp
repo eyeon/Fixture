@@ -19,6 +19,7 @@ Transform::Transform(QWidget *parent) :
     _autoSelect  = false;
     _totaldx     = 0;
     _totaldy     = 0;
+    _handle      = TransformTool::BoundingRectItem::None;
 
     _menu = new TransformMenu(parent);
     connectMenu();
@@ -67,7 +68,9 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
         _handle = _rect->checkMouse(event);
     }
 
-    if (_handle != TransformTool::BoundingRectItem::HotSpot::Move) {
+    if (_handle != TransformTool::BoundingRectItem::HotSpot::Move &&
+        _handle != TransformTool::BoundingRectItem::HotSpot::None)
+    {
         setTransformMode(true);
         _autoSelect = false;
         _curItems   = _scene->selectedItems();
@@ -83,8 +86,8 @@ void Transform::press(QGraphicsSceneMouseEvent *event)
             if (event->modifiers() & Qt::ControlModifier) {
                 itm->setSelected(true);
             } else {
-                if (_scene->selectedItems().length() <
-                    2) _scene->clearSelection();
+                if (_scene->selectedItems().length() < 2)
+                    _scene->clearSelection();
                 itm->setSelected(true);
             }
         } else {
@@ -125,7 +128,9 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
 
 
     if (_mouseButton == Qt::LeftButton) {
-        if (_handle != TransformTool::BoundingRectItem::HotSpot::Move) {
+        if (_handle != TransformTool::BoundingRectItem::HotSpot::Move &&
+            _handle != TransformTool::BoundingRectItem::HotSpot::None)
+        {
             emit switchedToTransformMode(true);
         }
 
@@ -246,6 +251,10 @@ void Transform::move(QGraphicsSceneMouseEvent *event)
 
             case TransformTool::BoundingRectItem::HotSpot::RotateTopRightCorner:
             {
+                break;
+            }
+
+            case TransformTool::BoundingRectItem::HotSpot::None: {
                 break;
             }
         }

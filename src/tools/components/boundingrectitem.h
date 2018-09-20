@@ -18,6 +18,7 @@ class TransformTool::BoundingRectItem : public QGraphicsRectItem
 public:
 
     enum HotSpot {
+        None,
         ScaleTopLeftCorner,
         ScaleTopRightCorner,
         ScaleBottomLeftCorner,
