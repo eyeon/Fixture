@@ -1,6 +1,7 @@
-Fixture.pro.user
+*.user
 *~
 *#
 *.autosave
 *.orig
 .idea
+.ycm_extra_conf.py
