@@ -8,7 +8,7 @@ namespace Fixture{
     class Canvas : public QOpenGLWidget{
         Q_OBJECT
         public:
-            Canvas(QWidget *widget);
+            Canvas(QWidget *widget, QSize canvasSize);
         protected:
             void paintEvent(QPaintEvent *event);
         private:

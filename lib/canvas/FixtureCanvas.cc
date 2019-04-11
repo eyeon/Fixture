@@ -3,10 +3,11 @@
 #include <QPainter>
 #include <QBrush>
 
-Fixture::Canvas::Canvas(QWidget *widget):
+Fixture::Canvas::Canvas(QWidget *widget, QSize canvasSize):
     QOpenGLWidget(widget)
 {
     setAutoFillBackground(false);
+    setFixedSize(canvasSize);
 }
 
 void
