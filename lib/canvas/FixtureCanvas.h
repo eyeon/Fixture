@@ -13,5 +13,6 @@ namespace Fixture{
             void paintEvent(QPaintEvent *event);
         private:
             friend class Fixture::PaintWidget;
+            QSize _canvasSize;
     };
 }
