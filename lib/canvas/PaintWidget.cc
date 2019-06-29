@@ -1,15 +1,15 @@
 #include "PaintWidget.h"
 
-Fixture::PaintWidget::PaintWidget(QWidget *parent):
+Fixture::PaintWidget::PaintWidget(QWidget *parent) :
     QAbstractScrollArea(parent)
 {
-    _canvas = new Fixture::Canvas(parent,QSize(200,200));
-    setViewport(_canvas);
+    _canvas = FixtureCanvasSP(new Fixture::Canvas(parent, QSize(200, 200)));
+    setViewport(_canvas.get());
     setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 }
 
 void
-Fixture::PaintWidget::paintEvent(QPaintEvent *event)
+Fixture::PaintWidget::paintEvent(QPaintEvent * event)
 {
     _canvas->paintEvent(event);
 }

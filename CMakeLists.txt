@@ -48,6 +48,7 @@ set(SOURCES
     lib/canvas/FixtureCanvas.cc
     lib/canvas/PaintWidget.cc
     lib/canvas/ViewConverter.cc
+    uncrustify.cfg
 )
 
 add_executable(fixture  ${SOURCES})
