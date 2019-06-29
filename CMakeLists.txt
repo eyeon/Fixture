@@ -47,6 +47,7 @@ set(SOURCES
     src/mainwindow.cc
     lib/canvas/FixtureCanvas.cc
     lib/canvas/PaintWidget.cc
+    lib/canvas/ViewConverter.cc
 )
 
 add_executable(fixture  ${SOURCES})
