@@ -4,7 +4,7 @@
 #include <QBrush>
 
 Fixture::Canvas::Canvas(QWidget *widget, QSize canvasSize):
-    QOpenGLWidget(widget), _canvasSize(canvasSize)
+    QWidget(widget), _canvasSize(canvasSize)
 { }
 
 void

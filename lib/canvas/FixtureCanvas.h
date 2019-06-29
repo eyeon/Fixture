@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QOpenGLWidget>
+#include <QWidget>
 #include <QPaintEvent>
 
 namespace Fixture{
     class PaintWidget;
-    class Canvas : public QOpenGLWidget{
+    class Canvas : public QWidget{
         Q_OBJECT
         public:
             Canvas(QWidget *widget, QSize canvasSize);
